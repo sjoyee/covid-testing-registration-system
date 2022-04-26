@@ -1,5 +1,7 @@
 package com.fit3077.covidtestingregistration.user;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public abstract class User {
     private String id;
     private String givenName;
@@ -37,5 +39,9 @@ public abstract class User {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    public abstract boolean handleBooking(ObjectNode userObject);
+
+    public abstract String checkStatus(String smsPin);
 
 }
