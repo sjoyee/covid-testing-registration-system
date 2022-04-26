@@ -10,7 +10,7 @@ public class Customer extends User {
     }
 
     @Override
-    public boolean createBooking(ObjectNode userObject) {
+    public boolean handleBooking(ObjectNode userObject) {
         // TODO Auto-generated method stub
         return false;
     }

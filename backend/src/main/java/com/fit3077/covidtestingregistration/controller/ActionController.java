@@ -37,7 +37,7 @@ public class ActionController {
 
     @PostMapping("/onsite-booking")
     public ResponseEntity<Void> onsiteBooking(@RequestBody ObjectNode userObject) {
-        boolean successful = this.userFactory.getUser().createBooking(userObject);
+        boolean successful = this.userFactory.getUser().handleBooking(userObject);
         if (successful) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
