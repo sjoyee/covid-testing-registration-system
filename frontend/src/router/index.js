@@ -1,51 +1,61 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router';
-import LoginPage from '../components/LoginPage'
-import SearchPage from '../components/SearchPage'
-import OnsiteBooking from '../components/OnsiteBooking'
-import OnsiteTesting from '../components/OnsiteTesting'
-import HomeBooking from '../components/HomeBooking'
-import ErrorPage from '../components/ErrorPage'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import LoginPage from "../components/LoginPage";
+import SearchPage from "../components/SearchPage";
+import ReceptionistPage from "../components/ReceptionistPage";
+import OnsiteBooking from "../components/OnsiteBooking";
+import CheckStatus from "../components/CheckStatus";
+import OnsiteTesting from "../components/OnsiteTesting";
+import HomeBooking from "../components/HomeBooking";
+import ErrorPage from "../components/ErrorPage";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-      path: "/login",
-      component: LoginPage
+    path: "/login",
+    component: LoginPage,
   },
   {
-      path: "/",
-      component: SearchPage
+    path: "/",
+    component: SearchPage,
   },
   {
-      path: "/search",
-      component: SearchPage
+    path: "/search",
+    component: SearchPage,
   },
   {
-      path: "/:id/search",
-      component: SearchPage
+    path: "/:id/:role/search",
+    component: SearchPage,
   },
   {
-      path: "/:id/onsite-booking",
-      component: OnsiteBooking
+    path: "/:id/receptionist",
+    component: ReceptionistPage,
   },
   {
-      path: "/:id/home-booking",
-      component: HomeBooking
+    path: "/:id/receptionist/onsite-booking",
+    component: OnsiteBooking,
   },
   {
-      path: "/:id/onsite-testing",
-      component: OnsiteTesting
+    path: "/:id/receptionist/check-status",
+    component: CheckStatus,
   },
   {
-      path: "/error",
-      component: ErrorPage
+    path: "/:id/home-booking",
+    component: HomeBooking,
+  },
+  {
+    path: "/:id/onsite-testing",
+    component: OnsiteTesting,
+  },
+  {
+    path: "/error",
+    component: ErrorPage,
   },
 ];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
