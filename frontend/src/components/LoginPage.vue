@@ -18,7 +18,7 @@
       </v-row>
       <v-form ref="loginForm" v-model="valid">
         <v-row class="justify-center">
-          <v-col cols="3">
+          <v-col cols="4">
             <v-text-field
               v-model="userName"
               label="Username"
@@ -28,7 +28,7 @@
           </v-col>
         </v-row>
         <v-row class="justify-center">
-          <v-col cols="3">
+          <v-col cols="4">
             <v-text-field
               v-model="password"
               label="Password"
@@ -76,7 +76,6 @@ export default {
   },
 
   methods: {
-    //   TODO:
     async login(userName, password) {
       try {
         const response = await axios.post("/user/login", {
@@ -84,7 +83,15 @@ export default {
           password: password,
         });
         this.userDetails = response.data;
-        this.$router.push({ path: `/${this.userDetails.id}/onsite-booking` });
+        if (this.userDetails.userType == "CUSTOMER") {
+          this.$router.push({ path: `/${this.userDetails.id}/home-booking` });
+        } else if (this.userDetails.userType == "RECEPTIONIST") {
+          this.$router.push({
+            path: `/${this.userDetails.id}/receptionist`,
+          });
+        } else {
+          this.$router.push({ path: `/${this.userDetails.id}/onsite-testing` });
+        }
       } catch {
         // handle error
         console.log("Wrong username and password");

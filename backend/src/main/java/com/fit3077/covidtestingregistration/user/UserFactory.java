@@ -1,13 +1,14 @@
 package com.fit3077.covidtestingregistration.user;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fit3077.covidtestingregistration.api.UserApi;
 
 public class UserFactory {
-    private UserRepository userRepository;
+    private UserApi userApi;
     private User user;
 
     public UserFactory() {
-        this.userRepository = new UserRepository();
+        this.userApi = new UserApi();
     }
 
     // Assume each user has only one role
@@ -21,45 +22,36 @@ public class UserFactory {
         boolean loggedIn = login(loginUser.getUserName(), loginUser.getPassword());
 
         if (loggedIn) {
-            try {
 
-                for (ObjectNode userNode : userRepository.getUsers()) {
+            for (ObjectNode userNode : this.userApi.getUsers()) {
 
-                    if (userNode.get("userName").textValue().equals(loginUser.getUserName())) {
+                if (userNode.get("userName").textValue().equals(loginUser.getUserName())) {
 
-                        String id = userNode.get("id").textValue();
-                        String givenName = userNode.get("givenName").textValue();
-                        String familyName = userNode.get("familyName").textValue();
-                        String phoneNumber = userNode.get("phoneNumber").textValue();
+                    String id = userNode.get("id").textValue();
+                    String givenName = userNode.get("givenName").textValue();
+                    String familyName = userNode.get("familyName").textValue();
+                    String phoneNumber = userNode.get("phoneNumber").textValue();
 
-                        // Assume each user only has one role
-                        if (userNode.get("isHealthcareWorker").asBoolean()) {
-                            this.user = new HealthcareWorker(id, givenName, familyName, phoneNumber);
+                    // Assume each user only has one role
+                    if (userNode.get("isHealthcareWorker").asBoolean()) {
+                        this.user = new HealthcareWorker(id, givenName, familyName, phoneNumber);
 
-                        } else if (userNode.get("isCustomer").asBoolean()) {
-                            this.user = new Customer(id, givenName, familyName, phoneNumber);
+                    } else if (userNode.get("isCustomer").asBoolean()) {
+                        this.user = new Customer(id, givenName, familyName, phoneNumber);
 
-                        } else {
-                            this.user = new Receptionist(id, givenName, familyName, phoneNumber);
-                        }
+                    } else if (userNode.get("isReceptionist").asBoolean()) {
+                        String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+                        this.user = new Receptionist(id, givenName, familyName, phoneNumber, testingSiteId);
                     }
+                    break;
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
 
     private boolean login(String userName, String password) {
-        String jsonString = "{" +
-                "\"userName\":\"" + userName + "\"," +
-                "\"password\":\"" + password + "\"" +
-                "}";
-
-        String jwtString = userRepository.authenticateUser(jsonString);
-
-        return userRepository.verifyToken(jwtString);
+        String jwtString = userApi.authenticateUser(userName, password);
+        return userApi.verifyToken(jwtString);
 
     }
 
