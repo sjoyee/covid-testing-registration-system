@@ -108,7 +108,7 @@ public class UserApi {
     }
 
     // return user id
-    public String createNewUser(ObjectNode userObject) {
+    public ObjectNode createNewUser(ObjectNode userObject) {
         String jsonString = "{" +
                 "\"givenName\":\"" + userObject.get("givenName").textValue() + "\"," +
                 "\"familyName\":\"" + userObject.get("familyName").textValue() + "\"," +
@@ -129,9 +129,8 @@ public class UserApi {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            ObjectNode jsonNode = new ObjectMapper().readValue(response.body(), ObjectNode.class);
 
-            return jsonNode.get("id").textValue();
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

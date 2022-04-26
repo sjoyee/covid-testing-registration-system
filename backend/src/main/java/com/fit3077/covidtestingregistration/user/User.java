@@ -40,7 +40,7 @@ public abstract class User {
         this.userType = userType;
     }
 
-    public abstract boolean createBooking(ObjectNode userObject);
+    public abstract boolean handleBooking(ObjectNode userObject);
 
     public abstract String checkStatus(String smsPin);
 

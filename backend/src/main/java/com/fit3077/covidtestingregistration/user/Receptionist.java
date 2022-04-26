@@ -1,10 +1,9 @@
 package com.fit3077.covidtestingregistration.user;
 
-import java.time.Instant;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
+import com.fit3077.covidtestingregistration.booking.Booking;
 import com.fit3077.covidtestingregistration.booking.BookingStatus;
 
 public class Receptionist extends User {
@@ -23,7 +22,7 @@ public class Receptionist extends User {
     }
 
     @Override
-    public boolean createBooking(ObjectNode userObject) {
+    public boolean handleBooking(ObjectNode userObject) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
 
@@ -38,9 +37,10 @@ public class Receptionist extends User {
             userObject.put("isAdmin", false);
             userObject.put("isHealthcareWorker", false);
 
-            customerId = userApi.createNewUser(userObject);
+            customerId = userApi.createNewUser(userObject).get("id").textValue();
         }
-        return this.bookingApi.createNewBooking(customerId, this.testingSiteId, Instant.now().toString());
+        Booking booking = new Booking(customerId, this.testingSiteId);
+        return booking.getSuccess();
     }
 
     public String checkStatus(String smsPin) {
