@@ -1,9 +1,9 @@
 package com.fit3077.covidtestingregistration.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.user.LoginUser;
-import com.fit3077.covidtestingregistration.user.User;
-import com.fit3077.covidtestingregistration.user.UserFactory;
+import com.fit3077.covidtestingregistration.ActionFacade;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,25 +20,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class ActionController {
 
-    private UserFactory userFactory;
+    private ActionFacade actionFacade;
 
     public ActionController() {
-        userFactory = new UserFactory();
+        actionFacade = new ActionFacade();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginUser loginUser) {
-        this.userFactory.createUser(loginUser);
-        if (this.userFactory.getUser() == null) {
-            return new ResponseEntity<>(this.userFactory.getUser(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<JsonNode> login(@RequestParam("userName") String userName,
+            @RequestParam("password") String password) {
+        this.actionFacade.createLogin(userName, password);
+        JsonNode userNode = new ObjectMapper().convertValue(this.actionFacade.getUser(),
+                JsonNode.class);
+        if (userNode == null) {
+            return new ResponseEntity<>(userNode, HttpStatus.FORBIDDEN);
+        } else {
+            return new ResponseEntity<>(userNode, HttpStatus.OK);
         }
-        return new ResponseEntity<>(this.userFactory.getUser(), HttpStatus.OK);
     }
 
-    @PostMapping("/onsite-booking")
+    @PostMapping("/booking")
     public ResponseEntity<Void> onsiteBooking(@RequestBody ObjectNode userObject) {
-        boolean successful = this.userFactory.getUser().handleBooking(userObject);
-        if (successful) {
+        this.actionFacade.createBooking(userObject);
+        if (this.actionFacade.getIsBookingSuccess()) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -47,7 +51,7 @@ public class ActionController {
 
     @GetMapping("/check-status")
     public ResponseEntity<String> checkStatus(@RequestParam("pin") String pin) {
-        String status = this.userFactory.getUser().checkStatus(pin);
+        String status = this.actionFacade.checkPinCode(pin);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
 

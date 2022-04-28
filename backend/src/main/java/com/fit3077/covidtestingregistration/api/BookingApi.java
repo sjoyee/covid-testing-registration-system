@@ -17,25 +17,9 @@ public class BookingApi {
 
     private String rootUrl = "https://fit3077.com/api/v1/booking";
 
-    public boolean createNewBooking(String customerId, String testingSiteId, String startTime) {
-        if (customerId.isEmpty()) {
-            return false;
-        }
-        String jsonString;
-        // testingSiteId == "" indicates that it is for home testing
-        if (testingSiteId.isEmpty()) {
-            jsonString = "{" +
-                    "\"customerId\":\"" + customerId + "\"," +
-                    "\"startTime\":\"" + startTime + "\"" +
-                    "}";
-        } else {
-            // indicates that it is for onsite testing
-            jsonString = "{" +
-                    "\"customerId\":\"" + customerId + "\"," +
-                    "\"testingSiteId\":\"" + testingSiteId + "\"," +
-                    "\"startTime\":\"" + startTime + "\"" +
-                    "}";
-        }
+    public boolean createNewBooking(ObjectNode bookingNode) {
+
+        String jsonString = bookingNode.toString();
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(rootUrl))

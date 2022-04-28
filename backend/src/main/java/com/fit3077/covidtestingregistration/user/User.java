@@ -6,14 +6,21 @@ public abstract class User {
     private String id;
     private String givenName;
     private String familyName;
+    private String userName;
     private String phoneNumber;
-    private UserType userType;
+    private boolean isCustomer;
+    private boolean isReceptionist;
+    private boolean isHealthcareWorker;
 
-    protected User(String id, String givenName, String familyName, String phoneNumber) {
+    protected User(String id, String givenName, String familyName, String userName, String phoneNumber) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
+        this.userName = userName;
         this.phoneNumber = phoneNumber;
+        this.isCustomer = false;
+        this.isReceptionist = false; // or receptionist
+        this.isHealthcareWorker = false;
     }
 
     public String getId() {
@@ -28,20 +35,38 @@ public abstract class User {
         return this.familyName;
     }
 
+    public String getUserName() {
+        return this.userName;
+    }
+
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
-    public UserType getUserType() {
-        return this.userType;
+    public boolean getIsCustomer() {
+        return this.isCustomer;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public boolean getIsReceptionist() {
+        return this.isReceptionist;
+    }
+
+    public boolean getIsHealthcareWorker() {
+        return this.isHealthcareWorker;
+    }
+
+    public void setIsCustomer(boolean isCustomer) {
+        this.isCustomer = isCustomer;
+    }
+
+    public void setIsReceptionist(boolean isReceptionist) {
+        this.isReceptionist = isReceptionist;
+    }
+
+    public void setIsHealthcareWorker(boolean isHealthcareWorker) {
+        this.isHealthcareWorker = isHealthcareWorker;
     }
 
     public abstract boolean handleBooking(ObjectNode userObject);
-
-    public abstract String checkStatus(String smsPin);
 
 }

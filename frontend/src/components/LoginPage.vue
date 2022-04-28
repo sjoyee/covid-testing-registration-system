@@ -41,9 +41,7 @@
       </v-form>
       <v-card-actions>
         <v-row class="justify-center ma-12">
-          <v-btn :disabled="!valid" @click="login(userName, password)"
-            >LOG IN</v-btn
-          >
+          <v-btn :disabled="!valid" @click="login()">LOG IN</v-btn>
         </v-row>
       </v-card-actions>
     </v-card>
@@ -76,21 +74,22 @@ export default {
   },
 
   methods: {
-    async login(userName, password) {
+    async login() {
       try {
-        const response = await axios.post("/user/login", {
-          userName: userName,
-          password: password,
-        });
+        const response = await axios.post(
+          `/user/login?userName=${this.userName}&password=${this.password}`
+        );
         this.userDetails = response.data;
-        if (this.userDetails.userType == "CUSTOMER") {
-          this.$router.push({ path: `/${this.userDetails.id}/home-booking` });
-        } else if (this.userDetails.userType == "RECEPTIONIST") {
+        if (this.userDetails.isCustomer) {
+          this.$router.push({ path: `/${this.userDetails.id}/customer` });
+        } else if (this.userDetails.isReceptionist) {
           this.$router.push({
             path: `/${this.userDetails.id}/receptionist`,
           });
+        } else if (this.userDetails.isHealthcareWorker) {
+          this.$router.push({ path: `/${this.userDetails.id}/hcworker` });
         } else {
-          this.$router.push({ path: `/${this.userDetails.id}/onsite-testing` });
+          this.errorMessage = true;
         }
       } catch {
         // handle error
