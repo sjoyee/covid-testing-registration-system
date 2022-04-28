@@ -9,24 +9,21 @@ import com.fit3077.covidtestingregistration.booking.BookingStatus;
 public class Receptionist extends User {
 
     private String testingSiteId;
-    private UserApi userApi;
-    private BookingApi bookingApi;
 
-    public Receptionist(String id, String givenName, String familyName, String phoneNumber, String testingSiteId) {
-        super(id, givenName, familyName, phoneNumber);
+    protected Receptionist(String id, String givenName, String familyName, String userName, String phoneNumber,
+            String testingSiteId) {
+        super(id, givenName, familyName, userName, phoneNumber);
         this.testingSiteId = testingSiteId;
-        setUserType(UserType.RECEPTIONIST);
-
-        userApi = new UserApi();
-        bookingApi = new BookingApi();
+        setIsReceptionist(true);
     }
 
     @Override
     public boolean handleBooking(ObjectNode userObject) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
+        UserApi userApi = new UserApi();
 
-        for (ObjectNode userNode : this.userApi.getUsers()) {
+        for (ObjectNode userNode : new UserApi().getUsers()) {
             if (userNode.get("userName").textValue().equals(userName)) {
                 customerId = userNode.get("id").textValue();
                 break;
@@ -44,7 +41,8 @@ public class Receptionist extends User {
     }
 
     public String checkStatus(String smsPin) {
-        for (ObjectNode bookingNode : this.bookingApi.getBookings()) {
+        BookingApi bookingApi = new BookingApi();
+        for (ObjectNode bookingNode : bookingApi.getBookings()) {
             if (bookingNode.get("smsPin").textValue().equals(smsPin)) {
                 return bookingNode.get("status").textValue();
             }

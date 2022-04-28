@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Customer extends User {
 
-    public Customer(String id, String givenName, String familyName, String phoneNumber) {
-        super(id, givenName, familyName, phoneNumber);
-        setUserType(UserType.CUSTOMER);
+    protected Customer(String id, String givenName, String familyName, String userName, String phoneNumber) {
+        super(id, givenName, familyName, userName, phoneNumber);
+        setIsCustomer(true);
     }
 
     @Override
