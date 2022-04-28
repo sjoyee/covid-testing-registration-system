@@ -3,7 +3,7 @@ package com.fit3077.covidtestingregistration.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.Operator;
+import com.fit3077.covidtestingregistration.ActionFacade;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class ActionController {
 
-    private Operator operator;
+    private ActionFacade actionFacade;
 
     public ActionController() {
-        operator = new Operator();
+        actionFacade = new ActionFacade();
     }
 
     @PostMapping("/login")
     public ResponseEntity<JsonNode> login(@RequestParam("userName") String userName,
             @RequestParam("password") String password) {
-        this.operator.createLogin(userName, password);
-        JsonNode userNode = new ObjectMapper().convertValue(this.operator.getUser(),
+        this.actionFacade.createLogin(userName, password);
+        JsonNode userNode = new ObjectMapper().convertValue(this.actionFacade.getUser(),
                 JsonNode.class);
         if (userNode == null) {
             return new ResponseEntity<>(userNode, HttpStatus.FORBIDDEN);
@@ -39,10 +39,10 @@ public class ActionController {
         }
     }
 
-    @PostMapping("/onsite-booking")
+    @PostMapping("/booking")
     public ResponseEntity<Void> onsiteBooking(@RequestBody ObjectNode userObject) {
-        boolean successful = this.operator.getUser().handleBooking(userObject);
-        if (successful) {
+        this.actionFacade.createBooking(userObject);
+        if (this.actionFacade.getIsBookingSuccess()) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -51,7 +51,7 @@ public class ActionController {
 
     @GetMapping("/check-status")
     public ResponseEntity<String> checkStatus(@RequestParam("pin") String pin) {
-        String status = this.operator.getUser().checkStatus(pin);
+        String status = this.actionFacade.checkPinCode(pin);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
 

@@ -116,7 +116,7 @@ public class UserApi {
                 "\"password\":\"" + userObject.get("password").textValue() + "\"," +
                 "\"phoneNumber\":\"" + userObject.get("phoneNumber").textValue() + "\"," +
                 "\"isCustomer\":" + userObject.get("isCustomer").asBoolean() + "," +
-                "\"isAdmin\":" + userObject.get("isAdmin").asBoolean() + "," +
+                "\"isReceptionist\":" + userObject.get("isReceptionist").asBoolean() + "," +
                 "\"isHealthcareWorker\":" + userObject.get("isHealthcareWorker").asBoolean() +
                 "}";
 

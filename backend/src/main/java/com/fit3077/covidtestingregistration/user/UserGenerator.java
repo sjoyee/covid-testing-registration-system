@@ -11,7 +11,7 @@ public class UserGenerator {
         return this.user;
     }
 
-    public void createUser(String userName, String password) {
+    public void generateUser(String userName, String password) {
         UserApi userApi = new UserApi();
         for (ObjectNode userNode : userApi.getUsers()) {
             String currUserName = userNode.get("userName").textValue();

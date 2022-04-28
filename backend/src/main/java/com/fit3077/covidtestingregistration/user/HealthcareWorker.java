@@ -15,10 +15,4 @@ public class HealthcareWorker extends User {
         return false;
     }
 
-    @Override
-    public String checkStatus(String smsPin) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

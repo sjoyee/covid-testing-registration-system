@@ -69,6 +69,4 @@ public abstract class User {
 
     public abstract boolean handleBooking(ObjectNode userObject);
 
-    public abstract String checkStatus(String smsPin);
-
 }

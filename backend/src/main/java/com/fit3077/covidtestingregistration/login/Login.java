@@ -21,7 +21,7 @@ public class Login {
 
         if (userApi.verifyToken(jwtString)) {
             UserGenerator userGenerator = new UserGenerator();
-            userGenerator.createUser(this.userName, this.password);
+            userGenerator.generateUser(this.userName, this.password);
             return userGenerator.getUser();
 
         } else {
