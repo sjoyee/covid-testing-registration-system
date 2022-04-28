@@ -2,35 +2,38 @@ package com.fit3077.covidtestingregistration.booking;
 
 import java.time.Instant;
 
-import com.fit3077.covidtestingregistration.api.BookingApi;
-
 public class Booking {
     private String customerId;
 
-    private String testingSiteId;
-
     private Instant startTime;
 
-    private boolean success;
+    private String testingSiteId;
+
+    private boolean isHomeBooking;
+
+    private boolean hasRatKit;
 
     private BookingStatus status;
 
-    private BookingApi bookingApi;
+    private BookingContext context;
 
-    public Booking(String customerId, String testingSiteId) {
+    public Booking(String customerId, boolean isHomeBooking) {
         this.customerId = customerId;
-        this.testingSiteId = testingSiteId;
+        this.isHomeBooking = isHomeBooking;
         this.startTime = Instant.now();
-
         this.status = BookingStatus.INITIATED;
-
-        bookingApi = new BookingApi();
-
-        this.success = this.bookingApi.createNewBooking(this.customerId, this.testingSiteId, this.startTime.toString());
     }
 
     public String getCustomerId() {
         return this.customerId;
+    }
+
+    public boolean getIsHomeBooking() {
+        return this.isHomeBooking;
+    }
+
+    public boolean getHasRatKit() {
+        return this.hasRatKit;
     }
 
     public String getTestingSiteId() {
@@ -41,16 +44,34 @@ public class Booking {
         return this.startTime;
     }
 
-    public boolean getSuccess() {
-        return this.success;
-    }
-
     public BookingStatus getStatus() {
         return this.status;
     }
 
+    public void setTestingSiteId(String testingSiteId) {
+        this.testingSiteId = testingSiteId;
+    }
+
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public void setHasRatKit(boolean hasRatKit) {
+        this.hasRatKit = hasRatKit;
+    }
+
+    public void setBookingStrategy() {
+        this.context = new BookingContext();
+        if (this.isHomeBooking) {
+            this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit));
+        } else {
+            this.context.setStrategy(new OnsiteBookingStrategy(this.testingSiteId));
+        }
+    }
+
+    public boolean assignBookingDetails() {
+        this.setBookingStrategy();
+        return this.context.getStrategy().executeBooking(this.customerId, this.startTime.toString());
     }
 
 }
