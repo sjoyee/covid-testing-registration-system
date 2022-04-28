@@ -6,6 +6,8 @@ import ReceptionistPage from "../components/ReceptionistPage";
 import OnsiteBooking from "../components/OnsiteBooking";
 import CheckStatus from "../components/CheckStatus";
 import OnsiteTesting from "../components/OnsiteTesting";
+import CustomerPage from "../components/CustomerPage";
+import CustomerCheckStatus from "../components/CustomerCheckStatus";
 import HomeBooking from "../components/HomeBooking";
 import ErrorPage from "../components/ErrorPage";
 
@@ -41,7 +43,15 @@ const routes = [
     component: CheckStatus,
   },
   {
-    path: "/:id/home-booking",
+    path: "/:id/customer",
+    component: CustomerPage,
+  },
+  {
+    path: "/:id/customer/check-status",
+    component: CustomerCheckStatus,
+  },
+  {
+    path: "/:id/customer/home-booking",
     component: HomeBooking,
   },
   {

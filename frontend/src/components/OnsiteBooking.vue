@@ -123,6 +123,7 @@ export default {
           userName: this.userName,
           password: this.password,
           phoneNumber: this.phoneNumber,
+          isHomeBooking: false,
         });
         this.successMessage = true;
       } catch {
