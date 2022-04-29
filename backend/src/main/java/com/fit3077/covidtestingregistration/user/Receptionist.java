@@ -54,7 +54,7 @@ public class Receptionist extends User {
         for (ObjectNode bookingNode : bookingApi.getBookings()) {
             if (!bookingNode.get(additionalInfo).toString().equals("{}")
                     && bookingNode.get(additionalInfo).get("isHomeBooking").asBoolean()
-                    && !bookingNode.get(additionalInfo).get(qrCode).textValue().equals(qrCode)) {
+                    && !bookingNode.get(additionalInfo).get("qrCode").textValue().equals(qrCode)) {
 
                 if (!bookingNode.get(additionalInfo).get("hasRatKit").asBoolean()) {
 
