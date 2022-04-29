@@ -40,16 +40,30 @@ public class TestingSiteCollection {
         if (inputType.isEmpty() && inputSuburb.isEmpty()) {
             return this.allSites;
         }
-        for (TestingSite testingSite : this.allSites) {
-            if (!inputType.isEmpty() && testingSite.getTestingSiteType().name().equals(inputType)) {
-                filteredSitesSet.add(testingSite);
+
+        // if both are not empty
+        if (!inputType.isEmpty() && !inputSuburb.isEmpty()) {
+            for (TestingSite testingSite : this.allSites) {
+                if (testingSite.getTestingSiteType().name().equals(inputType)
+                        && testingSite.getAddress().getSuburb().equals(inputSuburb)) {
+                    filteredSitesSet.add(testingSite);
+                }
             }
-            if (!inputSuburb.isEmpty() && testingSite.getAddress().getSuburb().equals(inputSuburb)) {
-                filteredSitesSet.add(testingSite);
+        }
+        // either empty
+        else {
+            for (TestingSite testingSite : this.allSites) {
+                if (!inputType.isEmpty() && testingSite.getTestingSiteType().name().equals(inputType)) {
+                    filteredSitesSet.add(testingSite);
+                }
+                if (!inputSuburb.isEmpty() && testingSite.getAddress().getSuburb().equals(inputSuburb)) {
+                    filteredSitesSet.add(testingSite);
+                }
             }
 
         }
         return new ArrayList<>(filteredSitesSet);
+
     }
 
     private Address jsonToAddress(ObjectNode node) {
