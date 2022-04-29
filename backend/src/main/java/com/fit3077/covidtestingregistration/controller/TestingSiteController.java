@@ -31,16 +31,12 @@ public class TestingSiteController {
     }
 
     @GetMapping("/selected")
-    public ResponseEntity<List<TestingSite>> filteredTestingSite(@RequestParam("type") String type,@RequestParam("suburb") String suburb) {
-        List<TestingSite> sites = this.testingSiteFacade.filterSite(type,suburb);
+    public ResponseEntity<List<TestingSite>> filteredTestingSite(@RequestParam("type") String type,
+            @RequestParam("suburb") String suburb) {
+        List<TestingSite> sites = this.testingSiteFacade.filterSite(type, suburb);
         return new ResponseEntity<>(sites, HttpStatus.OK);
     }
 
-   
-
-
-;
-    
-
+    ;
 
 }
