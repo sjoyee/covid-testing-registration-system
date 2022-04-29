@@ -67,6 +67,8 @@ public abstract class User {
         this.isHealthcareWorker = isHealthcareWorker;
     }
 
-    public abstract boolean handleBooking(ObjectNode userObject);
+    public abstract boolean handleBooking(ObjectNode objectNode);
+
+    public abstract boolean updateData(String code);
 
 }
