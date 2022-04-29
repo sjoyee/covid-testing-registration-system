@@ -45,6 +45,22 @@
           </v-card>
         </v-hover>
       </div>
+      <div class="d-flex justify-center pa-12">
+        <v-hover v-slot="{ hover }">
+          <v-card
+            class="pa-8 text-h6 text-center"
+            @click="updateTestKit"
+            :style="[
+              hover
+                ? { outline: '3px solid black' }
+                : { outline: '.5px solid black' },
+            ]"
+            min-width="450"
+          >
+            Update Issued Test Kit Information
+          </v-card>
+        </v-hover>
+      </div>
     </v-card>
   </div>
 </template>
@@ -65,6 +81,11 @@ export default {
     checkStatus() {
       this.$router.push({
         path: `/${this.$route.params.id}/receptionist/check-status`,
+      });
+    },
+    updateTestKit() {
+      this.$router.push({
+        path: `/${this.$route.params.id}/receptionist/update-test-kit-issued`,
       });
     },
     logout() {
