@@ -3,6 +3,10 @@
     <v-toolbar dark>
       <v-toolbar-title>COVID-19 Testing Registration System</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn text @click="backToMain">
+        <v-icon left>mdi-arrow-left-bold</v-icon>
+        BACK TO MAIN
+      </v-btn>
       <v-btn text @click="search">
         <v-icon left>mdi-map-search</v-icon>
         SEARCH TESTING SITES
@@ -11,7 +15,9 @@
     </v-toolbar>
     <div class="ma-4">
       <div class="text-h5 font-weight-bold pa-4">Home Booking</div>
-      <div class="text-subtitle-1 pa-4">Please choose the relevant option.</div>
+      <div class="text-subtitle-1 pa-4">
+        Please choose the relevant option and fill in the required field.
+      </div>
       <v-col md="8">
         <v-card class="ma-4 pa-4" tile>
           <v-form ref="homeBookingForm">
@@ -27,13 +33,28 @@
               </v-row>
             </div>
             <div class="text-subtitle-1 font-weight-bold">
-              Do you need the RAT kit?
+              Please provide the patient ID you are booking for.
+            </div>
+            <div class="pa-4">
+              <v-row>
+                <v-col md="6">
+                  <v-text-field
+                    v-model="patientId"
+                    label="Patient ID"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
+
+            <div class="text-subtitle-1 font-weight-bold">
+              Does the patient need the RAT kit?
             </div>
             <div class="pa-4">
               <v-row>
                 <v-radio-group v-model="hasRatKit" column mandatory>
                   <v-radio
-                    label="Yes, I need the RAT kit."
+                    label="Yes, the patient I am booking for need the RAT kit."
                     :value="false"
                   ></v-radio>
                   <v-radio
@@ -46,7 +67,9 @@
           </v-form>
           <v-card-actions class="pa-4">
             <v-spacer></v-spacer>
-            <v-btn :disabled="!isHomeBooking" @click="book">BOOK</v-btn>
+            <v-btn :disabled="!isHomeBooking || !patientId" @click="book"
+              >BOOK</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -71,6 +94,7 @@ export default {
     return {
       homeBookingForm: null,
       hasRatKit: false,
+      patientId: "",
       isHomeBooking: false,
       errorMessage: false,
       successMessage: false,
@@ -78,6 +102,11 @@ export default {
     };
   },
   methods: {
+    backToMain() {
+      this.$router.push({
+        path: `/${this.$route.params.id}/customer/`,
+      });
+    },
     search() {
       this.$router.push({
         path: `/${this.$route.params.id}/customer/search`,
@@ -89,6 +118,7 @@ export default {
         await axios.post("/user/booking", {
           isHomeBooking: this.isHomeBooking,
           hasRatKit: this.hasRatKit,
+          patientId: this.patientId,
         });
         this.successMessage = true;
       } catch {

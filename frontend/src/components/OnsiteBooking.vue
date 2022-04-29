@@ -3,7 +3,10 @@
     <v-toolbar dark>
       <v-toolbar-title>COVID-19 Testing Registration System</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text @click="checkStatus">CHECK STATUS</v-btn>
+      <v-btn text @click="backToMain">
+        <v-icon left>mdi-arrow-left-bold</v-icon>
+        BACK TO MAIN
+      </v-btn>
       <v-btn text @click="search">
         <v-icon left>mdi-map-search</v-icon>
         SEARCH TESTING SITES
@@ -105,9 +108,9 @@ export default {
         path: `/${this.$route.params.id}/receptionist/search`,
       });
     },
-    checkStatus() {
+    backToMain() {
       this.$router.push({
-        path: `/${this.$route.params.id}/receptionist/check-status`,
+        path: `/${this.$route.params.id}/receptionist/`,
       });
     },
     logout() {
@@ -117,7 +120,7 @@ export default {
     },
     async book() {
       try {
-        await axios.post("/user/onsite-booking", {
+        await axios.post("/user/booking", {
           givenName: this.givenName,
           familyName: this.familyName,
           userName: this.userName,

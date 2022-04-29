@@ -17,9 +17,9 @@ public class HealthcareWorker extends User {
     public boolean handleBooking(ObjectNode testObject) {
         String patientId = testObject.get("patientId").textValue();
         String bookingId = testObject.get("bookingId").textValue();
-        double symptomRate = testObject.get("symptomRate").asDouble();
+        String type = testObject.get("type").textValue();
         CovidTest covidTest;
-        if (symptomRate >= 50) {
+        if (type.equals(CovidTestType.PCR.toString())) {
             covidTest = new CovidTest(patientId, CovidTestType.PCR, bookingId);
         } else {
             covidTest = new CovidTest(patientId, CovidTestType.RAT, bookingId);
