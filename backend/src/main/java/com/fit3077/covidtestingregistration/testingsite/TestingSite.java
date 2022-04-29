@@ -10,20 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "id",
-    "name",
-    "description",
-    "websiteUrl",
-    "phoneNumber",
-    "address",
-    "createdAt",
-    "updatedAt",
-    "additionalInfo"
-})
-@Generated("jsonschema2pojo")
+
 public class TestingSite {
 
     @JsonProperty("id")
@@ -33,17 +23,17 @@ public class TestingSite {
     @JsonProperty("description")
     private String description;
     @JsonProperty("websiteUrl")
-    private Object websiteUrl;
+    private String websiteUrl;
     @JsonProperty("phoneNumber")
     private String phoneNumber;
     @JsonProperty("address")
     private Address address;
-    @JsonProperty("createdAt")
-    private String createdAt;
-    @JsonProperty("updatedAt")
-    private String updatedAt;
-    @JsonProperty("additionalInfo")
-    private AdditionalInfo__1 additionalInfo;
+    // @JsonProperty("createdAt")
+    // private String createdAt;
+    // @JsonProperty("updatedAt")
+    // private String updatedAt;
+    @JsonProperty("siteType")
+    private TestingSiteType siteType;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -61,22 +51,22 @@ public class TestingSite {
      * @param address
      * @param websiteUrl
      * @param name
-     * @param additionalInfo
+     * @param siteType
      * @param description
      * @param id
      * @param updatedAt
      */
-    public TestingSite(String id, String name, String description, Object websiteUrl, String phoneNumber, Address address, String createdAt, String updatedAt, AdditionalInfo__1 additionalInfo) {
-        super();
+    public TestingSite(String id, String name, String description, String websiteUrl, String phoneNumber,
+        Address address, String testingSiteType) {
+        
         this.id = id;
         this.name = name;
         this.description = description;
         this.websiteUrl = websiteUrl;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.additionalInfo = additionalInfo;
+        checkiTestingSiteType(testingSiteType);
+            
     }
 
     @JsonProperty("id")
@@ -110,12 +100,12 @@ public class TestingSite {
     }
 
     @JsonProperty("websiteUrl")
-    public Object getWebsiteUrl() {
+    public String getWebsiteUrl() {
         return websiteUrl;
     }
 
     @JsonProperty("websiteUrl")
-    public void setWebsiteUrl(Object websiteUrl) {
+    public void setWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
     }
 
@@ -139,44 +129,40 @@ public class TestingSite {
         this.address = address;
     }
 
-    @JsonProperty("createdAt")
-    public String getCreatedAt() {
-        return createdAt;
-    }
+    
 
-    @JsonProperty("createdAt")
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @JsonProperty("updatedAt")
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @JsonProperty("updatedAt")
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    @JsonProperty("siteType")
+    public TestingSiteType getTestingSiteType() {
+        return siteType;
     }
 
     @JsonProperty("additionalInfo")
-    public AdditionalInfo__1 getAdditionalInfo() {
-        return additionalInfo;
+    public void setAdditionalInfo(TestingSiteType siteType) {
+        this.siteType = siteType;
     }
 
-    @JsonProperty("additionalInfo")
-    public void setAdditionalInfo(AdditionalInfo__1 additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+    private void checkiTestingSiteType(String apiString){
+        if (apiString =="DRIVETHROUGH"){
+            this.siteType = TestingSiteType.DRIVETHROUGH;
+        }
+        else if (apiString =="WALKIN"){
+            this.siteType = TestingSiteType.WALKIN;
+        }
+        else if (apiString =="CLINIC"){
+            this.siteType = TestingSiteType.CLINIC;
+        }
+        else if (apiString =="GP"){
+            this.siteType = TestingSiteType.GP;
+        }
+        else if (apiString =="HOSPITAL"){
+            this.siteType = TestingSiteType.HOSPITAL;
+        }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+        
 
+    }
+    
+    
+    
 }

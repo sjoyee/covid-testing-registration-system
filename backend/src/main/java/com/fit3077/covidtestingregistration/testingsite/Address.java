@@ -35,15 +35,13 @@ public class Address {
     @JsonProperty("street")
     private String street;
     @JsonProperty("street2")
-    private Object street2;
+    private String street2;
     @JsonProperty("suburb")
     private String suburb;
     @JsonProperty("state")
     private String state;
     @JsonProperty("postcode")
     private String postcode;
-    @JsonProperty("additionalInfo")
-    private AdditionalInfo additionalInfo;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -59,14 +57,13 @@ public class Address {
      * @param street
      * @param latitude
      * @param postcode
-     * @param additionalInfo
      * @param unitNumber
      * @param suburb
      * @param street2
      * @param state
      * @param longitude
      */
-    public Address(double latitude, double longitude, String unitNumber, String street, Object street2, String suburb, String state, String postcode, AdditionalInfo additionalInfo) {
+    public Address(double latitude, double longitude, String unitNumber, String street, String street2, String suburb, String state, String postcode) {
         super();
         this.latitude = latitude;
         this.longitude = longitude;
@@ -76,7 +73,7 @@ public class Address {
         this.suburb = suburb;
         this.state = state;
         this.postcode = postcode;
-        this.additionalInfo = additionalInfo;
+
     }
 
     @JsonProperty("latitude")
@@ -125,7 +122,7 @@ public class Address {
     }
 
     @JsonProperty("street2")
-    public void setStreet2(Object street2) {
+    public void setStreet2(String street2) {
         this.street2 = street2;
     }
 
@@ -159,24 +156,7 @@ public class Address {
         this.postcode = postcode;
     }
 
-    @JsonProperty("additionalInfo")
-    public AdditionalInfo getAdditionalInfo() {
-        return additionalInfo;
-    }
 
-    @JsonProperty("additionalInfo")
-    public void setAdditionalInfo(AdditionalInfo additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+ 
 
 }

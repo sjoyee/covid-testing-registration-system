@@ -1,5 +1,6 @@
 package com.fit3077.covidtestingregistration;
 
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.booking.BookingStatus;
@@ -37,4 +38,6 @@ public class ActionFacade {
         }
         return BookingStatus.INVALID.toString();
     }
+
+   
 }
