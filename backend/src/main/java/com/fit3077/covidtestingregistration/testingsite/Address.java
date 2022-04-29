@@ -1,6 +1,7 @@
 
 package com.fit3077.covidtestingregistration.testingsite;
-
+ /** A class for Address object and store Address details 
+     */
 public class Address {
 
     private double latitude;

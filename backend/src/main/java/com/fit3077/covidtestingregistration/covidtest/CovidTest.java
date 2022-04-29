@@ -1,9 +1,7 @@
 package com.fit3077.covidtestingregistration.covidtest;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.CovidTestApi;
-
 public class CovidTest {
     private String patientId;
     private CovidTestType testType;

@@ -1,6 +1,8 @@
 
 package com.fit3077.covidtestingregistration.testingsite;
 
+/** A Class for TestingSite entity
+     */
 public class TestingSite {
 
     private String id;
@@ -14,12 +16,9 @@ public class TestingSite {
     private String openTime;
     private String closeTime;
 
-    /**
-     * No args constructor for use in serialization
-     * 
+    
+    /** Constructor method
      */
-    public TestingSite() {
-    }
 
     public TestingSite(String id, String name, String description, String websiteUrl, String phoneNumber,
             Address address, String testingSiteType, String openTime, String closeTime) {
@@ -35,11 +34,11 @@ public class TestingSite {
         this.closeTime = closeTime;
         checkTestingSiteType(testingSiteType);
     }
-
+   
     public String getId() {
         return id;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }
@@ -111,7 +110,9 @@ public class TestingSite {
     public TestingSiteType getTestingSiteType() {
         return siteType;
     }
-
+     /** A private method for converting json string input to 
+      * actual enum TestingSiteType 
+     */
     private void checkTestingSiteType(String apiString) {
 
         if (apiString.equals(TestingSiteType.DRIVETHROUGH.toString())) {
