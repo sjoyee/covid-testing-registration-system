@@ -2,7 +2,6 @@ package com.fit3077.covidtestingregistration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
-import com.fit3077.covidtestingregistration.booking.Booking;
 import com.fit3077.covidtestingregistration.booking.BookingStatus;
 import com.fit3077.covidtestingregistration.login.Login;
 import com.fit3077.covidtestingregistration.user.User;
@@ -21,12 +20,7 @@ public class ActionFacade {
     }
 
     public boolean createBooking(ObjectNode userObject) {
-        boolean isSuccess = this.user.handleBooking(userObject);
-        // if (isSuccess && userObject.get("isHomeBooking").asBoolean()){
-        // String patientId = userObject.get("patientId").textValue();
-
-        // }
-        return isSuccess;
+        return this.user.handleBooking(userObject);
     }
 
     private ObjectNode checkPinCode(String smsPin) {
