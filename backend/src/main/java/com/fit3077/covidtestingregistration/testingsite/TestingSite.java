@@ -11,6 +11,8 @@ public class TestingSite {
     private Address address;
     private TestingSiteType siteType;
     private int waitingTime;
+    private String openTime;
+    private String closeTime;
 
     /**
      * No args constructor for use in serialization
@@ -20,7 +22,7 @@ public class TestingSite {
     }
 
     public TestingSite(String id, String name, String description, String websiteUrl, String phoneNumber,
-            Address address, String testingSiteType) {
+            Address address, String testingSiteType, String openTime, String closeTime) {
 
         this.id = id;
         this.name = name;
@@ -29,6 +31,8 @@ public class TestingSite {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.waitingTime = 120;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
         checkTestingSiteType(testingSiteType);
     }
 
@@ -78,6 +82,22 @@ public class TestingSite {
 
     public void setWaitingTime(int waitingTime) {
         this.waitingTime = waitingTime;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(String openTime) {
+        this.openTime = openTime;
+    }
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(String closeTime) {
+        this.closeTime = closeTime;
     }
 
     public Address getAddress() {

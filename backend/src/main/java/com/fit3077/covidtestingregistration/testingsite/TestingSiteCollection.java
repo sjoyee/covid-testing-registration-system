@@ -28,8 +28,10 @@ public class TestingSiteCollection {
             String phoneNumber = testingNode.get("phoneNumber").textValue();
             Address address = jsonToAddress(testingNode);
             String siteType = testingNode.get("additionalInfo").get("siteType").textValue();
+            String openTime = testingNode.get("additionalInfo").get("openTime").textValue();
+            String closeTime = testingNode.get("additionalInfo").get("closeTime").textValue();
             TestingSite createdSite = new TestingSite(id, name, description, websiteUrl, phoneNumber, address,
-                    siteType);
+                    siteType, openTime, closeTime);
             this.allSites.add(createdSite);
         }
     }
