@@ -17,7 +17,7 @@ public class BookingApi {
 
     private String rootUrl = "https://fit3077.com/api/v1/booking";
 
-    public boolean createNewBooking(ObjectNode bookingNode) {
+    public ObjectNode createNewBooking(ObjectNode bookingNode) {
 
         String jsonString = bookingNode.toString();
 
@@ -29,9 +29,8 @@ public class BookingApi {
                 .build();
 
         try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            // return true if booking is successful
-            return true;
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,8 +40,8 @@ public class BookingApi {
             e.printStackTrace();
 
         }
-        // if booking is unsuccessful, return false
-        return false;
+
+        return null;
 
     }
 
