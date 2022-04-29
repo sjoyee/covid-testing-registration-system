@@ -1,51 +1,16 @@
 
 package com.fit3077.covidtestingregistration.testingsite;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "id",
-    "name",
-    "description",
-    "websiteUrl",
-    "phoneNumber",
-    "address",
-    "createdAt",
-    "updatedAt",
-    "additionalInfo"
-})
-@Generated("jsonschema2pojo")
 public class TestingSite {
 
-    @JsonProperty("id")
     private String id;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("description")
     private String description;
-    @JsonProperty("websiteUrl")
-    private Object websiteUrl;
-    @JsonProperty("phoneNumber")
+    private String websiteUrl;
     private String phoneNumber;
-    @JsonProperty("address")
     private Address address;
-    @JsonProperty("createdAt")
-    private String createdAt;
-    @JsonProperty("updatedAt")
-    private String updatedAt;
-    @JsonProperty("additionalInfo")
-    private AdditionalInfo__1 additionalInfo;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private TestingSiteType siteType;
+    private int waitingTime;
 
     /**
      * No args constructor for use in serialization
@@ -54,129 +19,97 @@ public class TestingSite {
     public TestingSite() {
     }
 
-    /**
-     * 
-     * @param createdAt
-     * @param phoneNumber
-     * @param address
-     * @param websiteUrl
-     * @param name
-     * @param additionalInfo
-     * @param description
-     * @param id
-     * @param updatedAt
-     */
-    public TestingSite(String id, String name, String description, Object websiteUrl, String phoneNumber, Address address, String createdAt, String updatedAt, AdditionalInfo__1 additionalInfo) {
-        super();
+    public TestingSite(String id, String name, String description, String websiteUrl, String phoneNumber,
+            Address address, String testingSiteType) {
+
         this.id = id;
         this.name = name;
         this.description = description;
         this.websiteUrl = websiteUrl;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.additionalInfo = additionalInfo;
+        this.waitingTime = 120;
+        checkTestingSiteType(testingSiteType);
     }
 
-    @JsonProperty("id")
     public String getId() {
         return id;
     }
 
-    @JsonProperty("id")
     public void setId(String id) {
         this.id = id;
     }
 
-    @JsonProperty("name")
     public String getName() {
         return name;
     }
 
-    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    @JsonProperty("description")
     public String getDescription() {
         return description;
     }
 
-    @JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @JsonProperty("websiteUrl")
-    public Object getWebsiteUrl() {
+    public String getWebsiteUrl() {
         return websiteUrl;
     }
 
-    @JsonProperty("websiteUrl")
-    public void setWebsiteUrl(Object websiteUrl) {
+    public void setWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
     }
 
-    @JsonProperty("phoneNumber")
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    @JsonProperty("phoneNumber")
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    @JsonProperty("address")
+    public int getWaitingTime() {
+        return waitingTime;
+    }
+
+    public void setWaitingTime(int waitingTime) {
+        this.waitingTime = waitingTime;
+    }
+
     public Address getAddress() {
         return address;
     }
 
-    @JsonProperty("address")
     public void setAddress(Address address) {
         this.address = address;
     }
 
-    @JsonProperty("createdAt")
-    public String getCreatedAt() {
-        return createdAt;
+    public TestingSiteType getTestingSiteType() {
+        return siteType;
     }
 
-    @JsonProperty("createdAt")
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
+    private void checkTestingSiteType(String apiString) {
 
-    @JsonProperty("updatedAt")
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
+        if (apiString.equals(TestingSiteType.DRIVETHROUGH.toString())) {
+            this.siteType = TestingSiteType.DRIVETHROUGH;
 
-    @JsonProperty("updatedAt")
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+        } else if (apiString.equals(TestingSiteType.WALKIN.toString())) {
+            this.siteType = TestingSiteType.WALKIN;
 
-    @JsonProperty("additionalInfo")
-    public AdditionalInfo__1 getAdditionalInfo() {
-        return additionalInfo;
-    }
+        } else if (apiString.equals(TestingSiteType.CLINIC.toString())) {
+            this.siteType = TestingSiteType.CLINIC;
 
-    @JsonProperty("additionalInfo")
-    public void setAdditionalInfo(AdditionalInfo__1 additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
+        } else if (apiString.equals(TestingSiteType.GP.toString())) {
+            this.siteType = TestingSiteType.GP;
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+        } else if (apiString.equals(TestingSiteType.HOSPITAL.toString())) {
+            this.siteType = TestingSiteType.HOSPITAL;
+        }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

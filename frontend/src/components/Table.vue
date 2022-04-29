@@ -40,87 +40,87 @@
 </template>
 
 <script>
-const performSearch = (rows, term) => {
-  const results = rows.filter(
-    row => row.join(" ").toLowerCase().includes(term.toLowerCase())
-  )
-  return results;
-}
+import axios from "axios";
+
+// const performSearch = (rows, term) => {
+//   const results = rows.filter(
+//     row => row.join(" ").toLowerCase().includes(term.toLowerCase())
+//   )
+//   return results;
+// }
 export default {
   name: 'TableList',
   
   data () {
     return {
       term: '',
-      rawRows: [
-        [
-          "Manoj", "24", "Software Developer", "1997"
-        ],
-        [
-          "John", "26", "Lawyer", "1995"
-        ],
-        [
-          "Lily", "34", "Saleswoman", "1987"
-        ],
-        [
-          "Rachel", "34", "Saleswoman", "1987"
-        ],
-        [
-          "Ross", "34", "Barber", "1987"
-        ],
-        [
-          "Chandler", "30", "Salesman", "1991"
-        ]
-      ],
+      rawRows: [ ],
       rows: [],
-      columns: [
-        'Name',
-        'Age',
-        'Profession',
-        'Year of birth'
-      ],
+      columns: [ ],
       sortIndex: null,
-      sortDirection: null
+      sortDirection: null,
+      selectedType:"",
+      selectedSuburb: "",
+      
     }
   },
   methods: {
-    sortRecords (index) {
-      if (this.sortIndex === index) {
-        switch (this.sortDirection) {
-          case null:
-            this.sortDirection = 'asc';
-            break;
-          case 'asc':
-            this.sortDirection = 'desc';
-            break;
-          case 'desc':
-            this.sortDirection = null;
-            break;
-        }
-      } else {
-        this.sortDirection = 'asc'
-      }
-      this.sortIndex = index;
-      if (!this.sortDirection) {
-        this.rows = performSearch(this.rawRows, this.term);
-        return;
-      }
-      this.rows = this.rows.sort(
-        (rowA, rowB) => {
-          if (this.sortDirection === 'desc') {
-            return rowB[index].localeCompare(rowA[index]);
-          }
-          return rowA[index].localeCompare(rowB[index]);
-        }
-      )
-    },
+    // sortRecords (index) {
+    //   if (this.sortIndex === index) {
+    //     switch (this.sortDirection) {
+    //       case null:
+    //         this.sortDirection = 'asc';
+    //         break;
+    //       case 'asc':
+    //         this.sortDirection = 'desc';
+    //         break;
+    //       case 'desc':
+    //         this.sortDirection = null;
+    //         break;
+    //     }
+    //   } else {
+    //     this.sortDirection = 'asc'
+    //   }
+    //   this.sortIndex = index;
+    //   if (!this.sortDirection) {
+    //     this.rows = performSearch(this.rawRows, this.term);
+    //     return;
+    //   }
+    //   this.rows = this.rows.sort(
+    //     (rowA, rowB) => {
+    //       if (this.sortDirection === 'desc') {
+    //         return rowB[index].localeCompare(rowA[index]);
+    //       }
+    //       return rowA[index].localeCompare(rowB[index]);
+    //     }
+    //   )
+    // },
     onSearch (e) {
       this.term = e.target.value;
       this.rows = performSearch(this.rawRows, this.term);
-    }
+    },
+    async search() {
+      try {
+        const response = await axios.get(
+          `/testing-site/selected?type=${this.selectedType}&suburb=${this.selectedSuburb}`
+        );
+        this.status = response.data;
+        if (this.status == "INVALID") {
+          this.errorMessage = true;
+        } else {
+          this.success = true;
+        }
+      } catch {
+        // handle error
+        console.log("Fail to check status with this PIN code.");
+        this.errorMessage = true;
+      }
+      this.$refs.form.reset();
+    },
   },
   mounted () {
     this.rows = [...this.rawRows];
+    
   }
 }
 </script>

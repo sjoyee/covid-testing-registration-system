@@ -87,7 +87,7 @@ export default {
             path: `/${this.userDetails.id}/receptionist`,
           });
         } else if (this.userDetails.isHealthcareWorker) {
-          this.$router.push({ path: `/${this.userDetails.id}/hcworker` });
+          this.$router.push({ path: `/${this.userDetails.id}/onsite-testing` });
         } else {
           this.errorMessage = true;
         }
