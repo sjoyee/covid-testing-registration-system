@@ -73,4 +73,68 @@ public class BookingApi {
 
     }
 
+    public boolean updateTestKitData(String bookingId, ObjectNode additionalNode) {
+
+        if (bookingId.isEmpty()) {
+            return false;
+        }
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+        String jsonString = additionalNode.toString();
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .uri(URI.create(bookingUrl))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
+                .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+            // return true if update is successful
+            return true;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        // if update is unsuccessful, return false
+        return false;
+
+    }
+
+    public void updateBookingStatus(String bookingId, String status) {
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+        String jsonString = "{" +
+                "\"status\":\"" + status + "\"" +
+                "}";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .uri(URI.create(bookingUrl))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
+                .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
 }

@@ -23,9 +23,13 @@ public class HomeBookingStrategy implements BookingStrategy {
         ObjectNode bookingNode = mapper.createObjectNode();
         bookingNode.put("customerId", customerId);
         bookingNode.put("startTime", startTime);
-        bookingNode.with("additionalInfo").put("qrCode", generateRandStr(8));
-        bookingNode.with("additionalInfo").put("url", generateUrl());
-        bookingNode.with("additionalInfo").put("hasRatKit", this.hasRatKit);
+
+        String additionalInfo = "additionalInfo";
+
+        bookingNode.with(additionalInfo).put("isHomeBooking", true);
+        bookingNode.with(additionalInfo).put("qrCode", generateRandStr(8));
+        bookingNode.with(additionalInfo).put("url", generateUrl());
+        bookingNode.with(additionalInfo).put("hasRatKit", this.hasRatKit);
 
         return bookingApi.createNewBooking(bookingNode);
     }
