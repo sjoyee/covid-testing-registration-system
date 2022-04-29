@@ -58,7 +58,10 @@ export default {
       rows: [],
       columns: [ ],
       sortIndex: null,
-      sortDirection: null
+      sortDirection: null,
+      selectedType:"",
+      selectedSuburb: "",
+      
     }
   },
   methods: {
@@ -96,10 +99,10 @@ export default {
       this.term = e.target.value;
       this.rows = performSearch(this.rawRows, this.term);
     },
-    async load() {
+    async search() {
       try {
         const response = await axios.get(
-          `/testing-site`
+          `/testing-site/selected?type=${this.selectedType}&suburb=${this.selectedSuburb}`
         );
         this.status = response.data;
         if (this.status == "INVALID") {
