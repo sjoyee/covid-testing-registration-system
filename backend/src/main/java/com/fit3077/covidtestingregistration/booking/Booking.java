@@ -13,6 +13,8 @@ public class Booking {
 
     private boolean hasRatKit;
 
+    private String patientId;
+
     private BookingStatus status;
 
     private BookingContext context;
@@ -21,7 +23,13 @@ public class Booking {
         this.customerId = customerId;
         this.isHomeBooking = isHomeBooking;
         this.startTime = Instant.now();
-        this.status = BookingStatus.INITIATED;
+        if (isHomeBooking) {
+            // already assigned with RAT test type
+            this.status = BookingStatus.PROCESSED;
+        } else {
+            // have not assigned test type
+            this.status = BookingStatus.INITIATED;
+        }
     }
 
     public String getCustomerId() {
@@ -60,10 +68,14 @@ public class Booking {
         this.hasRatKit = hasRatKit;
     }
 
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
     public void setBookingStrategy() {
         this.context = new BookingContext();
         if (this.isHomeBooking) {
-            this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit));
+            this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit, this.patientId, this.status.toString()));
         } else {
             this.context.setStrategy(new OnsiteBookingStrategy(this.testingSiteId));
         }

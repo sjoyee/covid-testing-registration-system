@@ -14,35 +14,27 @@
       <v-btn text @click="logout">LOG OUT</v-btn>
     </v-toolbar>
     <div class="ma-4">
-      <div class="text-h5 font-weight-bold pa-4">Check Status</div>
-      <v-row v-if="success">
-        <v-col md="6">
-          <v-card class="ma-4 pa-4" tile>
-            <div class="pa-4 text-subtitle-2 success--text">
-              Successfully found PIN Code.
-            </div>
-            <v-card-title>STATUS : {{ status }}</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn @click="success = !success"> CHECK OTHER PIN CODE </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+      <div class="text-h5 font-weight-bold pa-4">
+        Update Issued Test Kit Information
+      </div>
+      <div class="text-subtitle-1 pa-4">
+        For updating the system that the users have received the RAT kit from
+        the facility.
+      </div>
 
-      <v-row v-else>
+      <v-row>
         <v-col md="6">
           <v-card class="ma-4 pa-4" tile>
             <v-card-subtitle
-              >Please request the PIN code from the customer which is sent
-              through SMS.</v-card-subtitle
+              >Please request the QR code from the person who wants to collect
+              the RAT kit for verification.</v-card-subtitle
             >
             <v-form ref="form" v-model="valid">
               <v-row class="pa-4">
                 <v-col md="6">
                   <v-text-field
-                    v-model="smsPin"
-                    label="PIN Code"
+                    v-model="qrCode"
+                    label="QR Code"
                     :rules="mandatoryRule"
                   ></v-text-field>
                 </v-col>
@@ -50,14 +42,17 @@
             </v-form>
             <v-card-actions class="pa-4">
               <v-spacer></v-spacer>
-              <v-btn :disabled="!valid" @click="checkPin">CHECK STATUS</v-btn>
+              <v-btn :disabled="!valid" @click="checkQr">UPDATE</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </div>
+    <v-snackbar v-model="success" :timeout="timeout" color="success">
+      Successfully updated.
+    </v-snackbar>
     <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
-      Invalid PIN Code.
+      Invalid request of RAT kit collection.
       <template v-slot:action="{ attrs }">
         <v-btn text v-bind="attrs" @click="errorMessage = false"> Close </v-btn>
       </template>
@@ -73,17 +68,17 @@ export default {
     return {
       form: null,
       valid: false,
-      smsPin: "",
+      qrCode: "",
       success: false,
       errorMessage: false,
-      timeout: 2000,
+      timeout: 2500,
       status: "",
     };
   },
   methods: {
     search() {
       this.$router.push({
-        path: `/${this.$route.params.id}/customer/search`,
+        path: `/${this.$route.params.id}/receptionist/search`,
       });
     },
     backToMain() {
@@ -96,20 +91,13 @@ export default {
         path: "/login",
       });
     },
-    async checkPin() {
+    async checkQr() {
       try {
-        const response = await axios.get(
-          `/user/check-status?pin=${this.smsPin}`
-        );
-        this.status = response.data;
-        if (this.status == "INVALID") {
-          this.errorMessage = true;
-        } else {
-          this.success = true;
-        }
+        await axios.post(`/user/update-test-kit-issued?qrCode=${this.qrCode}`);
+        this.success = true;
       } catch {
         // handle error
-        console.log("Fail to check status with this PIN code.");
+        console.log("Fail to update test kit issued with this QR code.");
         this.errorMessage = true;
       }
       this.$refs.form.reset();

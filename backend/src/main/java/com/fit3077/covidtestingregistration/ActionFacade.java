@@ -10,14 +10,9 @@ import com.fit3077.covidtestingregistration.user.User;
 public class ActionFacade {
 
     private User user;
-    private boolean isBookingSuccess;
 
     public User getUser() {
         return this.user;
-    }
-
-    public boolean getIsBookingSuccess() {
-        return this.isBookingSuccess;
     }
 
     public void createLogin(String userName, String password) {
@@ -25,18 +20,48 @@ public class ActionFacade {
         this.user = login.loginUser();
     }
 
-    public void createBooking(ObjectNode userObject) {
-        this.isBookingSuccess = this.user.handleBooking(userObject);
+    public boolean createBooking(ObjectNode userObject) {
+        return this.user.handleBooking(userObject);
     }
 
-    public String checkPinCode(String smsPin) {
+    private ObjectNode checkPinCode(String smsPin) {
         BookingApi bookingApi = new BookingApi();
         for (ObjectNode bookingNode : bookingApi.getBookings()) {
             if (bookingNode.get("smsPin").textValue().equals(smsPin)) {
-                return bookingNode.get("status").textValue();
+                return bookingNode;
             }
         }
-        return BookingStatus.INVALID.toString();
+        return null;
+    }
+
+    public String checkBookingStatus(String smsPin) {
+        ObjectNode bookingNode = checkPinCode(smsPin);
+        if (bookingNode == null) {
+            return BookingStatus.INVALID.toString();
+        }
+        return bookingNode.get("status").textValue();
+    }
+
+    public boolean updateTestKitIssued(String qrCode) {
+        return this.user.updateData(qrCode);
+    }
+
+    public boolean createCovidTest(ObjectNode testObject) {
+        // get booking object
+        ObjectNode bookingNode = this.checkPinCode(testObject.get("smsPin").textValue());
+        if (bookingNode == null) {
+            return false;
+        }
+
+        String bookingId = bookingNode.get("id").textValue();
+        testObject.put("bookingId", bookingId);
+
+        boolean isSuccess = this.user.handleBooking(testObject);
+        // update status
+        if (isSuccess) {
+            this.user.updateData(bookingId);
+        }
+        return isSuccess;
     }
 
    

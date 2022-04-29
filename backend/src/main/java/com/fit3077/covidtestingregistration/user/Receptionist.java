@@ -1,11 +1,9 @@
 package com.fit3077.covidtestingregistration.user;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.booking.Booking;
-import com.fit3077.covidtestingregistration.booking.BookingStatus;
 
 public class Receptionist extends User {
 
@@ -46,5 +44,25 @@ public class Receptionist extends User {
             booking.setTestingSiteId(this.testingSiteId);
         }
         return booking.assignBookingDetails();
+    }
+
+    @Override
+    public boolean updateData(String qrCode) {
+        BookingApi bookingApi = new BookingApi();
+        String additionalInfo = "additionalInfo";
+
+        for (ObjectNode bookingNode : bookingApi.getBookings()) {
+            if (!bookingNode.get(additionalInfo).toString().equals("{}")
+                    && bookingNode.get(additionalInfo).get("isHomeBooking").asBoolean()
+                    && bookingNode.get(additionalInfo).get("qrCode").textValue().equals(qrCode)) {
+
+                if (!bookingNode.get(additionalInfo).get("hasRatKit").asBoolean()) {
+
+                    bookingNode.with(additionalInfo).put("hasRatKit", true);
+                    return bookingApi.updateTestKitData(bookingNode.get("id").textValue(), bookingNode);
+                }
+            }
+        }
+        return false;
     }
 }

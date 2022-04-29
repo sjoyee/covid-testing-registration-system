@@ -10,6 +10,8 @@ import CustomerPage from "../components/CustomerPage";
 import CustomerCheckStatus from "../components/CustomerCheckStatus";
 import HomeBooking from "../components/HomeBooking";
 import ErrorPage from "../components/ErrorPage";
+import UpdateTestKitIssued from "../components/UpdateTestKitIssued";
+import HealthcareWorker from "../components/HealthcareWorker";
 
 Vue.use(VueRouter);
 
@@ -43,6 +45,10 @@ const routes = [
     component: CheckStatus,
   },
   {
+    path: "/:id/receptionist/update-test-kit-issued",
+    component: UpdateTestKitIssued,
+  },
+  {
     path: "/:id/customer",
     component: CustomerPage,
   },
@@ -55,7 +61,11 @@ const routes = [
     component: HomeBooking,
   },
   {
-    path: "/:id/onsite-testing",
+    path: "/:id/hcworker/",
+    component: HealthcareWorker,
+  },
+  {
+    path: "/:id/hcworker/onsite-testing",
     component: OnsiteTesting,
   },
   {

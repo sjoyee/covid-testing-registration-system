@@ -14,9 +14,18 @@ public class Customer extends User {
     public boolean handleBooking(ObjectNode userObject) {
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
         boolean hasRatKit = userObject.get("hasRatKit").asBoolean();
+        String patientId = userObject.get("patientId").textValue();
+
         Booking booking = new Booking(getId(), isHomeBooking);
         booking.setHasRatKit(hasRatKit);
+        booking.setPatientId(patientId);
+
         return booking.assignBookingDetails();
+    }
+
+    @Override
+    public boolean updateData(String code) {
+        return false;
     }
 
 }

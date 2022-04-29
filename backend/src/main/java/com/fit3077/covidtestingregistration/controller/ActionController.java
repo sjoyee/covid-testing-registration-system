@@ -45,8 +45,8 @@ public class ActionController {
 
     @PostMapping("/booking")
     public ResponseEntity<Void> onsiteBooking(@RequestBody ObjectNode userObject) {
-        this.actionFacade.createBooking(userObject);
-        if (this.actionFacade.getIsBookingSuccess()) {
+        boolean successful = this.actionFacade.createBooking(userObject);
+        if (successful) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,10 +55,28 @@ public class ActionController {
 
     @GetMapping("/check-status")
     public ResponseEntity<String> checkStatus(@RequestParam("pin") String pin) {
-        String status = this.actionFacade.checkPinCode(pin);
+        String status = this.actionFacade.checkBookingStatus(pin);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
-  
+    @PostMapping("/covid-test")
+    public ResponseEntity<Void> covidTest(@RequestBody ObjectNode testObject) {
+        boolean successful = this.actionFacade.createCovidTest(testObject);
+        if (successful) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/update-test-kit-issued")
+    public ResponseEntity<Void> updateTestKitIssued(@RequestParam("qrCode") String qrCode) {
+        boolean successful = this.actionFacade.updateTestKitIssued(qrCode);
+        if (successful) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

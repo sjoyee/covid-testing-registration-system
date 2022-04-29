@@ -17,7 +17,7 @@ public class BookingApi {
 
     private String rootUrl = "https://fit3077.com/api/v1/booking";
 
-    public boolean createNewBooking(ObjectNode bookingNode) {
+    public ObjectNode createNewBooking(ObjectNode bookingNode) {
 
         String jsonString = bookingNode.toString();
 
@@ -29,9 +29,8 @@ public class BookingApi {
                 .build();
 
         try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            // return true if booking is successful
-            return true;
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,8 +40,8 @@ public class BookingApi {
             e.printStackTrace();
 
         }
-        // if booking is unsuccessful, return false
-        return false;
+
+        return null;
 
     }
 
@@ -70,6 +69,70 @@ public class BookingApi {
         }
 
         return new ObjectNode[0];
+
+    }
+
+    public boolean updateTestKitData(String bookingId, ObjectNode additionalNode) {
+
+        if (bookingId.isEmpty()) {
+            return false;
+        }
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+        String jsonString = additionalNode.toString();
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .uri(URI.create(bookingUrl))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
+                .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+            // return true if update is successful
+            return true;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        // if update is unsuccessful, return false
+        return false;
+
+    }
+
+    public void updateBookingStatus(String bookingId, String status) {
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+        String jsonString = "{" +
+                "\"status\":\"" + status + "\"" +
+                "}";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .uri(URI.create(bookingUrl))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
+                .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
 
     }
 
