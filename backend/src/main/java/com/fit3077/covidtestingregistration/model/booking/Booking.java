@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.booking;
+package com.fit3077.covidtestingregistration.model.booking;
 
 import java.time.Instant;
 

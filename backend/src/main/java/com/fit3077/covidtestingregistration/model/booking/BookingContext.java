@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.booking;
+package com.fit3077.covidtestingregistration.model.booking;
 
 public class BookingContext {
     private BookingStrategy strategy;

@@ -1,12 +1,12 @@
-package com.fit3077.covidtestingregistration.booking;
+package com.fit3077.covidtestingregistration.model.booking;
 
 import java.util.Random;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
-import com.fit3077.covidtestingregistration.covidtest.CovidTest;
-import com.fit3077.covidtestingregistration.covidtest.CovidTestType;
+import com.fit3077.covidtestingregistration.model.covidtest.CovidTest;
+import com.fit3077.covidtestingregistration.model.covidtest.CovidTestType;
 
 public class HomeBookingStrategy implements BookingStrategy {
     private Random rand = new Random();

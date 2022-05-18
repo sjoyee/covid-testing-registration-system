@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.testingsite;
+package com.fit3077.covidtestingregistration.model.testingsite;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -8,21 +8,24 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.TestingSiteApi;
 
 public class TestingSiteCollection {
-    /** A Class for a collection of TestingSites
+    /**
+     * A Class for a collection of TestingSites
      */
-
-    
 
     private List<TestingSite> allSites = new ArrayList<>();
     private List<TestingSite> displaySiteList = new ArrayList<>();
 
-     /** Constructor method for TestingSiteCollection
+    /**
+     * Constructor method for TestingSiteCollection
      */
     public TestingSiteCollection() {
         createTestingSite();
     }
-     /** A method to create TestingSite instances and retrieve data from the API
-      * for the creation of TestingSite instances, it aids in updating the private list as wel
+
+    /**
+     * A method to create TestingSite instances and retrieve data from the API
+     * for the creation of TestingSite instances, it aids in updating the private
+     * list as wel
      */
     private void createTestingSite() {
         TestingSiteApi testingSiteApi = new TestingSiteApi();
@@ -44,8 +47,9 @@ public class TestingSiteCollection {
         }
     }
 
-     /** filter method for the TestingSite based on the input from API 
-      * 
+    /**
+     * filter method for the TestingSite based on the input from API
+     * 
      */
     private List<TestingSite> filteredType(String inputType, String inputSuburb) {
         Set<TestingSite> filteredSitesSet = new HashSet<>();
@@ -79,7 +83,8 @@ public class TestingSiteCollection {
 
     }
 
-     /** method for creating Address object
+    /**
+     * method for creating Address object
      */
     private Address jsonToAddress(ObjectNode node) {
         String street = node.get("address").get("street").textValue();
