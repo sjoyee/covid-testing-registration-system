@@ -73,6 +73,42 @@ public class UserApi {
         return false;
     }
 
+    public ObjectNode getUserById(String id) {
+
+        String userIdUrl = rootUrl + '/' + id;
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(userIdUrl))
+                .setHeader(KEY_NAME, API_KEY)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 200) {
+                throw new InvalidKeyException("Please specify your API key");
+            }
+
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
+
+        } catch (InterruptedException e0) {
+            e0.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+
+        } catch (InvalidKeyException e2) {
+            e2.printStackTrace();
+        }
+
+        return null;
+
+    }
+
     public ObjectNode[] getUsers() {
 
         HttpClient client = HttpClient.newHttpClient();
