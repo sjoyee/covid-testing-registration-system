@@ -1,6 +1,8 @@
 package com.fit3077.covidtestingregistration.controller;
-import com.fit3077.covidtestingregistration.TestingSiteFacade;
-import com.fit3077.covidtestingregistration.testingsite.TestingSite;
+
+import com.fit3077.covidtestingregistration.model.MainFacade;
+import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/testing-site")
 public class TestingSiteController {
 
-    private TestingSiteFacade testingSiteFacade;
+    private MainFacade mainFacade;
 
     public TestingSiteController() {
-        testingSiteFacade = new TestingSiteFacade();
+        this.mainFacade = new MainFacade();
     }
 
-    @GetMapping("/selected")
-    public ResponseEntity<List<TestingSite>> filteredTestingSite(@RequestParam("type") String type,
+    @GetMapping("")
+    public ResponseEntity<List<TestingSite>> filterTestingSite(@RequestParam("type") String type,
             @RequestParam("suburb") String suburb) {
-        List<TestingSite> sites = this.testingSiteFacade.filterSite(type, suburb);
+        List<TestingSite> sites = this.mainFacade.getTestingSite(type, suburb);
         return new ResponseEntity<>(sites, HttpStatus.OK);
     }
-
-    ;
 
 }
