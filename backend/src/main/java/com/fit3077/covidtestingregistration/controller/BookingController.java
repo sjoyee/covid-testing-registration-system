@@ -1,7 +1,10 @@
 package com.fit3077.covidtestingregistration.controller;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +54,11 @@ public class BookingController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/active-bookings")
+    public ResponseEntity<List<ActiveBooking>> getActiveBookings(@PathVariable("userId") String userId) {
+        return new ResponseEntity<>(this.mainFacade.displayActiveBookings(userId), HttpStatus.OK);
     }
 
 }

@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.InvalidKeyException;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -175,6 +176,41 @@ public class UserApi {
         } catch (IOException e) {
             e.printStackTrace();
 
+        }
+
+        return null;
+
+    }
+
+    public JsonNode getBookingsByUserId(String userId) {
+
+        String bookingUrl = rootUrl + '/' + userId + "?fields=bookings";
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(bookingUrl))
+                .setHeader(KEY_NAME, API_KEY)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 200) {
+                throw new InvalidKeyException("Please specify your API key");
+            }
+            return new ObjectMapper().readTree(response.body()).get("bookings");
+
+        } catch (InterruptedException e0) {
+            e0.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+
+        } catch (InvalidKeyException e2) {
+            e2.printStackTrace();
         }
 
         return null;

@@ -1,5 +1,7 @@
 package com.fit3077.covidtestingregistration.model.booking;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
@@ -18,5 +20,9 @@ public class BookingFacade {
 
     public boolean updateHomeTestKit(String userId, String qrCode) {
         return new UserGenerator().generateUser(userId).updateData(qrCode);
+    }
+
+    public List<ActiveBooking> getActiveBookings(String userId) {
+        return new ActiveBookingCollection(userId).getActiveBookings();
     }
 }
