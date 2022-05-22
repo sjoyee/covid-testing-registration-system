@@ -5,7 +5,7 @@ import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.model.booking.Booking;
 
-public class Receptionist extends User {
+public class Receptionist extends BookingUser {
 
     private String testingSiteId;
 
