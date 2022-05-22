@@ -200,6 +200,7 @@ public class UserApi {
             if (response.statusCode() != 200) {
                 throw new InvalidKeyException("Please specify your API key");
             }
+
             return new ObjectMapper().readTree(response.body()).get("bookings");
 
         } catch (InterruptedException e0) {

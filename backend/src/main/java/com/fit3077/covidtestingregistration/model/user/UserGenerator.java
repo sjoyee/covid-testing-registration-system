@@ -39,6 +39,16 @@ public class UserGenerator {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    public BookingUser generateBookingUser(String id) {
+        ObjectNode userNode = this.userApi.getUserById(id);
+        return generateBookingUserByType(userNode);
+    }
+
+    /**
+     *
      * @param userNode
      * @return
      */
@@ -54,6 +64,29 @@ public class UserGenerator {
                     phoneNumber);
 
         } else if (userNode.get("isCustomer").asBoolean()) {
+            return new Customer(id, givenName, familyName, userName, phoneNumber);
+
+        } else if (userNode.get("isReceptionist").asBoolean()) {
+            String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+            return new Receptionist(id, givenName, familyName, userName, phoneNumber,
+                    testingSiteId);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param userNode
+     * @return
+     */
+    private BookingUser generateBookingUserByType(ObjectNode userNode) {
+        String id = userNode.get("id").textValue();
+        String givenName = userNode.get("givenName").textValue();
+        String familyName = userNode.get("familyName").textValue();
+        String phoneNumber = userNode.get("phoneNumber").textValue();
+        String userName = userNode.get("userName").textValue();
+
+        if (userNode.get("isCustomer").asBoolean()) {
             return new Customer(id, givenName, familyName, userName, phoneNumber);
 
         } else if (userNode.get("isReceptionist").asBoolean()) {

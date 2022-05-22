@@ -3,8 +3,8 @@ package com.fit3077.covidtestingregistration.model;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.BookingFacade;
+import com.fit3077.covidtestingregistration.model.booking.active.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestFacade;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSiteFacade;
@@ -37,8 +37,8 @@ public class MainFacade {
         return this.bookingFacade.createBooking(userId, userObject);
     }
 
-    public String getBookingStatus(String userId, String smsPin) {
-        return this.bookingFacade.checkStatus(userId, smsPin);
+    public String getBookingStatus(String userId, String verifier, boolean isId) {
+        return this.bookingFacade.checkStatus(userId, verifier, isId);
     }
 
     public boolean updateTestKitIssued(String userId, String qrCode) {
@@ -46,7 +46,19 @@ public class MainFacade {
     }
 
     public List<ActiveBooking> displayActiveBookings(String userId) {
-        return this.bookingFacade.getActiveBookings(userId);
+        return this.bookingFacade.getActiveBookingsByUserId(userId);
+    }
+
+    public ActiveBooking displayActiveBookingById(String bookingId) {
+        return this.bookingFacade.getActiveBookingByBookingId(bookingId);
+    }
+
+    public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
+        return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
+    }
+
+    public ActiveBooking restorePastBookingChanges(String userId, String bookingId, String updatedAt) {
+        return this.bookingFacade.restorePastChange(userId, bookingId, updatedAt);
     }
 
     public boolean addCovidTest(String userId, ObjectNode testObject) {
@@ -55,6 +67,10 @@ public class MainFacade {
 
     public List<TestingSite> getTestingSite(String inputType, String inputSuburb) {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
+    }
+
+    public List<String> getTestingSiteNames() {
+        return this.testingSiteFacade.getAllNames();
     }
 
 }
