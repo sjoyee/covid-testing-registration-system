@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
-import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.active.ActiveBooking;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +40,16 @@ public class BookingController {
     }
 
     @GetMapping("/check-status")
-    public ResponseEntity<String> checkStatus(@PathVariable("userId") String userId, @RequestParam("pin") String pin) {
-        String status = this.mainFacade.getBookingStatus(userId, pin);
+    public ResponseEntity<String> checkStatusByPin(@PathVariable("userId") String userId,
+            @RequestParam("pin") String pin) {
+        String status = this.mainFacade.getBookingStatus(userId, pin, false);
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
+
+    @GetMapping("/check-status-by-id")
+    public ResponseEntity<String> checkStatusById(@PathVariable("userId") String userId,
+            @RequestParam("id") String bookingId) {
+        String status = this.mainFacade.getBookingStatus(userId, bookingId, true);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
@@ -59,6 +67,28 @@ public class BookingController {
     @GetMapping("/active-bookings")
     public ResponseEntity<List<ActiveBooking>> getActiveBookings(@PathVariable("userId") String userId) {
         return new ResponseEntity<>(this.mainFacade.displayActiveBookings(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/active-booking")
+    public ResponseEntity<ActiveBooking> getActiveBookingById(@RequestParam("id") String bookingId) {
+        return new ResponseEntity<>(this.mainFacade.displayActiveBookingById(bookingId), HttpStatus.OK);
+    }
+
+    @PostMapping("/active-booking/modify")
+    public ResponseEntity<ActiveBooking> modifyActiveBooking(@PathVariable("userId") String userId,
+            @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
+            @RequestParam("dateTime") String dateTime) {
+
+        return new ResponseEntity<>(this.mainFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/active-booking/restore")
+    public ResponseEntity<ActiveBooking> restoreActiveBooking(@PathVariable("userId") String userId,
+            @RequestParam("bookingId") String bookingId, @RequestParam("updatedAt") String updatedAt) {
+
+        return new ResponseEntity<>(this.mainFacade.restorePastBookingChanges(userId, bookingId, updatedAt),
+                HttpStatus.OK);
     }
 
 }
