@@ -3,8 +3,6 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.booking.active.ActiveBooking;
-import com.fit3077.covidtestingregistration.model.booking.active.ActiveBookingCollection;
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
 public class BookingFacade {
