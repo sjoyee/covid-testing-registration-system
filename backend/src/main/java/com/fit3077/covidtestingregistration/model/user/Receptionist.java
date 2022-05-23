@@ -3,7 +3,7 @@ package com.fit3077.covidtestingregistration.model.user;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
-import com.fit3077.covidtestingregistration.model.booking.Booking;
+import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
 
 public class Receptionist extends BookingUser {
 
@@ -51,7 +51,7 @@ public class Receptionist extends BookingUser {
         }
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
 
-        Booking booking = new Booking(customerId, isHomeBooking);
+        BookingExecutor booking = new BookingExecutor(customerId, isHomeBooking);
 
         if (!isHomeBooking) {
             booking.setTestingSiteId(this.testingSiteId);
