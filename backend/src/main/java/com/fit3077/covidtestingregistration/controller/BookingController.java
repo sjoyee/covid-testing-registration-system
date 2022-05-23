@@ -105,4 +105,11 @@ public class BookingController {
         }
     }
 
+    @PostMapping("/active-booking/cancel")
+    public ResponseEntity<Void> cancelActiveBooking(@PathVariable("userId") String userId,
+            @RequestParam("id") String bookingId) {
+        this.mainFacade.cancelActiveBooking(userId, bookingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

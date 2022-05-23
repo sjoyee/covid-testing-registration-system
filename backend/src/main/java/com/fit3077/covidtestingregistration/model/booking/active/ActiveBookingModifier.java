@@ -1,5 +1,7 @@
 package com.fit3077.covidtestingregistration.model.booking.active;
 
+import com.fit3077.covidtestingregistration.model.booking.BookingStatus;
+
 // Caretaker class for Memento design pattern
 public class ActiveBookingModifier {
 
@@ -16,20 +18,17 @@ public class ActiveBookingModifier {
 
     public ActiveBooking restore(String testingSiteId, String dateTime) {
         this.activeBookingMemento.restore(testingSiteId, dateTime);
-        updateBookingChanges(testingSiteId, dateTime);
+        this.activeBooking.updateChanges(testingSiteId, dateTime);
         return this.activeBooking;
     }
 
     public ActiveBooking modify(String testingSiteId, String dateTime) {
         this.activeBookingMemento.update();
-        updateBookingChanges(testingSiteId, dateTime);
+        this.activeBooking.updateChanges(testingSiteId, dateTime);
         return this.activeBooking;
     }
 
-    private void updateBookingChanges(String testingSiteId, String dateTime) {
-        this.activeBooking.setTestingSiteId(testingSiteId);
-        this.activeBooking.setDateTime(dateTime);
-        this.activeBooking.updateChanges();
+    public void cancel() {
+        this.activeBooking.updateChanges(BookingStatus.CANCELLED);
     }
-
 }

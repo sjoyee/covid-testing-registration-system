@@ -26,4 +26,9 @@ public abstract class BookingUser extends User {
         modifier.restore(testingSiteId, dateTime);
         return activeBooking;
     }
+
+    public void cancelActiveBooking(ActiveBooking activeBooking) {
+        ActiveBookingModifier modifier = new ActiveBookingModifier(activeBooking);
+        modifier.cancel();
+    }
 }

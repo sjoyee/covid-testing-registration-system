@@ -62,6 +62,10 @@ public class MainFacade {
         return this.bookingFacade.restorePastChange(userId, bookingId, testingSiteId, dateTime);
     }
 
+    public void cancelActiveBooking(String userId, String bookingId) {
+        this.bookingFacade.cancelActiveBooking(userId, bookingId);
+    }
+
     public boolean addCovidTest(String userId, ObjectNode testObject) {
         return this.covidTestFacade.createCovidTest(userId, testObject);
     }

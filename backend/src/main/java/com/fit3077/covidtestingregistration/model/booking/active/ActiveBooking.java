@@ -7,15 +7,16 @@ import java.util.ListIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
+import com.fit3077.covidtestingregistration.model.booking.BookingStatus;
 
 public class ActiveBooking {
     private String id;
     private String testingSiteId;
-    private String status;
+    private BookingStatus status;
     private String dateTime;
     private List<ActiveBookingHistory> histories;
 
-    public ActiveBooking(String id, String testingSiteId, String status, String dateTime,
+    public ActiveBooking(String id, String testingSiteId, BookingStatus status, String dateTime,
             List<ActiveBookingHistory> histories) {
         this.id = id;
         this.testingSiteId = testingSiteId;
@@ -34,7 +35,7 @@ public class ActiveBooking {
         return testingSiteId;
     }
 
-    public String getStatus() {
+    public BookingStatus getStatus() {
         return status;
     }
 
@@ -54,7 +55,7 @@ public class ActiveBooking {
         this.testingSiteId = testingSiteId;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BookingStatus status) {
         this.status = status;
     }
 
@@ -70,11 +71,24 @@ public class ActiveBooking {
         return new ActiveBookingMemento(this.histories, this.id, this.testingSiteId, this.dateTime);
     }
 
-    public void updateChanges() {
+    public void updateChanges(String testingSiteId, String dateTime) {
+        setTestingSiteId(testingSiteId);
+        setDateTime(dateTime);
+
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode updatedNode = mapper.createObjectNode();
         updatedNode.put("testingSiteId", this.testingSiteId);
         updatedNode.put("startTime", this.dateTime);
+
+        BookingApi bookingApi = new BookingApi();
+        bookingApi.updateActiveBooking(this.id, updatedNode);
+    }
+
+    public void updateChanges(BookingStatus status) {
+        setStatus(status);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode updatedNode = mapper.createObjectNode();
+        updatedNode.put("status", this.status.name());
 
         BookingApi bookingApi = new BookingApi();
         bookingApi.updateActiveBooking(this.id, updatedNode);

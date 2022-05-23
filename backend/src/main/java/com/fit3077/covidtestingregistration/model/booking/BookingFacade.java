@@ -60,4 +60,9 @@ public class BookingFacade {
                 dateTime);
     }
 
+    public void cancelActiveBooking(String userId, String bookingId) {
+        ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
+    }
+
 }

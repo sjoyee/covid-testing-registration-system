@@ -27,7 +27,8 @@ public class ActiveBookingCollection {
         // only onsite bookings which are not lapsed, not completed and valid are
         // considered
         if (dateTime.isAfter(Instant.now()) && !status.equals(BookingStatus.COMPLETED.name())
-                && !status.equals(BookingStatus.INVALID.name()) && !isHomeBooking) {
+                && !status.equals(BookingStatus.CANCELLED.name()) && !status.equals(BookingStatus.INVALID.name())
+                && !isHomeBooking) {
 
             String id = bookingNode.get("id").textValue();
 
@@ -38,7 +39,7 @@ public class ActiveBookingCollection {
                     new TypeReference<List<ActiveBookingHistory>>() {
                     });
 
-            return new ActiveBooking(id, testingSiteId, status, dateTime.toString(), histories);
+            return new ActiveBooking(id, testingSiteId, BookingStatus.valueOf(status), dateTime.toString(), histories);
         }
         return null;
     }
