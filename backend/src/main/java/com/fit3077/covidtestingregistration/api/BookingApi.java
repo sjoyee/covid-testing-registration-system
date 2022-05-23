@@ -72,6 +72,35 @@ public class BookingApi {
 
     }
 
+    public ObjectNode getBookingById(String bookingId) {
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(bookingUrl))
+                .setHeader(KEY_NAME, API_KEY)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
+
+        } catch (InterruptedException e0) {
+            e0.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+
     public boolean updateTestKitData(String bookingId, ObjectNode additionalNode) {
 
         if (bookingId.isEmpty()) {
@@ -134,6 +163,32 @@ public class BookingApi {
 
         }
 
+    }
+
+    public void updateActiveBooking(String bookingId, ObjectNode updatedNode) {
+
+        String bookingUrl = rootUrl + '/' + bookingId;
+        String jsonString = updatedNode.toString();
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .uri(URI.create(bookingUrl))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
+                .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
 }
