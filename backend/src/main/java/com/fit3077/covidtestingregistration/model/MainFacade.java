@@ -74,8 +74,8 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
-    public List<String> getTestingSiteNames() {
-        return this.testingSiteFacade.getAllNames();
-    }
+    // public List<String> getTestingSiteNames() {
+    // return this.testingSiteFacade.getAllNames();
+    // }
 
 }
