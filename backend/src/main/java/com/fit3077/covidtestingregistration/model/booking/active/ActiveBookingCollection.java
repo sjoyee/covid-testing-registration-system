@@ -2,8 +2,6 @@ package com.fit3077.covidtestingregistration.model.booking.active;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -48,9 +48,10 @@ public class BookingFacade {
                 dateTime);
     }
 
-    public ActiveBooking restorePastChange(String userId, String bookingId, String updatedAt) {
+    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, updatedAt);
+        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
+                dateTime);
     }
 
 }

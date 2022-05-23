@@ -85,9 +85,11 @@ public class BookingController {
 
     @PostMapping("/active-booking/restore")
     public ResponseEntity<ActiveBooking> restoreActiveBooking(@PathVariable("userId") String userId,
-            @RequestParam("bookingId") String bookingId, @RequestParam("updatedAt") String updatedAt) {
+            @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
+            @RequestParam("dateTime") String dateTime) {
 
-        return new ResponseEntity<>(this.mainFacade.restorePastBookingChanges(userId, bookingId, updatedAt),
+        return new ResponseEntity<>(
+                this.mainFacade.restorePastBookingChanges(userId, bookingId, testingSiteId, dateTime),
                 HttpStatus.OK);
     }
 

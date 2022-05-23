@@ -10,17 +10,23 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 
 public class ActiveBookingMemento {
-    private String bookingId;
-    private List<ActiveBookingHistory> historyList;
 
-    public ActiveBookingMemento(String bookingId, List<ActiveBookingHistory> historyList) {
-        this.bookingId = bookingId;
+    private List<ActiveBookingHistory> historyList;
+    private String bookingId;
+    private String testingSiteId;
+    private String dateTime;
+
+    public ActiveBookingMemento(List<ActiveBookingHistory> historyList, String bookingId, String testingSiteId,
+            String dateTime) {
         this.historyList = historyList;
+        this.bookingId = bookingId;
+        this.testingSiteId = testingSiteId;
+        this.dateTime = dateTime;
         // always check validity of all datetimes of the booking histories
         checkValidity();
     }
 
-    public void restore(String updatedAt, String currTestingSiteId, String currDateTime) {
+    public void restore(String restoreTestingSiteId, String restoreDateTime) {
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode updatedNode = mapper.createObjectNode();
@@ -31,23 +37,18 @@ public class ActiveBookingMemento {
 
         // add the current testing site id and datetime to the history list since it
         // will be considered as past changes
-        addLatestRecord(currTestingSiteId, currDateTime);
+        addLatestRecord(this.testingSiteId, this.dateTime);
 
         ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
         while (itr.hasNext()) {
-            if (itr.next().getUpdatedAt().equals(updatedAt)) {
-                // update restored version
-                String restoreTestingId = itr.next().getTestingSiteId();
-                String restoreDateTime = itr.next().getDateTime();
-
-                updatedNode.put("testingSiteId", restoreTestingId);
-                updatedNode.put("startTime", restoreDateTime);
-
+            ActiveBookingHistory history = itr.next();
+            if (history.getTestingSiteId().equals(restoreTestingSiteId)
+                    && history.getDateTime().equals(restoreDateTime)) {
                 // remove the to-restore version
                 itr.remove();
 
             } else {
-                arrayNode.add(mapper.valueToTree(itr.next()));
+                arrayNode.add(mapper.valueToTree(history));
             }
         }
 
@@ -56,9 +57,11 @@ public class ActiveBookingMemento {
 
     }
 
-    public void update(String testingSiteId, String dateTime) {
-        removeLeastRecent();
-        addLatestRecord(testingSiteId, dateTime);
+    public void update() {
+        // the first item is always the oldest / least recent past record
+        this.historyList.remove(0);
+
+        addLatestRecord(this.testingSiteId, this.dateTime);
 
         // update api
         ObjectMapper mapper = new ObjectMapper();
@@ -70,7 +73,8 @@ public class ActiveBookingMemento {
 
         ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
         while (itr.hasNext()) {
-            arrayNode.add(mapper.valueToTree(itr.next()));
+            ActiveBookingHistory history = itr.next();
+            arrayNode.add(mapper.valueToTree(history));
         }
 
         BookingApi bookingApi = new BookingApi();
@@ -81,16 +85,12 @@ public class ActiveBookingMemento {
     private void checkValidity() {
         ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
         while (itr.hasNext()) {
+            ActiveBookingHistory history = itr.next();
             // remove booking which is lapsed / expired
-            if (Instant.parse(itr.next().getDateTime()).isBefore(Instant.now())) {
+            if (Instant.parse(history.getDateTime()).isBefore(Instant.now())) {
                 itr.remove();
             }
         }
-    }
-
-    private void removeLeastRecent() {
-        // the first item is always the oldest / least recent past record
-        this.historyList.remove(0);
     }
 
     private void addLatestRecord(String testingSiteId, String dateTime) {

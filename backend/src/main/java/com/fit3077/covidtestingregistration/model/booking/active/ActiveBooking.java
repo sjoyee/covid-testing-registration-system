@@ -63,7 +63,7 @@ public class ActiveBooking {
     }
 
     public ActiveBookingMemento createMemento() {
-        return new ActiveBookingMemento(this.id, this.histories);
+        return new ActiveBookingMemento(this.histories, this.id, this.testingSiteId, this.dateTime);
     }
 
     public void updateChanges() {

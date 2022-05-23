@@ -19,7 +19,7 @@ public abstract class BookingUser extends User {
      * @param newDateTime
      */
     public ActiveBooking modifyActiveBooking(ActiveBooking activeBooking, String newTestingSiteId, String newDateTime) {
-        activeBooking.createMemento().update(activeBooking.getTestingSiteId(), activeBooking.getDateTime());
+        activeBooking.createMemento().update();
 
         activeBooking.setTestingSiteId(newTestingSiteId);
         activeBooking.setDateTime(newDateTime);
@@ -33,8 +33,13 @@ public abstract class BookingUser extends User {
      * @param activeBooking
      * @param updatedAt
      */
-    public ActiveBooking restorePastChange(ActiveBooking activeBooking, String updatedAt) {
-        activeBooking.createMemento().restore(updatedAt, activeBooking.getTestingSiteId(), activeBooking.getDateTime());
+    public ActiveBooking restorePastChange(ActiveBooking activeBooking, String testingSiteId, String dateTime) {
+        activeBooking.createMemento().restore(testingSiteId, dateTime);
+
+        activeBooking.setTestingSiteId(testingSiteId);
+        activeBooking.setDateTime(dateTime);
+        activeBooking.updateChanges();
+
         return activeBooking;
     }
 }

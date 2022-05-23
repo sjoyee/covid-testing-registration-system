@@ -57,8 +57,9 @@ public class MainFacade {
         return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
     }
 
-    public ActiveBooking restorePastBookingChanges(String userId, String bookingId, String updatedAt) {
-        return this.bookingFacade.restorePastChange(userId, bookingId, updatedAt);
+    public ActiveBooking restorePastBookingChanges(String userId, String bookingId, String testingSiteId,
+            String dateTime) {
+        return this.bookingFacade.restorePastChange(userId, bookingId, testingSiteId, dateTime);
     }
 
     public boolean addCovidTest(String userId, ObjectNode testObject) {
