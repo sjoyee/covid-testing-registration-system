@@ -1,6 +1,8 @@
 package com.fit3077.covidtestingregistration.model.booking.active;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -20,6 +22,8 @@ public class ActiveBooking {
         this.status = status;
         this.dateTime = dateTime;
         this.histories = histories;
+        // always check validity of all datetimes of the booking histories
+        checkValidity();
     }
 
     public String getId() {
@@ -74,5 +78,16 @@ public class ActiveBooking {
 
         BookingApi bookingApi = new BookingApi();
         bookingApi.updateActiveBooking(this.id, updatedNode);
+    }
+
+    private void checkValidity() {
+        ListIterator<ActiveBookingHistory> itr = this.histories.listIterator();
+        while (itr.hasNext()) {
+            ActiveBookingHistory history = itr.next();
+            // remove booking which is lapsed / expired
+            if (Instant.parse(history.getDateTime()).isBefore(Instant.now())) {
+                itr.remove();
+            }
+        }
     }
 }

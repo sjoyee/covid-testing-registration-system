@@ -22,8 +22,6 @@ public class ActiveBookingMemento {
         this.bookingId = bookingId;
         this.testingSiteId = testingSiteId;
         this.dateTime = dateTime;
-        // always check validity of all datetimes of the booking histories
-        checkValidity();
     }
 
     public void restore(String restoreTestingSiteId, String restoreDateTime) {
@@ -80,17 +78,6 @@ public class ActiveBookingMemento {
         BookingApi bookingApi = new BookingApi();
         bookingApi.updateActiveBooking(this.bookingId, updatedNode);
 
-    }
-
-    private void checkValidity() {
-        ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
-        while (itr.hasNext()) {
-            ActiveBookingHistory history = itr.next();
-            // remove booking which is lapsed / expired
-            if (Instant.parse(history.getDateTime()).isBefore(Instant.now())) {
-                itr.remove();
-            }
-        }
     }
 
     private void addLatestRecord(String testingSiteId, String dateTime) {

@@ -71,7 +71,12 @@ public class BookingController {
 
     @GetMapping("/active-booking")
     public ResponseEntity<ActiveBooking> getActiveBookingById(@RequestParam("id") String bookingId) {
-        return new ResponseEntity<>(this.mainFacade.displayActiveBookingById(bookingId), HttpStatus.OK);
+        ActiveBooking activeBooking = this.mainFacade.displayActiveBookingById(bookingId);
+        if (activeBooking == null) {
+            return new ResponseEntity<>(activeBooking, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(activeBooking, HttpStatus.OK);
+        }
     }
 
     @PostMapping("/active-booking/modify")
@@ -79,18 +84,25 @@ public class BookingController {
             @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
             @RequestParam("dateTime") String dateTime) {
 
-        return new ResponseEntity<>(this.mainFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime),
-                HttpStatus.OK);
+        ActiveBooking activeBooking = this.mainFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
+        if (activeBooking == null) {
+            return new ResponseEntity<>(activeBooking, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(activeBooking, HttpStatus.OK);
+        }
     }
 
     @PostMapping("/active-booking/restore")
     public ResponseEntity<ActiveBooking> restoreActiveBooking(@PathVariable("userId") String userId,
             @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
             @RequestParam("dateTime") String dateTime) {
-
-        return new ResponseEntity<>(
-                this.mainFacade.restorePastBookingChanges(userId, bookingId, testingSiteId, dateTime),
-                HttpStatus.OK);
+        ActiveBooking activeBooking = this.mainFacade.restorePastBookingChanges(userId, bookingId, testingSiteId,
+                dateTime);
+        if (activeBooking == null) {
+            return new ResponseEntity<>(activeBooking, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(activeBooking, HttpStatus.OK);
+        }
     }
 
 }
