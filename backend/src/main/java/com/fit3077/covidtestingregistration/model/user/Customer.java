@@ -1,7 +1,7 @@
 package com.fit3077.covidtestingregistration.model.user;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.booking.Booking;
+import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
 
 public class Customer extends BookingUser {
 
@@ -21,7 +21,7 @@ public class Customer extends BookingUser {
         boolean hasRatKit = userObject.get("hasRatKit").asBoolean();
         String patientId = userObject.get("patientId").textValue();
 
-        Booking booking = new Booking(getId(), isHomeBooking);
+        BookingExecutor booking = new BookingExecutor(getId(), isHomeBooking);
         booking.setHasRatKit(hasRatKit);
         booking.setPatientId(patientId);
 

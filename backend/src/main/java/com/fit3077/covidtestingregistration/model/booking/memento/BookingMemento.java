@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.booking.active;
+package com.fit3077.covidtestingregistration.model.booking.memento;
 
 import java.time.Instant;
 import java.util.List;
@@ -9,14 +9,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 
-public class ActiveBookingMemento {
+// Memento class for Memento pattern design
+public class BookingMemento {
 
-    private List<ActiveBookingHistory> historyList;
+    private List<BookingHistory> historyList;
     private String bookingId;
     private String testingSiteId;
     private String dateTime;
 
-    public ActiveBookingMemento(List<ActiveBookingHistory> historyList, String bookingId, String testingSiteId,
+    public BookingMemento(List<BookingHistory> historyList, String bookingId, String testingSiteId,
             String dateTime) {
         this.historyList = historyList;
         this.bookingId = bookingId;
@@ -28,18 +29,16 @@ public class ActiveBookingMemento {
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode updatedNode = mapper.createObjectNode();
-        String additionalInfo = "additionalInfo";
 
-        updatedNode.with(additionalInfo).put("isHomeBooking", false);
-        ArrayNode arrayNode = updatedNode.with(additionalInfo).putArray("snapshots");
+        ArrayNode arrayNode = createArrayNode(updatedNode);
 
         // add the current testing site id and datetime to the history list since it
         // will be considered as past changes
         addLatestRecord(this.testingSiteId, this.dateTime);
 
-        ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
+        ListIterator<BookingHistory> itr = this.historyList.listIterator();
         while (itr.hasNext()) {
-            ActiveBookingHistory history = itr.next();
+            BookingHistory history = itr.next();
             if (history.getTestingSiteId().equals(restoreTestingSiteId)
                     && history.getDateTime().equals(restoreDateTime)) {
                 // remove the to-restore version
@@ -65,13 +64,11 @@ public class ActiveBookingMemento {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode updatedNode = mapper.createObjectNode();
 
-        String additionalInfo = "additionalInfo";
-        updatedNode.with(additionalInfo).put("isHomeBooking", false);
-        ArrayNode arrayNode = updatedNode.with(additionalInfo).putArray("snapshots");
+        ArrayNode arrayNode = createArrayNode(updatedNode);
 
-        ListIterator<ActiveBookingHistory> itr = this.historyList.listIterator();
+        ListIterator<BookingHistory> itr = this.historyList.listIterator();
         while (itr.hasNext()) {
-            ActiveBookingHistory history = itr.next();
+            BookingHistory history = itr.next();
             arrayNode.add(mapper.valueToTree(history));
         }
 
@@ -82,8 +79,14 @@ public class ActiveBookingMemento {
 
     private void addLatestRecord(String testingSiteId, String dateTime) {
         String updatedAt = Instant.now().toString();
-        ActiveBookingHistory history = new ActiveBookingHistory(updatedAt, testingSiteId, dateTime);
+        BookingHistory history = new BookingHistory(updatedAt, testingSiteId, dateTime);
         this.historyList.add(history);
+    }
+
+    private ArrayNode createArrayNode(ObjectNode updatedNode) {
+        String additionalInfo = "additionalInfo";
+        updatedNode.with(additionalInfo).put("isHomeBooking", false);
+        return updatedNode.with(additionalInfo).putArray("snapshots");
     }
 
 }

@@ -1,54 +1,42 @@
 package com.fit3077.covidtestingregistration.model.booking;
 
-import java.time.Instant;
+import java.util.List;
+
+import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory;
 
 public class Booking {
-    private String customerId;
 
-    private Instant startTime;
-
+    private String id;
     private String testingSiteId;
-
-    private boolean isHomeBooking;
-
-    private boolean hasRatKit;
-
-    private String patientId;
-
+    private String startTime;
     private BookingStatus status;
+    private List<BookingHistory> histories;
+    private boolean isActive;
 
-    private BookingContext context;
+    protected Booking() {
 
-    public Booking(String customerId, boolean isHomeBooking) {
-        this.customerId = customerId;
-        this.isHomeBooking = isHomeBooking;
-        this.startTime = Instant.now();
-        if (isHomeBooking) {
-            // already assigned with RAT test type
-            this.status = BookingStatus.PROCESSED;
-        } else {
-            // have not assigned test type
-            this.status = BookingStatus.INITIATED;
-        }
     }
 
-    public String getCustomerId() {
-        return this.customerId;
+    protected Booking(String id, String testingSiteId, String startTime, BookingStatus status,
+            List<BookingHistory> histories, boolean isActive) {
+        this.id = id;
+        this.testingSiteId = testingSiteId;
+        this.startTime = startTime;
+        this.status = status;
+        this.histories = histories;
+        this.isActive = isActive;
+
     }
 
-    public boolean getIsHomeBooking() {
-        return this.isHomeBooking;
-    }
-
-    public boolean getHasRatKit() {
-        return this.hasRatKit;
+    public String getId() {
+        return this.id;
     }
 
     public String getTestingSiteId() {
         return this.testingSiteId;
     }
 
-    public Instant getStartTime() {
+    public String getStartTime() {
         return this.startTime;
     }
 
@@ -56,34 +44,35 @@ public class Booking {
         return this.status;
     }
 
+    public List<BookingHistory> getHistories() {
+        return this.histories;
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setTestingSiteId(String testingSiteId) {
         this.testingSiteId = testingSiteId;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public void setStatus(BookingStatus status) {
         this.status = status;
     }
 
-    public void setHasRatKit(boolean hasRatKit) {
-        this.hasRatKit = hasRatKit;
+    public void setHistories(List<BookingHistory> histories) {
+        this.histories = histories;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
-
-    public void setBookingStrategy() {
-        this.context = new BookingContext();
-        if (this.isHomeBooking) {
-            this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit, this.patientId, this.status.toString()));
-        } else {
-            this.context.setStrategy(new OnsiteBookingStrategy(this.testingSiteId));
-        }
-    }
-
-    public boolean assignBookingDetails() {
-        this.setBookingStrategy();
-        return this.context.getStrategy().executeBooking(this.customerId, this.startTime.toString());
-    }
-
 }

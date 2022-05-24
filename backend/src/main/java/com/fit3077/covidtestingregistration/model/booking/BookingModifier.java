@@ -1,14 +1,14 @@
-package com.fit3077.covidtestingregistration.model.booking.active;
+package com.fit3077.covidtestingregistration.model.booking;
 
-import com.fit3077.covidtestingregistration.model.booking.BookingStatus;
+import com.fit3077.covidtestingregistration.model.booking.memento.BookingMemento;
 
 // Caretaker class for Memento design pattern
-public class ActiveBookingModifier {
+public class BookingModifier {
 
     private ActiveBooking activeBooking;
-    private ActiveBookingMemento activeBookingMemento;
+    private BookingMemento activeBookingMemento;
 
-    public ActiveBookingModifier(ActiveBooking activeBooking) {
+    public BookingModifier(ActiveBooking activeBooking) {
         this.activeBooking = activeBooking;
     }
 
