@@ -1,5 +1,7 @@
 package com.fit3077.covidtestingregistration.model.booking.notification;
 
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+
 public class BookingNotificationListener implements BookingEventListener{
     private String notification;
 
@@ -7,8 +9,10 @@ public class BookingNotificationListener implements BookingEventListener{
         this.notification = notification;
     }
 
+
     @Override
-    public void update(String eventType) {
-        System.out.println("Email to " + notification + ": Someone has performed " + eventType + " operation with the following file: " );
+    public void update(String eventType, ActiveBooking activeBooking) {
+        System.out.println("Email to " + notification + ": Someone has performed " + eventType + " operation with the following booking: " + activeBooking.getId());
+        
     }
 }

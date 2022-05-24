@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fit3077.covidtestingregistration.model.booking.Booking;
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class BookingEventManager {
     Map<String, List<BookingEventListener>> listeners = new HashMap<>();
@@ -25,7 +25,7 @@ public class BookingEventManager {
         users.remove(listener);
     }
 
-    public void notify(String eventType, Booking booking) {
+    public void notify(String eventType, ActiveBooking booking) {
         List<BookingEventListener> users = listeners.get(eventType);
         for (BookingEventListener listener : users) {
             listener.update(eventType, booking);
