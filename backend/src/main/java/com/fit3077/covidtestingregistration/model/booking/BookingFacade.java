@@ -39,18 +39,30 @@ public class BookingFacade {
     public ActiveBooking getActiveBookingByBookingId(String bookingId) {
         ActiveBookingCollection activeBookings = new ActiveBookingCollection();
         activeBookings.setActiveBookingByBookingId(bookingId);
-        return activeBookings.getActiveBookings().get(0);
+        return activeBookings.getActiveBookings().isEmpty() ? null : activeBookings.getActiveBookings().get(0);
     }
 
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
+        if (activeBooking == null) {
+            return null;
+        }
         return new UserGenerator().generateBookingUser(userId).modifyActiveBooking(activeBooking, testingSiteId,
                 dateTime);
     }
 
-    public ActiveBooking restorePastChange(String userId, String bookingId, String updatedAt) {
+    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, updatedAt);
+        if (activeBooking == null) {
+            return null;
+        }
+        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
+                dateTime);
+    }
+
+    public void cancelActiveBooking(String userId, String bookingId) {
+        ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
     }
 
 }

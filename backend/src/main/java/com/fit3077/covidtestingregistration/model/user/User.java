@@ -20,7 +20,7 @@ public abstract class User {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.isCustomer = false;
-        this.isReceptionist = false; // or receptionist
+        this.isReceptionist = false;
         this.isHealthcareWorker = false;
     }
 
@@ -80,5 +80,10 @@ public abstract class User {
             }
         }
         return null;
+    }
+
+    public ObjectNode checkBookingId(String bookingId) {
+        BookingApi bookingApi = new BookingApi();
+        return bookingApi.getBookingById(bookingId);
     }
 }
