@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.booking.notification;
+package com.fit3077.covidtestingregistration.model.booking.observer;
 
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.Booking;
@@ -11,8 +11,8 @@ public class BookingLogOpenListener implements BookingEventListener{
     }
 
     @Override
-    public void update(String eventType, ActiveBooking booking) {
-        System.out.println("Save to log " + booking + ": Someone has performed " + eventType + " operation with the following booking: " + booking.getId());
+    public void update(String eventType, ActiveBooking activeBooking) {
+        System.out.println("Save to log " + booking + ": Someone has performed " + eventType + " operation with the following booking: " + activeBooking.getId());
     }
     
 }

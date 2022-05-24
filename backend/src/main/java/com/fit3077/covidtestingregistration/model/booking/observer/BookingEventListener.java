@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.booking.notification;
+package com.fit3077.covidtestingregistration.model.booking.observer;
 
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
