@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
-import com.fit3077.covidtestingregistration.model.booking.log.LogCollection;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
