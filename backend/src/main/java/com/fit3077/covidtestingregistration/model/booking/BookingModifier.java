@@ -31,4 +31,8 @@ public class BookingModifier {
     public void cancel() {
         this.activeBooking.updateChanges(BookingStatus.CANCELLED);
     }
+
+    public void update(){
+        
+    }
 }

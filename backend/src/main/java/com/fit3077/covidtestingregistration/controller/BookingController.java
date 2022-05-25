@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.log.LogCollection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -110,6 +111,16 @@ public class BookingController {
             @RequestParam("id") String bookingId) {
         this.mainFacade.cancelActiveBooking(userId, bookingId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/admin-log")
+    public ResponseEntity<Void> displayLog(@PathVariable("userId") String receptionistId){
+        LogCollection displayedLog = this.mainFacade.displayLogByTestingSite(receptionistId);
+        if (displayedLog == null) {
+            return new ResponseEntity<>(displayedLog, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(displayedLog, HttpStatus.OK);
+        }
     }
 
 }
