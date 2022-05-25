@@ -32,10 +32,7 @@ public abstract class BookingUser extends User {
         modifier.cancel();
     }
 
+
+
     
-
-    public <Booking> void generateLog(ActiveBooking activeBooking){
-        BookingModifier modifier = new BookingModifier(activeBooking);
-
-    }
 }

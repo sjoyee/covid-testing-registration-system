@@ -3,7 +3,7 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.booking.log.LogCollection;
+
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
 public class BookingFacade {
@@ -64,10 +64,6 @@ public class BookingFacade {
         new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
     }
 
-    //to display log
-    public void filterLog(String receptionistId){
-        new UserGenerator().generateBookingUser(receptionistId).cancelActiveBooking(activeBooking);
-        LogCollection logCollection = getLogCollectionByTestingSite(receptionistId);
-    }
+   
 
 }

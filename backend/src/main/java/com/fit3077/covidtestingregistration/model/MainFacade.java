@@ -74,9 +74,7 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
-    public LogCollection displayLogByTestingSite(String receptionistId){
-        return this.bookingFacade.filterLog(receptionistId);
-    }
+   
 
     // public List<String> getTestingSiteNames() {
     // return this.testingSiteFacade.getAllNames();

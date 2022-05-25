@@ -113,14 +113,14 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/admin-log")
-    public ResponseEntity<Void> displayLog(@PathVariable("userId") String receptionistId){
-        LogCollection displayedLog = this.mainFacade.displayLogByTestingSite(receptionistId);
-        if (displayedLog == null) {
-            return new ResponseEntity<>(displayedLog, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(displayedLog, HttpStatus.OK);
-        }
-    }
+    // @GetMapping("/admin-log")
+    // public ResponseEntity<Void> displayLog(@PathVariable("userId") String receptionistId){
+        
+    //     if (displayedLog == null) {
+    //         return new ResponseEntity<>(displayedLog, HttpStatus.BAD_REQUEST);
+    //     } else {
+    //         return new ResponseEntity<>(displayedLog, HttpStatus.OK);
+    //     }
+    // }
 
 }
