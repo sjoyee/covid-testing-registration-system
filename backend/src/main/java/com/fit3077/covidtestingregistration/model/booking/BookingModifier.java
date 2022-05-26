@@ -47,9 +47,10 @@ public class BookingModifier {
     }
     public void delete( String userId) {
         this.bookingEvents.subscribeAll();
-        bookingEvents.notify("delete",this.activeBooking, userId);
-        //do api delete
         
+        //do api delete
+        this.activeBooking.deleteBooking();
+        this.bookingEvents.notify("delete",this.activeBooking, userId);
         this.activeBooking = null;
     }
 
