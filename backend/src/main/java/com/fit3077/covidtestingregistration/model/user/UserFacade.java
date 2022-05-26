@@ -1,7 +1,7 @@
 package com.fit3077.covidtestingregistration.model.user;
 
-import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.login.Login;
+import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
 
 public class UserFacade {
     public User login(String userName, String password,BookingEventManager bookingEvents) {

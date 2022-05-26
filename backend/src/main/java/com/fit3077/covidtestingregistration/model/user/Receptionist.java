@@ -5,7 +5,7 @@ import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
-import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
 
 public class Receptionist extends BookingUser {
   

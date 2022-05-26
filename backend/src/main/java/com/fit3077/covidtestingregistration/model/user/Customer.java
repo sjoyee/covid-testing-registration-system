@@ -2,7 +2,7 @@ package com.fit3077.covidtestingregistration.model.user;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
-import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
 
 public class Customer extends BookingUser {
 

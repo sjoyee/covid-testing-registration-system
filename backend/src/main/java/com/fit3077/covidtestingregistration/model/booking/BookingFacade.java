@@ -3,7 +3,7 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.user.User;
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
@@ -52,8 +52,8 @@ public class BookingFacade {
         if (activeBooking == null) {
             return null;
         }
-        return new UserGenerator().generateBookingUser(userId,bookingEvents).modifyActiveBooking(activeBooking, testingSiteId,
-                dateTime,bookingEvents);
+        return new UserGenerator().generateBookingUser(userId).modifyActiveBooking(activeBooking, testingSiteId,
+                dateTime,bookingEvents,userId);
     }
 
     public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime,BookingEventManager bookingEvents) {
@@ -61,13 +61,13 @@ public class BookingFacade {
         if (activeBooking == null) {
             return null;
         }
-        return new UserGenerator().generateBookingUser(userId,bookingEvents).restorePastChange(activeBooking, testingSiteId,
+        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
                 dateTime,bookingEvents);
     }
 
     public void cancelActiveBooking(String userId, String bookingId, BookingEventManager bookingEvents) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        new UserGenerator().generateBookingUser(userId,bookingEvents).cancelActiveBooking(activeBooking,bookingEvents);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking,bookingEvents);
     }
 
    
