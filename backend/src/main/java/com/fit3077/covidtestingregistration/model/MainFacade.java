@@ -37,7 +37,7 @@ public class MainFacade {
     }
 
     public boolean addBooking(String userId, ObjectNode userObject) {
-        return this.bookingFacade.createBooking(userId, userObject);
+        return this.bookingFacade.createBooking(userId, userObject,this.bookingEvents);
     }
 
     public String getBookingStatus(String userId, String verifier, boolean isId) {

@@ -9,10 +9,10 @@ import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
 public class BookingFacade {
 
-    public boolean createBooking(String userId, ObjectNode userObject) {
+    public boolean createBooking(String userId, ObjectNode userObject,BookingEventManager bookingEvents) {
      
      
-        return new UserGenerator().generateUser(userId).handleBooking(userObject);
+        return new UserGenerator().generateUser(userId,bookingEvents).handleBooking(userObject,bookingEvents);
     }
 
     // private boolean checkAdminRole(String userId){
