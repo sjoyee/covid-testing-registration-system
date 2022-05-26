@@ -15,21 +15,14 @@ public class BookingFacade {
         return new UserGenerator().generateUser(userId,bookingEvents).handleBooking(userObject,bookingEvents);
     }
 
-    // private boolean checkAdminRole(String userId){
-    //     return new UserGenerator().generateUser(userId).getIsReceptionist();
-    // }
-    // private String getAdminTestingSite(String userId){
-    //     if (checkAdminRole(userId)){
-    //         return new UserGenerator()
-    //     }
-    // }
+  
 
-    public String checkStatus(String userId, String verifier, boolean isId) {
+    public String checkStatus(String userId, String verifier, boolean isId,BookingEventManager bookingEvents) {
         ObjectNode bookingNode;
         if (isId) {
-            bookingNode = new UserGenerator().generateUser(userId).checkBookingId(verifier);
+            bookingNode = new UserGenerator().generateUser(userId,bookingEvents).checkBookingId(verifier);
         } else {
-            bookingNode = new UserGenerator().generateUser(userId).checkPinCode(verifier);
+            bookingNode = new UserGenerator().generateUser(userId,bookingEvents).checkPinCode(verifier);
         }
 
         if (bookingNode == null) {
@@ -38,8 +31,8 @@ public class BookingFacade {
         return bookingNode.get("status").textValue();
     }
 
-    public boolean updateHomeTestKit(String userId, String qrCode) {
-        return new UserGenerator().generateUser(userId).updateData(qrCode);
+    public boolean updateHomeTestKit(String userId, String qrCode,BookingEventManager bookingEvents) {
+        return new UserGenerator().generateUser(userId,bookingEvents).updateData(qrCode,bookingEvents);
     }
 
     public List<ActiveBooking> getActiveBookingsByUserId(String userId) {
@@ -54,27 +47,27 @@ public class BookingFacade {
         return activeBookings.getActiveBookings().isEmpty() ? null : activeBookings.getActiveBookings().get(0);
     }
 
-    public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
+    public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime,BookingEventManager bookingEvents) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
         if (activeBooking == null) {
             return null;
         }
-        return new UserGenerator().generateBookingUser(userId).modifyActiveBooking(activeBooking, testingSiteId,
-                dateTime);
+        return new UserGenerator().generateBookingUser(userId,bookingEvents).modifyActiveBooking(activeBooking, testingSiteId,
+                dateTime,bookingEvents);
     }
 
-    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime) {
+    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime,BookingEventManager bookingEvents) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
         if (activeBooking == null) {
             return null;
         }
-        return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
-                dateTime);
+        return new UserGenerator().generateBookingUser(userId,bookingEvents).restorePastChange(activeBooking, testingSiteId,
+                dateTime,bookingEvents);
     }
 
-    public void cancelActiveBooking(String userId, String bookingId) {
+    public void cancelActiveBooking(String userId, String bookingId, BookingEventManager bookingEvents) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
+        new UserGenerator().generateBookingUser(userId,bookingEvents).cancelActiveBooking(activeBooking,bookingEvents);
     }
 
    

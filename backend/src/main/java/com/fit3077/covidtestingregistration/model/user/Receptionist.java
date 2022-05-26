@@ -34,7 +34,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject) {
+    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
 
@@ -65,7 +65,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean updateData(String qrCode) {
+    public boolean updateData(String qrCode, BookingEventManager bookingEvents) {
         BookingApi bookingApi = new BookingApi();
         String additionalInfo = "additionalInfo";
 

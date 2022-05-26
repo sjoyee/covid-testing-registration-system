@@ -41,11 +41,11 @@ public class MainFacade {
     }
 
     public String getBookingStatus(String userId, String verifier, boolean isId) {
-        return this.bookingFacade.checkStatus(userId, verifier, isId);
+        return this.bookingFacade.checkStatus(userId, verifier, isId,this.bookingEvents);
     }
 
     public boolean updateTestKitIssued(String userId, String qrCode) {
-        return this.bookingFacade.updateHomeTestKit(userId, qrCode);
+        return this.bookingFacade.updateHomeTestKit(userId, qrCode,this.bookingEvents);
     }
 
     public List<ActiveBooking> displayActiveBookings(String userId) {
@@ -57,20 +57,20 @@ public class MainFacade {
     }
 
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
-        return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
+        return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime,this.bookingEvents);
     }
 
     public ActiveBooking restorePastBookingChanges(String userId, String bookingId, String testingSiteId,
             String dateTime) {
-        return this.bookingFacade.restorePastChange(userId, bookingId, testingSiteId, dateTime);
+        return this.bookingFacade.restorePastChange(userId, bookingId, testingSiteId, dateTime,this.bookingEvents);
     }
 
     public void cancelActiveBooking(String userId, String bookingId) {
-        this.bookingFacade.cancelActiveBooking(userId, bookingId);
+        this.bookingFacade.cancelActiveBooking(userId, bookingId,this.bookingEvents);
     }
 
     public boolean addCovidTest(String userId, ObjectNode testObject) {
-        return this.covidTestFacade.createCovidTest(userId, testObject);
+        return this.covidTestFacade.createCovidTest(userId, testObject,this.bookingEvents);
     }
 
     public List<TestingSite> getTestingSite(String inputType, String inputSuburb) {

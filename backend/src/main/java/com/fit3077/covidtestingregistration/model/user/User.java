@@ -71,7 +71,7 @@ public abstract class User {
 
     public abstract boolean handleBooking(ObjectNode objectNode, BookingEventManager bookingEvents);
 
-    public abstract boolean updateData(String code);
+    public abstract boolean updateData(String code,  BookingEventManager bookingEvents);
 
     public ObjectNode checkPinCode(String smsPin) {
         BookingApi bookingApi = new BookingApi();
