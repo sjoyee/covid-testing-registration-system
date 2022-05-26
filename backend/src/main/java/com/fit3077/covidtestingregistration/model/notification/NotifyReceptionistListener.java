@@ -1,12 +1,14 @@
-package com.fit3077.covidtestingregistration.model.observer;
+package com.fit3077.covidtestingregistration.model.notification;
 
 import java.util.List;
 
+import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class NotifyReceptionistListener implements BookingEventListener{
     private String notificationString;
-    private String event;
+    private List<String> subscriberList;
+   
 
 
  
@@ -29,6 +31,10 @@ public class NotifyReceptionistListener implements BookingEventListener{
         return this.notificationString;
     }
 
+    public List<String> getSubscribers(){
+        return this.subscriberList;
+    }
+
     
 
 
@@ -49,6 +55,18 @@ public class NotifyReceptionistListener implements BookingEventListener{
         else if(event == "delete"){
             setDeleteNotification(currentUserId, bookingId);
         }
-        
+
+        this.subscriberList = subscribers;
+
+    
     }
+    @Override
+    public String notifyUser(String inputUserId){
+        if(this.getSubscribers().contains(inputUserId)){
+            return this.notificationString;
+        }
+        return null;
+    }
+
+    
 }

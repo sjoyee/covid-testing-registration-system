@@ -5,7 +5,7 @@ import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.model.booking.BookingStatus;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTest;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestType;
-import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 public class HealthcareWorker extends User {
 

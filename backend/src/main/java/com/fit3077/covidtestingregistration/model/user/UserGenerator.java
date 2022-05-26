@@ -3,7 +3,7 @@ package com.fit3077.covidtestingregistration.model.user;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.model.booking.Booking;
-import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 public class UserGenerator {
 

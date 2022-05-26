@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.BookingFacade;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestFacade;
-import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSiteFacade;
 import com.fit3077.covidtestingregistration.model.user.User;
@@ -75,6 +75,10 @@ public class MainFacade {
 
     public List<TestingSite> getTestingSite(String inputType, String inputSuburb) {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
+    }
+
+    public void notifyUser(String userId){
+        this.bookingFacade.notifyBookingUpdate(userId, this.bookingEvents);
     }
 
    

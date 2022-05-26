@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.observer;
+package com.fit3077.covidtestingregistration.model.notification;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class BookingEventManager {
     private Map<String, Set<String>> testingSiteAdmin = new HashMap<>();
-    private BookingEventListener listener = new BookingNotificationListener(); 
+    private BookingEventListener listener = new NotifyReceptionistListener(); 
 
  
     public void addTestingSite(String... testingSites){
@@ -35,13 +35,19 @@ public class BookingEventManager {
     //notify when there is changes made to Booking
     public void notify(String eventType, ActiveBooking booking,String currentUserId,String... testingSitesInvolved) {
         List<String> subscriberList = new ArrayList<>();
+
+        //check duplication
+
         //get all involved receptionists
-        if(testingSitesInvolved.length>0){
-            for (String testingSite : testingSitesInvolved){
-            Set<String> users = testingSiteAdmin.get(testingSite);
-            subscriberList.addAll(users);
+        if(testingSitesInvolved.length>0 && !testingSitesInvolved[0].equals(testingSitesInvolved[1])){
+            
+                for (String testingSite : testingSitesInvolved){
+                    Set<String> users = testingSiteAdmin.get(testingSite);
+                    subscriberList.addAll(users);
+            }
+            
         }
-        }
+        
         else{
             Set<String> users = testingSiteAdmin.get(booking.getTestingSiteId());
             subscriberList.addAll(users);
@@ -51,6 +57,11 @@ public class BookingEventManager {
         
         listener.update(eventType,subscriberList,booking,currentUserId);
         
+    }
+
+    //extensible with a List<BookingEventListener>> 
+    public BookingEventListener getNotifyListener(){
+        return this.listener;
     }
     
 }

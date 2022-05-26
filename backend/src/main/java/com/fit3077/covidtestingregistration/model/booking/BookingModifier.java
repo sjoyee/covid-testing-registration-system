@@ -1,7 +1,7 @@
 package com.fit3077.covidtestingregistration.model.booking;
 
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingMemento;
-import com.fit3077.covidtestingregistration.model.observer.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 // Caretaker class for Memento design pattern
 public class BookingModifier {
@@ -41,6 +41,7 @@ public class BookingModifier {
     }
     public void delete(BookingEventManager bookingEvents, String userId) {
         bookingEvents.notify("delete",this.activeBooking, userId);
+        //do api delete
         this.activeBooking = null;
     }
 
