@@ -25,7 +25,7 @@ public class BookingModifier {
         String currentTestingSiteId = this.activeBooking.getTestingSiteId();
         this.activeBookingMemento.restore(testingSiteId, dateTime);
         this.activeBooking.updateChanges(testingSiteId, dateTime);
-        bookingEvents.notify("restore",this.activeBooking, userId,currentTestingSiteId,testingSiteId);
+        this.bookingEvents.notify("restore",this.activeBooking, userId,currentTestingSiteId,testingSiteId);
         return this.activeBooking;
     }
 
@@ -35,7 +35,7 @@ public class BookingModifier {
         this.activeBookingMemento.update();
         this.activeBooking.updateChanges(testingSiteId, dateTime);
         
-        bookingEvents.notify("modify",this.activeBooking,userId,currentTestingSiteId,testingSiteId);
+        this.bookingEvents.notify("modify",this.activeBooking,userId,currentTestingSiteId,testingSiteId);
         return this.activeBooking;
     }
 
@@ -43,12 +43,13 @@ public class BookingModifier {
         this.bookingEvents.subscribeAll();
         this.activeBooking.updateChanges(BookingStatus.CANCELLED);
         //notify function may need to review
-        bookingEvents.notify("cancel",this.activeBooking,userId);
+        this.bookingEvents.notify("cancel",this.activeBooking,userId);
     }
     public void delete( String userId) {
         this.bookingEvents.subscribeAll();
         bookingEvents.notify("delete",this.activeBooking, userId);
         //do api delete
+        
         this.activeBooking = null;
     }
 

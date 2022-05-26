@@ -191,4 +191,28 @@ public class BookingApi {
         }
     }
 
+    //need to test
+    
+    public void deleteActiveBooking(String bookingId) {
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
 }

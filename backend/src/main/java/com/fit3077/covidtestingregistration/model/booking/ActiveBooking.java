@@ -69,4 +69,8 @@ public class ActiveBooking extends Booking {
         BookingApi bookingApi = new BookingApi();
         bookingApi.updateActiveBooking(getId(), updatedNode);
     }
+
+    public void deleteBooking (){
+        BookingApi bookingApi = new BookingApi();
+    }
 }
