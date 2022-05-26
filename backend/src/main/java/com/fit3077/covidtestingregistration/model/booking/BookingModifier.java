@@ -13,13 +13,15 @@ public class BookingModifier {
     public BookingModifier(ActiveBooking activeBooking) {
         this.activeBooking = activeBooking;
         this.bookingEvents = new BookingEventManager();
+        
     }
 
     public void saveHistories() {
         this.activeBookingMemento = this.activeBooking.createMemento();
     }
 
-    public ActiveBooking restore(String testingSiteId, String dateTime,BookingEventManager bookingEvents,String userId) {
+    public ActiveBooking restore(String testingSiteId, String dateTime,String userId) {
+        this.bookingEvents.subscribeAll();
         String currentTestingSiteId = this.activeBooking.getTestingSiteId();
         this.activeBookingMemento.restore(testingSiteId, dateTime);
         this.activeBooking.updateChanges(testingSiteId, dateTime);
@@ -27,7 +29,8 @@ public class BookingModifier {
         return this.activeBooking;
     }
 
-    public ActiveBooking modify(String testingSiteId, String dateTime,BookingEventManager bookingEvents,String userId) {
+    public ActiveBooking modify(String testingSiteId, String dateTime,String userId) {
+        this.bookingEvents.subscribeAll();
         String currentTestingSiteId = this.activeBooking.getTestingSiteId();
         this.activeBookingMemento.update();
         this.activeBooking.updateChanges(testingSiteId, dateTime);
@@ -36,12 +39,14 @@ public class BookingModifier {
         return this.activeBooking;
     }
 
-    public void cancel(BookingEventManager bookingEvents,String userId) {
+    public void cancel(String userId) {
+        this.bookingEvents.subscribeAll();
         this.activeBooking.updateChanges(BookingStatus.CANCELLED);
         //notify function may need to review
         bookingEvents.notify("cancel",this.activeBooking,userId);
     }
-    public void delete(BookingEventManager bookingEvents, String userId) {
+    public void delete( String userId) {
+        this.bookingEvents.subscribeAll();
         bookingEvents.notify("delete",this.activeBooking, userId);
         //do api delete
         this.activeBooking = null;
