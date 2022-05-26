@@ -77,8 +77,8 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
-    public void notifyUser(String userId){
-        this.bookingFacade.notifyBookingUpdate(userId, this.bookingEvents);
+    public String notifyBookingUpdate(String userId){
+        return this.bookingFacade.notifyBookingUpdate(userId, this.bookingEvents);
     }
 
    

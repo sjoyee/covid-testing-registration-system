@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -114,13 +113,13 @@ public class BookingController {
     }
 
     @GetMapping("/admin-notif")
-    public ResponseEntity<Void> notifyAdmin(@PathVariable("userId") String receptionistId){
-        
-        this.mainFacade
-        if (displayedLog == null) {
-            return new ResponseEntity<>(displayedLog, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> notifyAdmin(@PathVariable("userId") String adminId) {
+
+        String notification = this.mainFacade.notifyBookingUpdate(adminId);
+        if (notification == null) {
+            return new ResponseEntity<>(notification, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(displayedLog, HttpStatus.OK);
+            return new ResponseEntity<>(notification, HttpStatus.OK);
         }
     }
 
