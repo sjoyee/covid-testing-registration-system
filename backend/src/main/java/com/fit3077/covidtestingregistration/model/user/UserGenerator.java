@@ -2,6 +2,8 @@ package com.fit3077.covidtestingregistration.model.user;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.UserApi;
+import com.fit3077.covidtestingregistration.model.booking.Booking;
+import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
 
 public class UserGenerator {
 
@@ -17,11 +19,11 @@ public class UserGenerator {
      * @param password
      * @return
      */
-    public User generateUser(String userName, String password) {
+    public User generateUser(String userName, String password, BookingEventManager bookingEvents) {
         for (ObjectNode userNode : this.userApi.getUsers()) {
             String currUserName = userNode.get("userName").textValue();
             if (currUserName.equals(userName) && currUserName.equals(password)) {
-                return generateUserByType(userNode);
+                return generateUserByType(userNode,bookingEvents);
             }
         }
         return null;
@@ -32,9 +34,9 @@ public class UserGenerator {
      * @param id
      * @return
      */
-    public User generateUser(String id) {
+    public User generateUser(String id,  BookingEventManager bookingEvents) {
         ObjectNode userNode = this.userApi.getUserById(id);
-        return generateUserByType(userNode);
+        return generateUserByType(userNode,bookingEvents);
     }
 
     /**
@@ -42,9 +44,9 @@ public class UserGenerator {
      * @param id
      * @return
      */
-    public BookingUser generateBookingUser(String id) {
+    public BookingUser generateBookingUser(String id, BookingEventManager bookingEvents) {
         ObjectNode userNode = this.userApi.getUserById(id);
-        return generateBookingUserByType(userNode);
+        return generateBookingUserByType(userNode, bookingEvents);
     }
 
     /**
@@ -52,7 +54,7 @@ public class UserGenerator {
      * @param userNode
      * @return
      */
-    private User generateUserByType(ObjectNode userNode) {
+    private User generateUserByType(ObjectNode userNode, BookingEventManager bookingEvents) {
         String id = userNode.get("id").textValue();
         String givenName = userNode.get("givenName").textValue();
         String familyName = userNode.get("familyName").textValue();
@@ -68,6 +70,8 @@ public class UserGenerator {
 
         } else if (userNode.get("isReceptionist").asBoolean()) {
             String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+            //Subscription of admin to the notification system by Testing Site
+            bookingEvents.subscribe(testingSiteId, id);
             return new Receptionist(id, givenName, familyName, userName, phoneNumber,
                     testingSiteId);
         }
@@ -79,7 +83,7 @@ public class UserGenerator {
      * @param userNode
      * @return
      */
-    private BookingUser generateBookingUserByType(ObjectNode userNode) {
+    private BookingUser generateBookingUserByType(ObjectNode userNode, BookingEventManager bookingEvents) {
         String id = userNode.get("id").textValue();
         String givenName = userNode.get("givenName").textValue();
         String familyName = userNode.get("familyName").textValue();
@@ -91,6 +95,7 @@ public class UserGenerator {
 
         } else if (userNode.get("isReceptionist").asBoolean()) {
             String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+            bookingEvents.subscribe(testingSiteId, id);
             return new Receptionist(id, givenName, familyName, userName, phoneNumber,
                     testingSiteId);
         }

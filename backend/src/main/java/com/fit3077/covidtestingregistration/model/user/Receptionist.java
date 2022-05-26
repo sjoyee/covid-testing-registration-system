@@ -3,17 +3,21 @@ package com.fit3077.covidtestingregistration.model.user;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
+import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
 
 public class Receptionist extends BookingUser {
-
+  
     private String testingSiteId;
+    
 
     protected Receptionist(String id, String givenName, String familyName, String userName, String phoneNumber,
             String testingSiteId) {
         super(id, givenName, familyName, userName, phoneNumber);
         this.testingSiteId = testingSiteId;
         setIsReceptionist(true);
+        
     }
 
     public String getTestingSiteId() {
@@ -56,6 +60,7 @@ public class Receptionist extends BookingUser {
         if (!isHomeBooking) {
             booking.setTestingSiteId(this.testingSiteId);
         }
+        
         return booking.assignBookingDetails();
     }
 
@@ -78,4 +83,25 @@ public class Receptionist extends BookingUser {
         }
         return false;
     }
+
+    //when admin change smtg, it will notidy the event manager (so there will be an event manager object)
+
+
+    // @Override
+    // public ActiveBooking modifyActiveBooking(ActiveBooking activeBooking, String newTestingSiteId, String newDateTime) {
+    //     bookingEvents.notify("modify",activeBooking);
+    //     return super.modifyActiveBooking(activeBooking,newTestingSiteId,newDateTime);
+
+    // }
+
+    // public ActiveBooking restorePastChange(ActiveBooking activeBooking, String testingSiteId, String dateTime) {
+    //     bookingEvents.notify("modify",activeBooking);
+    //     return super.restorePastChange(activeBooking,testingSiteId,dateTime);
+    // }
+
+    // public void cancelActiveBooking(ActiveBooking activeBooking) {
+    //     super.cancelActiveBooking(activeBooking);
+    //     bookingEvents.notify("cancel",activeBooking);
+    // }
+
 }

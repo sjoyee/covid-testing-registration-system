@@ -1,6 +1,7 @@
 package com.fit3077.covidtestingregistration.model.login;
 
 import com.fit3077.covidtestingregistration.api.UserApi;
+import com.fit3077.covidtestingregistration.model.booking.observer.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.user.User;
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
@@ -14,7 +15,7 @@ public class Login {
         this.password = password;
     }
 
-    public User loginUser() {
+    public User loginUser(BookingEventManager bookingEvents) {
         UserApi userApi = new UserApi();
 
         // user is authenticated successfully by returning the JWT string
@@ -22,7 +23,7 @@ public class Login {
 
         // generate user if JWT is verified successfully
         if (userApi.verifyToken(jwtString)) {
-            return new UserGenerator().generateUser(this.userName, this.password);
+            return new UserGenerator().generateUser(this.userName, this.password, bookingEvents);
         }
         return null;
     }

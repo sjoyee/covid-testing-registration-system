@@ -11,7 +11,7 @@ public class BookingNotificationListener implements BookingEventListener{
 
 
     @Override
-    public void update(String eventType, ActiveBooking activeBooking) {
+    public void update(String testingSiteId, ActiveBooking activeBooking) {
         System.out.println("Email to " + notification + ": Someone has performed " + eventType + " operation with the following booking: " + activeBooking.getId());
         
     }
