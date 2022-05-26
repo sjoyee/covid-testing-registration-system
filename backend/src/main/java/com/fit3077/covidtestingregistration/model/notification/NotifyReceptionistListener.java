@@ -1,17 +1,16 @@
 package com.fit3077.covidtestingregistration.model.notification;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class NotifyReceptionistListener implements BookingEventListener{
-    private String notificationString;
-    private List<String> subscriberList;
-   
+    private String notificationString="";
+    private List<String> subscriberList = new ArrayList<>();
+    private String currentUserId="";
 
 
- 
+    
     private void setModificationNotification(String newTestSite, String newDateTime, String userId,String bookingId){
         this.notificationString = "Booking No. " + bookingId + " has been modified by User No. "+ userId 
         + "\n Updated Info: Testing Site No. " + newTestSite + ", Start Time : " + newDateTime; 
@@ -35,9 +34,6 @@ public class NotifyReceptionistListener implements BookingEventListener{
         return this.subscriberList;
     }
 
-    
-
-
     @Override
     public void update(String event,List<String> subscribers, ActiveBooking activeBooking, String currentUserId) {
         String bookingId = activeBooking.getId();
@@ -55,14 +51,15 @@ public class NotifyReceptionistListener implements BookingEventListener{
         else if(event == "delete"){
             setDeleteNotification(currentUserId, bookingId);
         }
-
         this.subscriberList = subscribers;
+        this.currentUserId = currentUserId;
 
     
     }
     @Override
     public String notifyUser(String inputUserId){
-        if(this.getSubscribers().contains(inputUserId)){
+        // only send to the other not yourself
+        if(this.getSubscribers().contains(inputUserId) && !inputUserId.equals(currentUserId)){
             return this.notificationString;
         }
         return null;

@@ -70,8 +70,7 @@ public class UserGenerator {
 
         } else if (userNode.get("isReceptionist").asBoolean()) {
             String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
-            //Subscription of admin to the notification system by Testing Site
-            bookingEvents.subscribe(testingSiteId, id);
+
             return new Receptionist(id, givenName, familyName, userName, phoneNumber,
                     testingSiteId);
         }

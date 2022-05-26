@@ -8,9 +8,11 @@ public class BookingModifier {
 
     private ActiveBooking activeBooking;
     private BookingMemento activeBookingMemento;
+    private BookingEventManager bookingEvents;
 
     public BookingModifier(ActiveBooking activeBooking) {
         this.activeBooking = activeBooking;
+        this.bookingEvents = new BookingEventManager();
     }
 
     public void saveHistories() {
