@@ -10,7 +10,6 @@ import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class BookingEventManager {
     private Map<String, Set<String>> testingSiteAdmin = new HashMap<>();
-    // private Map<String, List<BookingEventListener>> listeners = new HashMap<>();
     private BookingEventListener listener = new BookingNotificationListener(); 
 
  
@@ -33,21 +32,25 @@ public class BookingEventManager {
         users.remove(listenerId);
     }
 
-    //for cancel
-    public void notify( ActiveBooking booking,String currentUserId,String... testingSitesInvolved) {
+    //notify when there is changes made to Booking
+    public void notify(String eventType, ActiveBooking booking,String currentUserId,String... testingSitesInvolved) {
         List<String> subscriberList = new ArrayList<>();
         //get all involved receptionists
-        for (String testingSite : testingSitesInvolved){
+        if(testingSitesInvolved.length>0){
+            for (String testingSite : testingSitesInvolved){
             Set<String> users = testingSiteAdmin.get(testingSite);
             subscriberList.addAll(users);
         }
-        listener.update(subscriberList,booking,currentUserId);
+        }
+        else{
+            Set<String> users = testingSiteAdmin.get(booking.getTestingSiteId());
+            subscriberList.addAll(users);
+        }
+        
+        
+        
+        listener.update(eventType,subscriberList,booking,currentUserId);
         
     }
-    // public void notify(String eventType, String userId, String testingSiteId) {
-    //     List<BookingEventListener> users = listeners.get(eventType);
-    //     for (BookingEventListener listener : users) {
-    //         listener.update(eventType, userId, testingSiteId);
-    //     }
-    // }
+    
 }

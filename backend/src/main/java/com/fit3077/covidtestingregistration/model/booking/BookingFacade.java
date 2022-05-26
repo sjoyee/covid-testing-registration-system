@@ -62,12 +62,12 @@ public class BookingFacade {
             return null;
         }
         return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
-                dateTime,bookingEvents);
+                dateTime,bookingEvents, userId);
     }
 
     public void cancelActiveBooking(String userId, String bookingId, BookingEventManager bookingEvents) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking,bookingEvents);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking,bookingEvents, userId);
     }
 
    
