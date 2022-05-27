@@ -10,27 +10,29 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory;
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingMemento;
+import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 
+// A type of Booking class which is active and able to be modified and restored
 public class ActiveBooking extends Booking {
 
-    public ActiveBooking(String id, String testingSiteId, String startTime, BookingStatus status,
+    public ActiveBooking(String id, TestingSite testingSite, String startTime, BookingStatus status,
             List<BookingHistory> histories, boolean isActive) {
-        super(id, testingSiteId, startTime, status, histories, isActive);
+        super(id, testingSite, startTime, status, histories, isActive);
         // always check validity of all datetimes of the booking histories
         checkValidity();
     }
 
     public BookingMemento createMemento() {
-        return new BookingMemento(getHistories(), getId(), getTestingSiteId(), getStartTime());
+        return new BookingMemento(getHistories(), getId(), getTestingSite().getId(), getStartTime());
     }
 
     public void updateChanges(String testingSiteId, String dateTime) {
-        setTestingSiteId(testingSiteId);
+        setTestingSite(new TestingSite(testingSiteId));
         setStartTime(dateTime);
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode updatedNode = mapper.createObjectNode();
-        updatedNode.put("testingSiteId", getTestingSiteId());
+        updatedNode.put("testingSiteId", getTestingSite().getId());
         updatedNode.put("startTime", getStartTime());
 
         BookingApi bookingApi = new BookingApi();
@@ -70,9 +72,8 @@ public class ActiveBooking extends Booking {
         bookingApi.updateActiveBooking(getId(), updatedNode);
     }
 
-
-    //for deleting active booking
-    public void deleteBooking (){
+    // for deleting active booking
+    public void deleteBooking() {
         BookingApi bookingApi = new BookingApi();
         bookingApi.deleteActiveBooking(this.getId());
     }

@@ -26,7 +26,7 @@ public class ActiveBookingCollection extends BookingCollection {
                 Booking booking = createBooking((ObjectNode) bookingNode);
                 if (booking != null && booking.getIsActive()) {
                     this.activeBookings
-                            .add(new ActiveBooking(booking.getId(), booking.getTestingSiteId(), booking.getStartTime(),
+                            .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
                                     booking.getStatus(), booking.getHistories(), booking.getIsActive()));
                 }
             }
@@ -38,9 +38,25 @@ public class ActiveBookingCollection extends BookingCollection {
         Booking booking = createBooking(bookingNode);
         if (booking != null && booking.getIsActive()) {
             this.activeBookings
-                    .add(new ActiveBooking(booking.getId(), booking.getTestingSiteId(), booking.getStartTime(),
+                    .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
                             booking.getStatus(), booking.getHistories(), booking.getIsActive()));
         }
+    }
+
+    public void setActiveBookingByPin(String pin) {
+        BookingApi bookingApi = new BookingApi();
+        Booking booking;
+        for (ObjectNode bookingNode : bookingApi.getBookings()) {
+            if (bookingNode.get("smsPin").textValue().equals(pin)) {
+                booking = createBooking(bookingNode);
+                if (booking != null && booking.getIsActive()) {
+                    this.activeBookings
+                            .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
+                                    booking.getStatus(), booking.getHistories(), booking.getIsActive()));
+                }
+            }
+        }
+
     }
 
 }
