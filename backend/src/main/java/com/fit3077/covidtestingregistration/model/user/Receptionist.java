@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
+import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 
 public class Receptionist extends BookingUser {
@@ -31,7 +32,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject) {
+    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
 
@@ -52,7 +53,7 @@ public class Receptionist extends BookingUser {
         }
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
 
-        BookingExecutor booking = new BookingExecutor(customerId, isHomeBooking);
+        BookingExecutor booking = new BookingExecutor(customerId, isHomeBooking,bookingEvents);
 
         if (!isHomeBooking) {
             booking.setTestingSite(testingSite);
