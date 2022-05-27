@@ -115,7 +115,7 @@ export default {
 
     async book() {
       try {
-        await axios.post("/user/booking", {
+        await axios.post(`/${this.$route.params.id}/booking`, {
           isHomeBooking: this.isHomeBooking,
           hasRatKit: this.hasRatKit,
           patientId: this.patientId,
@@ -129,8 +129,8 @@ export default {
       this.$refs.homeBookingForm.reset();
     },
 
-    logout() {
-      this.$router.push({
+    async logout() {
+      await this.$router.push({
         path: "/login",
       });
     },

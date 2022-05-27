@@ -81,6 +81,11 @@ export default {
         { name: "All", value: "" },
         { name: "Clayton", value: "Clayton" },
         { name: "Mount Waverley", value: "Mount Waverley" },
+        { name: "Petaling Jaya", value: "Petaling Jaya" },
+        {
+          name: "Bangsar",
+          value: "Bangsar",
+        },
       ],
       selectType: { name: "All", value: "" },
       selectSuburb: { name: "All", value: "" },
@@ -108,7 +113,7 @@ export default {
     async filterTestingSites() {
       try {
         const response = await axios.get(
-          `/testing-site/selected?type=${this.selectType.value}&suburb=${this.selectSuburb.value}`
+          `/testing-site?type=${this.selectType.value}&suburb=${this.selectSuburb.value}`
         );
         this.sites = response.data;
       } catch {

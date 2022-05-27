@@ -86,14 +86,16 @@ export default {
         path: `/${this.$route.params.id}/receptionist/`,
       });
     },
-    logout() {
-      this.$router.push({
+    async logout() {
+      await this.$router.push({
         path: "/login",
       });
     },
     async checkQr() {
       try {
-        await axios.post(`/user/update-test-kit-issued?qrCode=${this.qrCode}`);
+        await axios.post(
+          `/${this.$route.params.id}/booking/update-test-kit-issued?qrCode=${this.qrCode}`
+        );
         this.success = true;
       } catch {
         // handle error

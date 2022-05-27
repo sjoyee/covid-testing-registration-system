@@ -35,6 +35,8 @@
 
 <script>
 export default {
+  props: {},
+  watch: {},
   methods: {
     search() {
       this.$router.push({
@@ -46,8 +48,8 @@ export default {
         path: `/${this.$route.params.id}/hcworker/onsite-testing`,
       });
     },
-    logout() {
-      this.$router.push({
+    async logout() {
+      await this.$router.push({
         path: "/login",
       });
     },

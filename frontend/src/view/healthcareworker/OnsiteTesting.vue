@@ -143,8 +143,8 @@ export default {
         path: `/${this.$route.params.id}/hcworker/search`,
       });
     },
-    logout() {
-      this.$router.push({
+    async logout() {
+      await this.$router.push({
         path: "/login",
       });
     },
@@ -156,7 +156,7 @@ export default {
     async submit() {
       this.computeType();
       try {
-        await axios.post("/user/covid-test", {
+        await axios.post(`/${this.$route.params.id}/covid-test`, {
           smsPin: this.smsPin,
           patientId: this.patientId,
           type: this.type,

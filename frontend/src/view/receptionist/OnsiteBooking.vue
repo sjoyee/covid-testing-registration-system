@@ -113,14 +113,14 @@ export default {
         path: `/${this.$route.params.id}/receptionist/`,
       });
     },
-    logout() {
-      this.$router.push({
+    async logout() {
+      await this.$router.push({
         path: "/login",
       });
     },
     async book() {
       try {
-        await axios.post("/user/booking", {
+        await axios.post(`/${this.$route.params.id}/booking`, {
           givenName: this.givenName,
           familyName: this.familyName,
           userName: this.userName,

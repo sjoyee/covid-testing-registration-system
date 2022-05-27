@@ -83,7 +83,7 @@ export default {
   methods: {
     search() {
       this.$router.push({
-        path: `/${this.$route.params.id}/customer/search`,
+        path: `/${this.$route.params.id}/receptionist/search`,
       });
     },
     backToMain() {
@@ -91,15 +91,18 @@ export default {
         path: `/${this.$route.params.id}/receptionist/`,
       });
     },
-    logout() {
-      this.$router.push({
+    async logout() {
+      // TODO
+      // call api to unsubscribe
+
+      await this.$router.push({
         path: "/login",
       });
     },
     async checkPin() {
       try {
         const response = await axios.get(
-          `/user/check-status?pin=${this.smsPin}`
+          `/${this.$route.params.id}/booking/check-status?pin=${this.smsPin}`
         );
         this.status = response.data;
         if (this.status == "INVALID") {
