@@ -33,6 +33,22 @@
           </v-card>
         </v-hover>
       </div>
+      <div class="d-flex flex-wrap justify-center pa-12">
+        <v-hover v-slot="{ hover }">
+          <v-card
+            class="pa-8 text-h6 text-center"
+            @click="adminInterface"
+            :style="[
+              hover
+                ? { outline: '3px solid black' }
+                : { outline: '.5px solid black' },
+            ]"
+            min-width="450"
+          >
+            Admin Interface
+          </v-card>
+        </v-hover>
+      </div>
       <div class="d-flex justify-center pa-12">
         <v-hover v-slot="{ hover }">
           <v-card
@@ -123,6 +139,11 @@ export default {
     profile() {
       this.$router.push({
         path: `/${this.$route.params.id}/receptionist/phone-call-profile`,
+      });
+    },
+    adminInterface() {
+      this.$router.push({
+        path: `/${this.$route.params.id}/receptionist/admin-interface`,
       });
     },
     async logout() {

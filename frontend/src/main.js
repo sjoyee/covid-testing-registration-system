@@ -8,7 +8,7 @@ import moment from "moment";
 Vue.config.productionTip = false;
 
 window.axios = axios;
-axios.defaults.baseURL = "http://localhost:8085/api/v1";
+axios.defaults.baseURL = "http://localhost:8085/api/v2";
 Vue.prototype.moment = moment;
 
 new Vue({

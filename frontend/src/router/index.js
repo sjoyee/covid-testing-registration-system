@@ -6,6 +6,7 @@ import ReceptionistPage from "../view/receptionist/ReceptionistPage";
 import OnsiteBooking from "../view/receptionist/OnsiteBooking";
 import CheckStatus from "../view/receptionist/CheckStatus";
 import PhoneCallProfile from "../view/receptionist/PhoneCallProfile";
+import AdminInterface from "../view/receptionist/AdminInterface";
 import BookingProfile from "../view/customer/BookingProfile";
 import ModifyBooking from "../view/customer/ModifyBooking";
 import OnsiteTesting from "../view/healthcareworker/OnsiteTesting";
@@ -45,6 +46,10 @@ const routes = [
   {
     path: "/:id/receptionist/phone-call-profile",
     component: PhoneCallProfile,
+  },
+  {
+    path: "/:id/receptionist/admin-interface",
+    component: AdminInterface,
   },
   {
     path: "/:id/receptionist/check-status",
