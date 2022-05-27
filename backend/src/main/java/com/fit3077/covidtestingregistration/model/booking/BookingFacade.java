@@ -75,9 +75,9 @@ public class BookingFacade {
 
     //check here
 
-    public Booking getBookingByTestingSiteId(String testingSiteId) {
+    public List<Booking> getBookingByTestingSiteId(String userId) {
+        return new UserGenerator().generateBookingUser(userId).getBookingByTestingSiteId();
 
-       
     }
 
    

@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.Booking;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -112,9 +113,9 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<ActiveBooking>> getBookingsByTestingSite(@PathVariable("userId") String userId) {
-        return new ResponseEntity<>(this.mainFacade.displayActiveBookings(userId), HttpStatus.OK);
+    @GetMapping("/all")
+    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@PathVariable("userId") String userId) {
+        return new ResponseEntity<>(this.mainFacade.getBookingByTestingSiteId(userId), HttpStatus.OK);
     }
 
     @GetMapping("/admin-notif")

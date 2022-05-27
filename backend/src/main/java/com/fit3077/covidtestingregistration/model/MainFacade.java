@@ -76,12 +76,13 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
+    //still thinking how to access the same instance of event manager?
     public String notifyBookingUpdate(String userId){
         return this.bookingFacade.notifyBookingUpdate(userId);
     }
 
-    public Booking getBookingByTestingSiteId(String testingSiteId){
-        return this.bookingFacade.getBookingByTestingSiteId(testingSiteId);
+    public List<Booking> getBookingByTestingSiteId(String userId){
+        return this.bookingFacade.getBookingByTestingSiteId(userId);
     }
 
    

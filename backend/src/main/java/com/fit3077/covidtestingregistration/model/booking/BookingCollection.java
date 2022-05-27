@@ -2,7 +2,9 @@ package com.fit3077.covidtestingregistration.model.booking;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,7 +16,8 @@ import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory
 public class BookingCollection {
 
     private List<Booking> bookings;
-    private
+    // private Map<String, List<Booking>> testingSiteBooking = new HashMap<>();
+
 
     public BookingCollection() {
         this.bookings = new ArrayList<>();
