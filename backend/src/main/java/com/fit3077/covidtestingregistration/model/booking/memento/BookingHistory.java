@@ -1,15 +1,15 @@
-package com.fit3077.covidtestingregistration.model.booking.active;
+package com.fit3077.covidtestingregistration.model.booking.memento;
 
-public class ActiveBookingHistory {
+public class BookingHistory {
     private String updatedAt;
     private String testingSiteId;
     private String dateTime;
 
     // constructor with no parameters
-    public ActiveBookingHistory() {
+    public BookingHistory() {
     }
 
-    public ActiveBookingHistory(String updatedAt, String testingSiteId, String dateTime) {
+    public BookingHistory(String updatedAt, String testingSiteId, String dateTime) {
         this.updatedAt = updatedAt;
         this.testingSiteId = testingSiteId;
         this.dateTime = dateTime;

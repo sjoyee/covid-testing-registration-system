@@ -35,6 +35,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable("userId") String userId) {
+        return new ResponseEntity<>(this.mainFacade.getUser(userId), HttpStatus.OK);
+    }
+
     @GetMapping("/{userId}/check-role")
     public ResponseEntity<String> checkStatus(@PathVariable("userId") String userId) {
         String role = this.mainFacade.getUserRole(userId);

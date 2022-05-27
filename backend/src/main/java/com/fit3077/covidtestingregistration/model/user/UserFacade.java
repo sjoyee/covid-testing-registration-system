@@ -7,6 +7,10 @@ public class UserFacade {
         return new Login(userName, password).loginUser();
     }
 
+    public User getUserById(String userId) {
+        return new UserGenerator().generateUser(userId);
+    }
+
     public String getRole(String userId) {
         return new UserGenerator().generateUser(userId).toString();
     }

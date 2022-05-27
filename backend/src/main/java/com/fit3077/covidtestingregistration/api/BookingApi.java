@@ -15,7 +15,7 @@ public class BookingApi {
 
     private static final String KEY_NAME = "Authorization";
 
-    private String rootUrl = "https://fit3077.com/api/v1/booking";
+    private String rootUrl = "https://fit3077.com/api/v2/booking";
 
     public ObjectNode createNewBooking(ObjectNode bookingNode) {
 
@@ -176,6 +176,30 @@ public class BookingApi {
                 .uri(URI.create(bookingUrl))
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonString))
                 .header("Content-Type", "application/json")
+                .build();
+
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    //need to test
+    
+    public void deleteActiveBooking(String bookingId) {
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .setHeader(KEY_NAME, API_KEY)
+                .header("Content-Type", "application/json")
+                .DELETE()
                 .build();
 
         try {

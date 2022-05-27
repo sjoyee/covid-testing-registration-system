@@ -1,6 +1,8 @@
 
 package com.fit3077.covidtestingregistration.model.testingsite;
 
+import com.fit3077.covidtestingregistration.api.TestingSiteApi;
+
 /**
  * A Class for TestingSite entity
  */
@@ -34,6 +36,16 @@ public class TestingSite {
         this.openTime = openTime;
         this.closeTime = closeTime;
         checkTestingSiteType(testingSiteType);
+    }
+
+    public TestingSite(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public TestingSite(String id) {
+        this.id = id;
+        setName(new TestingSiteApi().getTestingSiteNameById(this.id));
     }
 
     public String getId() {
