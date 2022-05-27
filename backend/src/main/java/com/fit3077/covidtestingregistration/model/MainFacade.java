@@ -7,7 +7,6 @@ import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.Booking;
 import com.fit3077.covidtestingregistration.model.booking.BookingFacade;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestFacade;
-import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSiteFacade;
 import com.fit3077.covidtestingregistration.model.user.User;
@@ -63,6 +62,10 @@ public class MainFacade {
         return this.bookingFacade.getActiveBookingByPinCode(pin);
     }
 
+    public List<Booking> displayBookingsByTestingSiteId(String testingSiteId) {
+        return this.bookingFacade.getBookingsByTestingSiteId(testingSiteId);
+    }
+
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
         return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
     }
@@ -88,13 +91,5 @@ public class MainFacade {
     public String notifyBookingUpdate(String userId) {
         return this.bookingFacade.notifyBookingUpdate(userId);
     }
-
-    public List<Booking> getBookingByTestingSiteId(String userId) {
-        return this.bookingFacade.getBookingByTestingSiteId(userId);
-    }
-
-    // public List<String> getTestingSiteNames() {
-    // return this.testingSiteFacade.getAllNames();
-    // }
 
 }

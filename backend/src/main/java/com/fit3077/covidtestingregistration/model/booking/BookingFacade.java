@@ -3,10 +3,15 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
 public class BookingFacade {
+    private BookingEventManager bookingEvents;
+
+    public BookingFacade() {
+        this.bookingEvents = new BookingEventManager();
+    }
 
     public boolean createBooking(String userId, ObjectNode userObject) {
 
@@ -37,6 +42,12 @@ public class BookingFacade {
         return activeBookings.getActiveBookings();
     }
 
+    public List<Booking> getBookingsByTestingSiteId(String testingSiteId) {
+        BookingCollection bookings = new BookingCollection();
+        bookings.setBookingsByTestingSiteId(testingSiteId);
+        return bookings.getBookings();
+    }
+
     public ActiveBooking getActiveBookingByBookingId(String bookingId) {
         ActiveBookingCollection activeBookings = new ActiveBookingCollection();
         activeBookings.setActiveBookingByBookingId(bookingId);
@@ -55,7 +66,7 @@ public class BookingFacade {
             return null;
         }
         return new UserGenerator().generateBookingUser(userId).modifyActiveBooking(activeBooking, testingSiteId,
-                dateTime);
+                dateTime, bookingEvents);
     }
 
     public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime) {
@@ -64,23 +75,16 @@ public class BookingFacade {
             return null;
         }
         return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
-                dateTime);
+                dateTime, bookingEvents);
     }
 
     public void cancelActiveBooking(String userId, String bookingId) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking, bookingEvents);
     }
 
     public String notifyBookingUpdate(String userId) {
-        return new UserGenerator().generateBookingUser(userId).retrieveBookingUpdate();
-    }
-
-    // check here
-
-    public List<Booking> getBookingByTestingSiteId(String userId) {
-        return new UserGenerator().generateBookingUser(userId).retrieveBookingByTestingSiteId();
-
+        return this.bookingEvents.getNotifyListener().notifyUser(userId);
     }
 
 }

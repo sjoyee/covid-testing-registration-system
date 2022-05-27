@@ -124,19 +124,16 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@PathVariable("testingSiteId") String testingSiteId) {
-        return new ResponseEntity<>(this.mainFacade.getBookingByTestingSiteId(testingSiteId), HttpStatus.OK);
+    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@RequestParam("id") String testingSiteId) {
+        return new ResponseEntity<>(this.mainFacade.displayBookingsByTestingSiteId(testingSiteId), HttpStatus.OK);
     }
 
     @GetMapping("/admin-notif")
     public ResponseEntity<String> notifyAdmin(@PathVariable("userId") String adminId) {
 
         String notification = this.mainFacade.notifyBookingUpdate(adminId);
-        if (notification == null) {
-            return new ResponseEntity<>(notification, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(notification, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(notification, HttpStatus.OK);
+
     }
 
 }
