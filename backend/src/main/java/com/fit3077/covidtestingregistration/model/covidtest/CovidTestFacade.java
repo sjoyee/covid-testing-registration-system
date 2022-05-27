@@ -16,10 +16,10 @@ public class CovidTestFacade {
         String bookingId = bookingNode.get("id").textValue();
 
         testObject.put("bookingId", bookingId);
-        boolean isSuccess = user.handleBooking(testObject,bookingEvents);
+        boolean isSuccess = user.handleBooking(testObject);
         // update status
         if (isSuccess) {
-            user.updateData(bookingId,bookingEvents);
+            user.updateData(bookingId);
         }
         return isSuccess;
     }

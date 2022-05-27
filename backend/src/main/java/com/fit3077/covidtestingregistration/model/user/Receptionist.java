@@ -3,9 +3,7 @@ package com.fit3077.covidtestingregistration.model.user;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
-import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
-import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 public class Receptionist extends BookingUser {
   
@@ -34,7 +32,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
+    public boolean handleBooking(ObjectNode userObject) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
 
@@ -65,7 +63,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean updateData(String qrCode, BookingEventManager bookingEvents) {
+    public boolean updateData(String qrCode) {
         BookingApi bookingApi = new BookingApi();
         String additionalInfo = "additionalInfo";
 
