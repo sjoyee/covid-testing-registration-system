@@ -10,12 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.TestingSiteApi;
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory;
+import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 
 public class BookingCollection {
 
     private List<Booking> bookings;
-    // private Map<String, List<Booking>> testingSiteBooking = new HashMap<>();
-
 
     public BookingCollection() {
         this.bookings = new ArrayList<>();
@@ -42,13 +41,15 @@ public class BookingCollection {
             String id = bookingNode.get("id").textValue();
 
             String testingSiteId = bookingNode.get("testingSite").get("id").textValue();
+            String testingSiteName = bookingNode.get("testingSite").get("name").textValue();
 
             List<BookingHistory> histories = new ObjectMapper().convertValue(
                     bookingNode.get("additionalInfo").get("snapshots"),
                     new TypeReference<List<BookingHistory>>() {
                     });
 
-            return new Booking(id, testingSiteId, startTime, BookingStatus.valueOf(status),
+            return new Booking(id, new TestingSite(testingSiteId, testingSiteName), startTime,
+                    BookingStatus.valueOf(status),
                     histories, isActive);
         }
         return null;
@@ -66,5 +67,4 @@ public class BookingCollection {
         }
     }
 
-    
 }

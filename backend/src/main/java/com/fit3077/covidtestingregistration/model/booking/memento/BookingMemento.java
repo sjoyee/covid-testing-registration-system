@@ -55,8 +55,10 @@ public class BookingMemento {
     }
 
     public void update() {
-        // the first item is always the oldest / least recent past record
-        this.historyList.remove(0);
+        if (this.historyList.size() == 3) {
+            // the first item is always the oldest / least recent past record
+            this.historyList.remove(0);
+        }
 
         addLatestRecord(this.testingSiteId, this.dateTime);
 

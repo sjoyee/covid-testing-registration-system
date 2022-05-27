@@ -3,37 +3,36 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.util.List;
 
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory;
+import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 
 public class Booking {
 
     private String id;
-    private String testingSiteId;
+    private TestingSite testingSite;
     private String startTime;
     private BookingStatus status;
     private List<BookingHistory> histories;
     private boolean isActive;
 
     protected Booking() {
-
     }
 
-    protected Booking(String id, String testingSiteId, String startTime, BookingStatus status,
+    protected Booking(String id, TestingSite testingSite, String startTime, BookingStatus status,
             List<BookingHistory> histories, boolean isActive) {
         this.id = id;
-        this.testingSiteId = testingSiteId;
+        this.testingSite = testingSite;
         this.startTime = startTime;
         this.status = status;
         this.histories = histories;
         this.isActive = isActive;
-
     }
 
     public String getId() {
         return this.id;
     }
 
-    public String getTestingSiteId() {
-        return this.testingSiteId;
+    public TestingSite getTestingSite() {
+        return testingSite;
     }
 
     public String getStartTime() {
@@ -56,8 +55,8 @@ public class Booking {
         this.id = id;
     }
 
-    public void setTestingSiteId(String testingSiteId) {
-        this.testingSiteId = testingSiteId;
+    public void setTestingSite(TestingSite testingSite) {
+        this.testingSite = testingSite;
     }
 
     public void setStartTime(String startTime) {

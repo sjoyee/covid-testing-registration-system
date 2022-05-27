@@ -9,12 +9,9 @@ import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 public class BookingFacade {
 
     public boolean createBooking(String userId, ObjectNode userObject) {
-     
-     
+
         return new UserGenerator().generateUser(userId).handleBooking(userObject);
     }
-
-  
 
     public String checkStatus(String userId, String verifier, boolean isId) {
         ObjectNode bookingNode;
@@ -46,6 +43,12 @@ public class BookingFacade {
         return activeBookings.getActiveBookings().isEmpty() ? null : activeBookings.getActiveBookings().get(0);
     }
 
+    public ActiveBooking getActiveBookingByPinCode(String pin) {
+        ActiveBookingCollection activeBookings = new ActiveBookingCollection();
+        activeBookings.setActiveBookingByPin(pin);
+        return activeBookings.getActiveBookings().isEmpty() ? null : activeBookings.getActiveBookings().get(0);
+    }
+
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
         if (activeBooking == null) {
@@ -69,17 +72,15 @@ public class BookingFacade {
         new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
     }
 
-    public String notifyBookingUpdate(String userId){
-        return new UserGenerator().generateBookingUser(userId).getBookingUpdate();
+    public String notifyBookingUpdate(String userId) {
+        return new UserGenerator().generateBookingUser(userId).retrieveBookingUpdate();
     }
 
-    //check here
+    // check here
 
     public List<Booking> getBookingByTestingSiteId(String userId) {
-        return new UserGenerator().generateBookingUser(userId).getBookingByTestingSiteId();
+        return new UserGenerator().generateBookingUser(userId).retrieveBookingByTestingSiteId();
 
     }
-
-   
 
 }

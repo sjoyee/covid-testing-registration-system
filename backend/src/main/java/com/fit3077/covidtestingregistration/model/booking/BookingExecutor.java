@@ -56,7 +56,7 @@ public class BookingExecutor extends Booking {
         if (this.isHomeBooking) {
             this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit, this.patientId, getStatus().toString()));
         } else {
-            this.context.setStrategy(new OnsiteBookingStrategy(getTestingSiteId()));
+            this.context.setStrategy(new OnsiteBookingStrategy(getTestingSite().getId()));
         }
     }
 

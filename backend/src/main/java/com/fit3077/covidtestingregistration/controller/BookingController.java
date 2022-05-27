@@ -80,6 +80,16 @@ public class BookingController {
         }
     }
 
+    @GetMapping("/active-booking-by-pin")
+    public ResponseEntity<ActiveBooking> getActiveBookingByPin(@RequestParam("smsPin") String pin) {
+        ActiveBooking activeBooking = this.mainFacade.displayActiveBookingByPin(pin);
+        if (activeBooking == null) {
+            return new ResponseEntity<>(activeBooking, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(activeBooking, HttpStatus.OK);
+        }
+    }
+
     @PostMapping("/active-booking/modify")
     public ResponseEntity<ActiveBooking> modifyActiveBooking(@PathVariable("userId") String userId,
             @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
@@ -114,8 +124,8 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@PathVariable("userId") String userId) {
-        return new ResponseEntity<>(this.mainFacade.getBookingByTestingSiteId(userId), HttpStatus.OK);
+    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@PathVariable("testingSiteId") String testingSiteId) {
+        return new ResponseEntity<>(this.mainFacade.getBookingByTestingSiteId(testingSiteId), HttpStatus.OK);
     }
 
     @GetMapping("/admin-notif")
@@ -128,7 +138,5 @@ public class BookingController {
             return new ResponseEntity<>(notification, HttpStatus.OK);
         }
     }
-
-
 
 }
