@@ -11,7 +11,7 @@ public abstract class BookingUser extends User {
         super(id, givenName, familyName, userName, phoneNumber);
     }
 
-    public abstract boolean handleBooking(ObjectNode objectNode,BookingEventManager bookingEvents);
+    public abstract String handleBooking(ObjectNode objectNode, BookingEventManager bookingEvents);
 
     public abstract boolean updateData(String code);
 

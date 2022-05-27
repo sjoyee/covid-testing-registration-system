@@ -15,7 +15,7 @@ public class CovidTest {
         this.bookingId = bookingId;
     }
 
-    public boolean assignCovidTestDetails() {
+    public String assignCovidTestDetails() {
         CovidTestApi covidTestApi = new CovidTestApi();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -24,6 +24,7 @@ public class CovidTest {
         testNode.put("type", this.testType.toString());
         testNode.put("bookingId", this.bookingId);
 
-        return covidTestApi.createNewCovidTest(testNode);
+        ObjectNode node = covidTestApi.createNewCovidTest(testNode);
+        return node.get("id").textValue();
     }
 }

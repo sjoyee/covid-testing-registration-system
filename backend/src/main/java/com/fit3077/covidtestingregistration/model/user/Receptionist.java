@@ -32,7 +32,7 @@ public class Receptionist extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
+    public String handleBooking(ObjectNode userObject, BookingEventManager bookingEvents) {
         String customerId = "";
         String userName = userObject.get("userName").textValue();
 
@@ -52,8 +52,8 @@ public class Receptionist extends BookingUser {
             customerId = userApi.createNewUser(userObject).get("id").textValue();
         }
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
-
-        BookingExecutor booking = new BookingExecutor(customerId, isHomeBooking,bookingEvents);
+        String startTime = userObject.get("startTime").textValue();
+        BookingExecutor booking = new BookingExecutor(customerId, startTime, isHomeBooking, bookingEvents);
 
         if (!isHomeBooking) {
             booking.setTestingSite(testingSite);

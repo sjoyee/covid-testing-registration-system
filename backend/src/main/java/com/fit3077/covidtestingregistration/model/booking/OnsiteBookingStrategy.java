@@ -8,14 +8,15 @@ import com.fit3077.covidtestingregistration.model.booking.notification.BookingEv
 public class OnsiteBookingStrategy implements BookingStrategy {
 
     private String testingSiteId;
+    BookingEventManager bookingEvents;
 
-    public OnsiteBookingStrategy(String testingSiteId) {
+    public OnsiteBookingStrategy(String testingSiteId, BookingEventManager bookingEvents) {
         this.testingSiteId = testingSiteId;
-
+        this.bookingEvents = bookingEvents;
     }
 
     @Override
-    public boolean executeBooking(String customerId, String startTime,BookingEventManager bookingEvents) {
+    public String executeBooking(String customerId, String startTime) {
         BookingApi bookingApi = new BookingApi();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -25,8 +26,15 @@ public class OnsiteBookingStrategy implements BookingStrategy {
         bookingNode.put("startTime", startTime);
         bookingNode.with("additionalInfo").put("isHomeBooking", false);
         bookingNode.with("additionalInfo").putArray("snapshots");
-        bookingEvents.notify("create", customerId,this.testingSiteId);
-        return bookingApi.createNewBooking(bookingNode) != null;
+
+        // notify receptionist
+        this.bookingEvents.notify("create", customerId, this.testingSiteId);
+
+        ObjectNode node = bookingApi.createNewBooking(bookingNode);
+        if (node != null) {
+            return node.get("id").textValue();
+        }
+        return null;
     }
 
 }

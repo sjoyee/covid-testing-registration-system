@@ -1,8 +1,5 @@
 package com.fit3077.covidtestingregistration.model.booking;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
 
 public class BookingExecutor extends Booking {
@@ -15,17 +12,18 @@ public class BookingExecutor extends Booking {
     private String patientId;
 
     private BookingContext context;
-    
+
     private BookingEventManager bookingEvents;
 
-    public BookingExecutor(String customerId, boolean isHomeBooking, BookingEventManager bookingEvents) {
+    public BookingExecutor(String customerId, String startTime, boolean isHomeBooking,
+            BookingEventManager bookingEvents) {
         super();
         this.customerId = customerId;
         this.isHomeBooking = isHomeBooking;
+
         this.bookingEvents = bookingEvents;
 
-        LocalDateTime datetime = LocalDateTime.of(2023, 12, 21, 13, 15);
-        setStartTime(datetime.toInstant(ZoneOffset.UTC).toString());
+        setStartTime(startTime);
 
         if (isHomeBooking) {
             // already assigned with RAT test type
@@ -61,13 +59,13 @@ public class BookingExecutor extends Booking {
         if (this.isHomeBooking) {
             this.context.setStrategy(new HomeBookingStrategy(this.hasRatKit, this.patientId, getStatus().toString()));
         } else {
-            this.context.setStrategy(new OnsiteBookingStrategy(getTestingSite().getId()));
+            this.context.setStrategy(new OnsiteBookingStrategy(getTestingSite().getId(), this.bookingEvents));
         }
     }
 
-    public boolean assignBookingDetails() {
+    public String assignBookingDetails() {
         this.setBookingStrategy();
-        return this.context.getStrategy().executeBooking(this.customerId, getStartTime(),this.bookingEvents);
+        return this.context.getStrategy().executeBooking(this.customerId, getStartTime());
     }
 
 }

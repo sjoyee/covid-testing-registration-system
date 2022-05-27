@@ -23,7 +23,7 @@ public class HomeBookingStrategy implements BookingStrategy {
     }
 
     @Override
-    public boolean executeBooking(String customerId, String startTime,BookingEventManager bookingEvents) {
+    public String executeBooking(String customerId, String startTime) {
         BookingApi bookingApi = new BookingApi();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -40,18 +40,18 @@ public class HomeBookingStrategy implements BookingStrategy {
 
         ObjectNode resultNode = bookingApi.createNewBooking(bookingNode);
         if (resultNode == null) {
-            return false;
+            return null;
         }
         String bookingId = resultNode.get("id").textValue();
 
         CovidTest covidTest = new CovidTest(this.patientId, CovidTestType.RAT, bookingId);
 
-        boolean isAssigned = covidTest.assignCovidTestDetails();
-        if (isAssigned) {
+        String id = covidTest.assignCovidTestDetails();
+        if (id != null) {
             bookingApi.updateBookingStatus(bookingId, this.status);
-            return true;
+            return id;
         }
-        return false;
+        return null;
     }
 
     private String generateRandStr(int length) {

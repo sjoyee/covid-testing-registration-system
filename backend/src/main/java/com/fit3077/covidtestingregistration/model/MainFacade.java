@@ -38,7 +38,7 @@ public class MainFacade {
         return this.userFacade.getUserById(userId);
     }
 
-    public boolean addBooking(String userId, ObjectNode userObject) {
+    public String addBooking(String userId, ObjectNode userObject) {
         return this.bookingFacade.createBooking(userId, userObject);
     }
 
@@ -83,7 +83,7 @@ public class MainFacade {
         this.bookingFacade.deleteActiveBooking(userId, bookingId);
     }
 
-    public boolean addCovidTest(String userId, ObjectNode testObject) {
+    public String addCovidTest(String userId, ObjectNode testObject) {
         return this.covidTestFacade.createCovidTest(userId, testObject);
     }
 

@@ -20,7 +20,7 @@ public class HealthcareWorker extends User {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode testObject,BookingEventManager bookingEvents) {
+    public String handleBooking(ObjectNode testObject, BookingEventManager bookingEvents) {
         String patientId = testObject.get("patientId").textValue();
         String bookingId = testObject.get("bookingId").textValue();
         String type = testObject.get("type").textValue();

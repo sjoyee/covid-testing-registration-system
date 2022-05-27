@@ -17,12 +17,13 @@ public class Customer extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
+    public String handleBooking(ObjectNode userObject, BookingEventManager bookingEvents) {
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
         boolean hasRatKit = userObject.get("hasRatKit").asBoolean();
         String patientId = userObject.get("patientId").textValue();
+        String startTime = userObject.get("startTime").textValue();
 
-        BookingExecutor booking = new BookingExecutor(getId(), isHomeBooking,bookingEvents);
+        BookingExecutor booking = new BookingExecutor(getId(), startTime, isHomeBooking, bookingEvents);
         booking.setHasRatKit(hasRatKit);
         booking.setPatientId(patientId);
 

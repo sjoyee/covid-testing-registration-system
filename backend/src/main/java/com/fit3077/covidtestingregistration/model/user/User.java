@@ -69,7 +69,7 @@ public abstract class User {
         this.isHealthcareWorker = isHealthcareWorker;
     }
 
-    public abstract boolean handleBooking(ObjectNode objectNode,BookingEventManager bookingEvents);
+    public abstract String handleBooking(ObjectNode objectNode, BookingEventManager bookingEvents);
 
     public abstract boolean updateData(String code);
 
@@ -88,5 +88,4 @@ public abstract class User {
         return bookingApi.getBookingById(bookingId);
     }
 
-    
 }
