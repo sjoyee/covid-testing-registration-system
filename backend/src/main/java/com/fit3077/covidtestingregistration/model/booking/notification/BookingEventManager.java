@@ -71,6 +71,13 @@ public class BookingEventManager {
 
     }
 
+    public void notify(String eventType,String customerId,String testingSiteId){
+        List<String> subscriberList = new ArrayList<>();
+        List<String> users = testingSiteAdmin.get(testingSiteId);
+        subscriberList.addAll(users);
+        listener.update(eventType, subscriberList, customerId);
+    }   
+
     // extensible with a List<BookingEventListener>>
     public BookingEventListener getNotifyListener() {
         this.subscribeAll();

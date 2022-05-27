@@ -3,6 +3,8 @@ package com.fit3077.covidtestingregistration.model.booking;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
+
 public class BookingExecutor extends Booking {
     private String customerId;
 
@@ -13,11 +15,14 @@ public class BookingExecutor extends Booking {
     private String patientId;
 
     private BookingContext context;
+    
+    private BookingEventManager bookingEvents;
 
-    public BookingExecutor(String customerId, boolean isHomeBooking) {
+    public BookingExecutor(String customerId, boolean isHomeBooking, BookingEventManager bookingEvents) {
         super();
         this.customerId = customerId;
         this.isHomeBooking = isHomeBooking;
+        this.bookingEvents = bookingEvents;
 
         LocalDateTime datetime = LocalDateTime.of(2023, 12, 21, 13, 15);
         setStartTime(datetime.toInstant(ZoneOffset.UTC).toString());
@@ -62,7 +67,7 @@ public class BookingExecutor extends Booking {
 
     public boolean assignBookingDetails() {
         this.setBookingStrategy();
-        return this.context.getStrategy().executeBooking(this.customerId, getStartTime());
+        return this.context.getStrategy().executeBooking(this.customerId, getStartTime(),this.bookingEvents);
     }
 
 }

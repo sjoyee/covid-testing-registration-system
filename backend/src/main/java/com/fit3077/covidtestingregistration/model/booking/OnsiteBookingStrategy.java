@@ -3,6 +3,7 @@ package com.fit3077.covidtestingregistration.model.booking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
+import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
 
 public class OnsiteBookingStrategy implements BookingStrategy {
 
@@ -14,7 +15,7 @@ public class OnsiteBookingStrategy implements BookingStrategy {
     }
 
     @Override
-    public boolean executeBooking(String customerId, String startTime) {
+    public boolean executeBooking(String customerId, String startTime,BookingEventManager bookingEvents) {
         BookingApi bookingApi = new BookingApi();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -24,7 +25,7 @@ public class OnsiteBookingStrategy implements BookingStrategy {
         bookingNode.put("startTime", startTime);
         bookingNode.with("additionalInfo").put("isHomeBooking", false);
         bookingNode.with("additionalInfo").putArray("snapshots");
-
+        bookingEvents.notify("create", customerId,this.testingSiteId);
         return bookingApi.createNewBooking(bookingNode) != null;
     }
 

@@ -27,6 +27,10 @@ public class NotifyReceptionistListener implements BookingEventListener {
         this.notificationString = "Booking No. " + bookingId + " has been deleted by Admin No. " + userId;
     }
 
+    private void setCreateNotification(String userId) {
+        this.notificationString = "A booking has been created for Customer No. " + userId;
+    }
+
     public String getNotificationString() {
         return this.notificationString;
     }
@@ -49,10 +53,21 @@ public class NotifyReceptionistListener implements BookingEventListener {
         } else if (event == "delete") {
             setDeleteNotification(currentUserId, bookingId);
         }
+        
         this.subscriberList = subscribers;
         this.currentUserId = currentUserId;
 
     }
+    @Override
+    public void update(String event, List<String> subscribers, String customerId) {
+        
+        if (event == "create") {
+            setCreateNotification(currentUserId);
+        }
+        this.subscriberList = subscribers;
+        this.currentUserId= customerId;
+    }
+
 
     @Override
     public String notifyUser(String inputUserId) {

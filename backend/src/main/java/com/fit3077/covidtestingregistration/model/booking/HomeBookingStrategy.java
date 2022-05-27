@@ -5,6 +5,7 @@ import java.util.Random;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
+import com.fit3077.covidtestingregistration.model.booking.notification.BookingEventManager;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTest;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestType;
 
@@ -22,7 +23,7 @@ public class HomeBookingStrategy implements BookingStrategy {
     }
 
     @Override
-    public boolean executeBooking(String customerId, String startTime) {
+    public boolean executeBooking(String customerId, String startTime,BookingEventManager bookingEvents) {
         BookingApi bookingApi = new BookingApi();
         ObjectMapper mapper = new ObjectMapper();
 

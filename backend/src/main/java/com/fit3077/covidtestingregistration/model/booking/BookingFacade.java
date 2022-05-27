@@ -15,7 +15,7 @@ public class BookingFacade {
 
     public boolean createBooking(String userId, ObjectNode userObject) {
 
-        return new UserGenerator().generateUser(userId).handleBooking(userObject);
+        return new UserGenerator().generateUser(userId).handleBooking(userObject,this.bookingEvents);
     }
 
     public String checkStatus(String userId, String verifier, boolean isId) {
