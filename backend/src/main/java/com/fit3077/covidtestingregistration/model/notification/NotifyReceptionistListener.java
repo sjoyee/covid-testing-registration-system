@@ -5,7 +5,7 @@ import java.util.List;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class NotifyReceptionistListener implements BookingEventListener{
-    private String notificationString="";
+    private String notificationString="test";
     private List<String> subscriberList = new ArrayList<>();
     private String currentUserId="";
 

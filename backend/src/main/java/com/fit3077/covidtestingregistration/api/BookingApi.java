@@ -15,7 +15,7 @@ public class BookingApi {
 
     private static final String KEY_NAME = "Authorization";
 
-    private String rootUrl = "https://fit3077.com/api/v1/booking";
+    private String rootUrl = "https://fit3077.com/api/v2/booking";
 
     public ObjectNode createNewBooking(ObjectNode bookingNode) {
 

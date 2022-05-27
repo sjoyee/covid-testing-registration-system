@@ -14,7 +14,7 @@ public class CovidTestApi {
 
     private static final String KEY_NAME = "Authorization";
 
-    private String rootUrl = "https://fit3077.com/api/v1/covid-test";
+    private String rootUrl = "https://fit3077.com/api/v2/covid-test";
 
     public boolean createNewCovidTest(ObjectNode testNode) {
 

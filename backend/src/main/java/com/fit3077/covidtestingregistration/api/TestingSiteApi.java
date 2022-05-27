@@ -17,7 +17,7 @@ public class TestingSiteApi {
 
     private static final String KEY_NAME = "Authorization";
 
-    private String rootUrl = "https://fit3077.com/api/v1/testing-site";
+    private String rootUrl = "https://fit3077.com/api/v2/testing-site";
 
     public ObjectNode[] getTestingSites() {
 
