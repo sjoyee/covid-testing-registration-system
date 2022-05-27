@@ -3,8 +3,9 @@ package com.fit3077.covidtestingregistration.model;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.Booking;
 import com.fit3077.covidtestingregistration.model.booking.BookingFacade;
-import com.fit3077.covidtestingregistration.model.booking.active.ActiveBooking;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestFacade;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 import com.fit3077.covidtestingregistration.model.testingsite.TestingSiteFacade;
@@ -33,6 +34,10 @@ public class MainFacade {
         return this.userFacade.getRole(userId);
     }
 
+    public User getUser(String userId) {
+        return this.userFacade.getUserById(userId);
+    }
+
     public boolean addBooking(String userId, ObjectNode userObject) {
         return this.bookingFacade.createBooking(userId, userObject);
     }
@@ -53,6 +58,14 @@ public class MainFacade {
         return this.bookingFacade.getActiveBookingByBookingId(bookingId);
     }
 
+    public ActiveBooking displayActiveBookingByPin(String pin) {
+        return this.bookingFacade.getActiveBookingByPinCode(pin);
+    }
+
+    public List<Booking> displayBookingsByTestingSiteId(String testingSiteId) {
+        return this.bookingFacade.getBookingsByTestingSiteId(testingSiteId);
+    }
+
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
         return this.bookingFacade.updateActiveBooking(userId, bookingId, testingSiteId, dateTime);
     }
@@ -66,6 +79,10 @@ public class MainFacade {
         this.bookingFacade.cancelActiveBooking(userId, bookingId);
     }
 
+    public void deleteActiveBooking(String userId, String bookingId) {
+        this.bookingFacade.deleteActiveBooking(userId, bookingId);
+    }
+
     public boolean addCovidTest(String userId, ObjectNode testObject) {
         return this.covidTestFacade.createCovidTest(userId, testObject);
     }
@@ -74,8 +91,9 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
-    // public List<String> getTestingSiteNames() {
-    // return this.testingSiteFacade.getAllNames();
-    // }
+    // still thinking how to access the same instance of event manager?
+    public String notifyBookingUpdate(String userId) {
+        return this.bookingFacade.notifyBookingUpdate(userId);
+    }
 
 }

@@ -20,5 +20,6 @@ public class TestingSiteFacade {
         testingSiteList.updateTestingSiteList(inputType, inputSuburb);
         return testingSiteList.getTestingSiteList();
     }
+    
 
 }

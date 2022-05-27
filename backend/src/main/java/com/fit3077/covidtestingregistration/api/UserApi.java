@@ -17,7 +17,7 @@ public class UserApi {
 
     private static final String KEY_NAME = "Authorization";
 
-    private String rootUrl = "https://fit3077.com/api/v1/user";
+    private String rootUrl = "https://fit3077.com/api/v2/user";
 
     public String authenticateUser(String userName, String password) {
 

@@ -68,6 +68,7 @@ public class UserGenerator {
 
         } else if (userNode.get("isReceptionist").asBoolean()) {
             String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+
             return new Receptionist(id, givenName, familyName, userName, phoneNumber,
                     testingSiteId);
         }
@@ -91,6 +92,7 @@ public class UserGenerator {
 
         } else if (userNode.get("isReceptionist").asBoolean()) {
             String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
+            
             return new Receptionist(id, givenName, familyName, userName, phoneNumber,
                     testingSiteId);
         }

@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.model.MainFacade;
-import com.fit3077.covidtestingregistration.model.booking.active.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
+import com.fit3077.covidtestingregistration.model.booking.Booking;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,16 @@ public class BookingController {
         }
     }
 
+    @GetMapping("/active-booking-by-pin")
+    public ResponseEntity<ActiveBooking> getActiveBookingByPin(@RequestParam("smsPin") String pin) {
+        ActiveBooking activeBooking = this.mainFacade.displayActiveBookingByPin(pin);
+        if (activeBooking == null) {
+            return new ResponseEntity<>(activeBooking, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(activeBooking, HttpStatus.OK);
+        }
+    }
+
     @PostMapping("/active-booking/modify")
     public ResponseEntity<ActiveBooking> modifyActiveBooking(@PathVariable("userId") String userId,
             @RequestParam("bookingId") String bookingId, @RequestParam("testingSiteId") String testingSiteId,
@@ -110,6 +121,26 @@ public class BookingController {
             @RequestParam("id") String bookingId) {
         this.mainFacade.cancelActiveBooking(userId, bookingId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/active-booking/delete")
+    public ResponseEntity<Void> deleteActiveBooking(@PathVariable("userId") String userId,
+            @RequestParam("id") String bookingId) {
+        this.mainFacade.deleteActiveBooking(userId, bookingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Booking>> getBookingsByTestingSite(@RequestParam("id") String testingSiteId) {
+        return new ResponseEntity<>(this.mainFacade.displayBookingsByTestingSiteId(testingSiteId), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin-notif")
+    public ResponseEntity<String> notifyAdmin(@PathVariable("userId") String adminId) {
+
+        String notification = this.mainFacade.notifyBookingUpdate(adminId);
+        return new ResponseEntity<>(notification, HttpStatus.OK);
+
     }
 
 }

@@ -23,6 +23,7 @@ public class OnsiteBookingStrategy implements BookingStrategy {
         bookingNode.put("testingSiteId", this.testingSiteId);
         bookingNode.put("startTime", startTime);
         bookingNode.with("additionalInfo").put("isHomeBooking", false);
+        bookingNode.with("additionalInfo").putArray("snapshots");
 
         return bookingApi.createNewBooking(bookingNode) != null;
     }

@@ -3,25 +3,26 @@ package com.fit3077.covidtestingregistration.model.user;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.api.UserApi;
-import com.fit3077.covidtestingregistration.model.booking.Booking;
+import com.fit3077.covidtestingregistration.model.booking.BookingExecutor;
+import com.fit3077.covidtestingregistration.model.testingsite.TestingSite;
 
 public class Receptionist extends BookingUser {
 
-    private String testingSiteId;
+    private TestingSite testingSite;
 
     protected Receptionist(String id, String givenName, String familyName, String userName, String phoneNumber,
             String testingSiteId) {
         super(id, givenName, familyName, userName, phoneNumber);
-        this.testingSiteId = testingSiteId;
+        testingSite = new TestingSite(testingSiteId);
         setIsReceptionist(true);
     }
 
-    public String getTestingSiteId() {
-        return testingSiteId;
+    public void setTestingSite(TestingSite testingSite) {
+        this.testingSite = testingSite;
     }
 
-    public void setTestingSiteId(String testingSiteId) {
-        this.testingSiteId = testingSiteId;
+    public TestingSite getTestingSite() {
+        return testingSite;
     }
 
     @Override
@@ -51,11 +52,12 @@ public class Receptionist extends BookingUser {
         }
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
 
-        Booking booking = new Booking(customerId, isHomeBooking);
+        BookingExecutor booking = new BookingExecutor(customerId, isHomeBooking);
 
         if (!isHomeBooking) {
-            booking.setTestingSiteId(this.testingSiteId);
+            booking.setTestingSite(testingSite);
         }
+
         return booking.assignBookingDetails();
     }
 
