@@ -11,17 +11,17 @@ public class BookingFacade {
     public boolean createBooking(String userId, ObjectNode userObject,BookingEventManager bookingEvents) {
      
      
-        return new UserGenerator().generateUser(userId,bookingEvents).handleBooking(userObject,bookingEvents);
+        return new UserGenerator().generateUser(userId,bookingEvents).handleBooking(userObject);
     }
 
   
 
-    public String checkStatus(String userId, String verifier, boolean isId,BookingEventManager bookingEvents) {
+    public String checkStatus(String userId, String verifier, boolean isId) {
         ObjectNode bookingNode;
         if (isId) {
-            bookingNode = new UserGenerator().generateUser(userId,bookingEvents).checkBookingId(verifier);
+            bookingNode = new UserGenerator().generateUser(userId).checkBookingId(verifier);
         } else {
-            bookingNode = new UserGenerator().generateUser(userId,bookingEvents).checkPinCode(verifier);
+            bookingNode = new UserGenerator().generateUser(userId).checkPinCode(verifier);
         }
 
         if (bookingNode == null) {
@@ -30,8 +30,8 @@ public class BookingFacade {
         return bookingNode.get("status").textValue();
     }
 
-    public boolean updateHomeTestKit(String userId, String qrCode,BookingEventManager bookingEvents) {
-        return new UserGenerator().generateUser(userId,bookingEvents).updateData(qrCode,bookingEvents);
+    public boolean updateHomeTestKit(String userId, String qrCode) {
+        return new UserGenerator().generateUser(userId).updateData(qrCode);
     }
 
     public List<ActiveBooking> getActiveBookingsByUserId(String userId) {
@@ -46,31 +46,39 @@ public class BookingFacade {
         return activeBookings.getActiveBookings().isEmpty() ? null : activeBookings.getActiveBookings().get(0);
     }
 
-    public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime,BookingEventManager bookingEvents) {
+    public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
         if (activeBooking == null) {
             return null;
         }
         return new UserGenerator().generateBookingUser(userId).modifyActiveBooking(activeBooking, testingSiteId,
-                dateTime,bookingEvents,userId);
+                dateTime);
     }
 
-    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime,BookingEventManager bookingEvents) {
+    public ActiveBooking restorePastChange(String userId, String bookingId, String testingSiteId, String dateTime) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
         if (activeBooking == null) {
             return null;
         }
         return new UserGenerator().generateBookingUser(userId).restorePastChange(activeBooking, testingSiteId,
-                dateTime,bookingEvents, userId);
+                dateTime);
     }
 
-    public void cancelActiveBooking(String userId, String bookingId, BookingEventManager bookingEvents) {
+    public void cancelActiveBooking(String userId, String bookingId) {
         ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
-        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking,bookingEvents, userId);
+        new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking);
     }
 
     public String notifyBookingUpdate(String userId, BookingEventManager bookingEvents){
         return bookingEvents.getNotifyListener().notifyUser(userId);
+    }
+
+    //check here
+
+    public Booking getBookingByTestingSiteId(String testingSiteId) {
+        BookingCollection bookings = new BookingCollection();
+        bookings.setBookingsByTestingSiteId(testingSiteId);
+        return bookings.getBookings().isEmpty() ? null : bookings.getBookings().get(0);
     }
 
    

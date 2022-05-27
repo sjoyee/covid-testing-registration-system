@@ -33,9 +33,9 @@ public class UserGenerator {
      * @param id
      * @return
      */
-    public User generateUser(String id,  BookingEventManager bookingEvents) {
+    public User generateUser(String id) {
         ObjectNode userNode = this.userApi.getUserById(id);
-        return generateUserByType(userNode,bookingEvents);
+        return generateUserByType(userNode);
     }
 
     /**
@@ -53,7 +53,7 @@ public class UserGenerator {
      * @param userNode
      * @return
      */
-    private User generateUserByType(ObjectNode userNode, BookingEventManager bookingEvents) {
+    private User generateUserByType(ObjectNode userNode) {
         String id = userNode.get("id").textValue();
         String givenName = userNode.get("givenName").textValue();
         String familyName = userNode.get("familyName").textValue();
