@@ -57,8 +57,6 @@ public class NotifyReceptionistListener implements BookingEventListener {
     @Override
     public String notifyUser(String inputUserId) {
         // only send to the other not yourself
-        System.out.println(this.getSubscribers().size());
-        System.out.println(this.getSubscribers());
         if (this.getSubscribers().contains(inputUserId) && !inputUserId.equals(currentUserId)) {
             return this.notificationString;
         }

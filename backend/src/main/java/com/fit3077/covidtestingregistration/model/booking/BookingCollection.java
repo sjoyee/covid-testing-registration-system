@@ -29,7 +29,10 @@ public class BookingCollection {
                 && !status.equals(BookingStatus.CANCELLED) && !status.equals(BookingStatus.INVALID);
     }
 
-    protected Booking createBooking(ObjectNode bookingNode) {
+    protected Booking createBooking(ObjectNode bookingNode, TestingSite testingSite) {
+        if (!bookingNode.get("additionalInfo").has("isHomeBooking")) {
+            bookingNode.with("additionalInfo").put("isHomeBooking", false);
+        }
         boolean isHomeBooking = bookingNode.get("additionalInfo").get("isHomeBooking").asBoolean();
 
         if (!isHomeBooking) {
@@ -40,15 +43,18 @@ public class BookingCollection {
 
             String id = bookingNode.get("id").textValue();
 
-            String testingSiteId = bookingNode.get("testingSite").get("id").textValue();
-            String testingSiteName = bookingNode.get("testingSite").get("name").textValue();
+            if (testingSite == null) {
+                String testingSiteId = bookingNode.get("testingSite").get("id").textValue();
+                String testingSiteName = bookingNode.get("testingSite").get("name").textValue();
+                testingSite = new TestingSite(testingSiteId, testingSiteName);
+            }
 
             List<BookingHistory> histories = new ObjectMapper().convertValue(
                     bookingNode.get("additionalInfo").get("snapshots"),
                     new TypeReference<List<BookingHistory>>() {
                     });
 
-            return new Booking(id, new TestingSite(testingSiteId, testingSiteName), startTime,
+            return new Booking(id, testingSite, startTime,
                     BookingStatus.valueOf(status),
                     histories, isActive);
         }
@@ -59,7 +65,8 @@ public class BookingCollection {
         JsonNode arrNode = new TestingSiteApi().getBookingsByTestingSiteId(testingSiteId);
         if (arrNode.isArray()) {
             for (JsonNode bookingNode : arrNode) {
-                Booking booking = createBooking((ObjectNode) bookingNode);
+                TestingSite testingSite = new TestingSite(testingSiteId);
+                Booking booking = createBooking((ObjectNode) bookingNode, testingSite);
                 if (booking != null) {
                     this.bookings.add(booking);
                 }

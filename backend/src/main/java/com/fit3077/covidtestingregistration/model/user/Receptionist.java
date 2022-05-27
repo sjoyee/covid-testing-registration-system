@@ -80,27 +80,4 @@ public class Receptionist extends BookingUser {
         }
         return false;
     }
-
-    // when admin change smtg, it will notidy the event manager (so there will be an
-    // event manager object)
-
-    // @Override
-    // public ActiveBooking modifyActiveBooking(ActiveBooking activeBooking, String
-    // newTestingSiteId, String newDateTime) {
-    // bookingEvents.notify("modify",activeBooking);
-    // return super.modifyActiveBooking(activeBooking,newTestingSiteId,newDateTime);
-
-    // }
-
-    // public ActiveBooking restorePastChange(ActiveBooking activeBooking, String
-    // testingSiteId, String dateTime) {
-    // bookingEvents.notify("modify",activeBooking);
-    // return super.restorePastChange(activeBooking,testingSiteId,dateTime);
-    // }
-
-    // public void cancelActiveBooking(ActiveBooking activeBooking) {
-    // super.cancelActiveBooking(activeBooking);
-    // bookingEvents.notify("cancel",activeBooking);
-    // }
-
 }

@@ -23,7 +23,7 @@ public class ActiveBookingCollection extends BookingCollection {
         JsonNode arrNode = new UserApi().getBookingsByUserId(userId);
         if (arrNode.isArray()) {
             for (JsonNode bookingNode : arrNode) {
-                Booking booking = createBooking((ObjectNode) bookingNode);
+                Booking booking = createBooking((ObjectNode) bookingNode, null);
                 if (booking != null && booking.getIsActive()) {
                     this.activeBookings
                             .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
@@ -35,7 +35,7 @@ public class ActiveBookingCollection extends BookingCollection {
 
     public void setActiveBookingByBookingId(String bookingId) {
         ObjectNode bookingNode = new BookingApi().getBookingById(bookingId);
-        Booking booking = createBooking(bookingNode);
+        Booking booking = createBooking(bookingNode, null);
         if (booking != null && booking.getIsActive()) {
             this.activeBookings
                     .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
@@ -48,7 +48,7 @@ public class ActiveBookingCollection extends BookingCollection {
         Booking booking;
         for (ObjectNode bookingNode : bookingApi.getBookings()) {
             if (bookingNode.get("smsPin").textValue().equals(pin)) {
-                booking = createBooking(bookingNode);
+                booking = createBooking(bookingNode, null);
                 if (booking != null && booking.getIsActive()) {
                     this.activeBookings
                             .add(new ActiveBooking(booking.getId(), booking.getTestingSite(), booking.getStartTime(),
