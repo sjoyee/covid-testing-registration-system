@@ -35,6 +35,10 @@ public class MainFacade {
         return this.userFacade.getRole(userId);
     }
 
+    public User getUser(String userId) {
+        return this.userFacade.getUserById(userId);
+    }
+
     public boolean addBooking(String userId, ObjectNode userObject) {
         return this.bookingFacade.createBooking(userId, userObject);
     }
@@ -53,6 +57,10 @@ public class MainFacade {
 
     public ActiveBooking displayActiveBookingById(String bookingId) {
         return this.bookingFacade.getActiveBookingByBookingId(bookingId);
+    }
+
+    public ActiveBooking displayActiveBookingByPin(String pin) {
+        return this.bookingFacade.getActiveBookingByPinCode(pin);
     }
 
     public ActiveBooking updateActiveBooking(String userId, String bookingId, String testingSiteId, String dateTime) {
@@ -76,16 +84,14 @@ public class MainFacade {
         return this.testingSiteFacade.filterSite(inputType, inputSuburb);
     }
 
-    //still thinking how to access the same instance of event manager?
-    public String notifyBookingUpdate(String userId){
+    // still thinking how to access the same instance of event manager?
+    public String notifyBookingUpdate(String userId) {
         return this.bookingFacade.notifyBookingUpdate(userId);
     }
 
-    public List<Booking> getBookingByTestingSiteId(String userId){
+    public List<Booking> getBookingByTestingSiteId(String userId) {
         return this.bookingFacade.getBookingByTestingSiteId(userId);
     }
-
-   
 
     // public List<String> getTestingSiteNames() {
     // return this.testingSiteFacade.getAllNames();
