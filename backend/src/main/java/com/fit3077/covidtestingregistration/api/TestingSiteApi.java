@@ -53,6 +53,40 @@ public class TestingSiteApi {
 
     }
 
+    public String getTestingSiteNameById(String testingSiteId) {
+        String testingSiteUrl = rootUrl + '/' + testingSiteId;
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(testingSiteUrl))
+                .setHeader(KEY_NAME, API_KEY)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 200) {
+                throw new InvalidKeyException("Please specify your API key");
+            }
+
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class).get("name").textValue();
+
+        } catch (InterruptedException e0) {
+            e0.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+
+        } catch (InvalidKeyException e2) {
+            e2.printStackTrace();
+        }
+
+        return null;
+    }
+
     public JsonNode getBookingsByTestingSiteId(String testingSiteId) {
 
         String testingSiteUrl = rootUrl + '/' + testingSiteId + "?fields=bookings";
