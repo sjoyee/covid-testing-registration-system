@@ -32,6 +32,7 @@
                       <div>
                         Datetime: {{ formatDateTime(booking.startTime) }}
                       </div>
+                      <div>Booking Status: {{ booking.status }}</div>
                     </div>
                     <v-card-actions>
                       <v-spacer></v-spacer>
