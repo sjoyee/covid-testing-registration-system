@@ -1,7 +1,9 @@
 package com.fit3077.covidtestingregistration.model.booking;
 
 import com.fit3077.covidtestingregistration.model.booking.memento.BookingMemento;
+import com.fit3077.covidtestingregistration.model.notification.BookingEventListener;
 import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
+import com.fit3077.covidtestingregistration.model.notification.NotifyReceptionistListener;
 
 // Caretaker class for Memento design pattern
 public class BookingModifier {
@@ -13,6 +15,7 @@ public class BookingModifier {
     public BookingModifier(ActiveBooking activeBooking) {
         this.activeBooking = activeBooking;
         this.bookingEvents = new BookingEventManager();
+        
         
     }
 
