@@ -2,7 +2,6 @@ package com.fit3077.covidtestingregistration.model.user;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fit3077.covidtestingregistration.api.UserApi;
-import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 public class UserGenerator {
 
@@ -18,11 +17,11 @@ public class UserGenerator {
      * @param password
      * @return
      */
-    public User generateUser(String userName, String password, BookingEventManager bookingEvents) {
+    public User generateUser(String userName, String password) {
         for (ObjectNode userNode : this.userApi.getUsers()) {
             String currUserName = userNode.get("userName").textValue();
             if (currUserName.equals(userName) && currUserName.equals(password)) {
-                return generateUserByType(userNode,bookingEvents);
+                return generateUserByType(userNode);
             }
         }
         return null;

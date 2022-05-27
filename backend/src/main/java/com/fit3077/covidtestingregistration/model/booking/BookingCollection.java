@@ -14,6 +14,7 @@ import com.fit3077.covidtestingregistration.model.booking.memento.BookingHistory
 public class BookingCollection {
 
     private List<Booking> bookings;
+    private
 
     public BookingCollection() {
         this.bookings = new ArrayList<>();
@@ -63,4 +64,6 @@ public class BookingCollection {
             }
         }
     }
+
+    
 }

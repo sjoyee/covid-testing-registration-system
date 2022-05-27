@@ -112,6 +112,11 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<ActiveBooking>> getBookingsByTestingSite(@PathVariable("userId") String userId) {
+        return new ResponseEntity<>(this.mainFacade.displayActiveBookings(userId), HttpStatus.OK);
+    }
+
     @GetMapping("/admin-notif")
     public ResponseEntity<String> notifyAdmin(@PathVariable("userId") String adminId) {
 
@@ -122,5 +127,7 @@ public class BookingController {
             return new ResponseEntity<>(notification, HttpStatus.OK);
         }
     }
+
+
 
 }

@@ -8,10 +8,10 @@ import com.fit3077.covidtestingregistration.model.user.UserGenerator;
 
 public class BookingFacade {
 
-    public boolean createBooking(String userId, ObjectNode userObject,BookingEventManager bookingEvents) {
+    public boolean createBooking(String userId, ObjectNode userObject) {
      
      
-        return new UserGenerator().generateUser(userId,bookingEvents).handleBooking(userObject);
+        return new UserGenerator().generateUser(userId).handleBooking(userObject);
     }
 
   
@@ -76,9 +76,8 @@ public class BookingFacade {
     //check here
 
     public Booking getBookingByTestingSiteId(String testingSiteId) {
-        BookingCollection bookings = new BookingCollection();
-        bookings.setBookingsByTestingSiteId(testingSiteId);
-        return bookings.getBookings().isEmpty() ? null : bookings.getBookings().get(0);
+
+       
     }
 
    
