@@ -83,6 +83,12 @@ public class BookingFacade {
         new UserGenerator().generateBookingUser(userId).cancelActiveBooking(activeBooking, bookingEvents);
     }
 
+    public void deleteActiveBooking(String userId, String bookingId) {
+        ActiveBooking activeBooking = getActiveBookingByBookingId(bookingId);
+        new UserGenerator().generateBookingUser(userId).deleteActiveBooking(activeBooking, bookingEvents);
+        ;
+    }
+
     public String notifyBookingUpdate(String userId) {
         return this.bookingEvents.getNotifyListener().notifyUser(userId);
     }

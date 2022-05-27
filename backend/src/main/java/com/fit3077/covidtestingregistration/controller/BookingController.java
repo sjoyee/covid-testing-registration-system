@@ -123,6 +123,13 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/active-booking/delete")
+    public ResponseEntity<Void> deleteActiveBooking(@PathVariable("userId") String userId,
+            @RequestParam("id") String bookingId) {
+        this.mainFacade.deleteActiveBooking(userId, bookingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> getBookingsByTestingSite(@RequestParam("id") String testingSiteId) {
         return new ResponseEntity<>(this.mainFacade.displayBookingsByTestingSiteId(testingSiteId), HttpStatus.OK);

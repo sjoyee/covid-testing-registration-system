@@ -79,6 +79,10 @@ public class MainFacade {
         this.bookingFacade.cancelActiveBooking(userId, bookingId);
     }
 
+    public void deleteActiveBooking(String userId, String bookingId) {
+        this.bookingFacade.deleteActiveBooking(userId, bookingId);
+    }
+
     public boolean addCovidTest(String userId, ObjectNode testObject) {
         return this.covidTestFacade.createCovidTest(userId, testObject);
     }
