@@ -55,7 +55,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
+    <!-- <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
       Fail to modify booking.
       <template v-slot:action="{ attrs }">
         <v-btn text v-bind="attrs" @click="errorMessage = false"> Close </v-btn>
@@ -63,7 +63,7 @@
     </v-snackbar>
     <v-snackbar v-model="successMessage" :timeout="timeout" color="success">
       Successfully modify booking.
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 
@@ -135,7 +135,7 @@ export default {
       }
     },
     formatDateTime(datetime) {
-      return moment(datetime, "YYYY-MM-DDTHH:mm:ss:SSZ").format(
+      return moment(datetime, "YYYY-MM-DDTHH:mm:ss").format(
         "YYYY-MM-DD kk:mm:ss"
       );
     },

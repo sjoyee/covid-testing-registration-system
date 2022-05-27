@@ -51,7 +51,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
+    <!-- <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
       Fail to modify booking.
       <template v-slot:action="{ attrs }">
         <v-btn text v-bind="attrs" @click="errorMessage = false"> Close </v-btn>
@@ -59,7 +59,7 @@
     </v-snackbar>
     <v-snackbar v-model="successMessage" :timeout="timeout" color="success">
       Successfully modify booking.
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 
@@ -144,21 +144,21 @@ export default {
         this.formatDate(this.bookingDetailsCopy.startTime);
         this.formatTime(this.bookingDetailsCopy.startTime);
         this.dialog = false;
-      } catch {
+      } catch (e) {
         // handle error
+        console.log(e);
         console.log("Fail to modify booking.");
         this.errorMessage = true;
       }
     },
     formatDate(datetime) {
-      this.date = moment(datetime, "YYYY-MM-DDTHH:mm:ss:SSZ").format(
-        "YYYY-MM-DD"
-      );
+      this.date = moment(datetime, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD");
+      console.log(this.date);
     },
     formatTime(datetime) {
-      this.time = moment(datetime, "YYYY-MM-DDTHH:mm:ss:SSZ").format(
-        "kk:mm:ss"
-      );
+      this.time = moment(datetime, "YYYY-MM-DDTHH:mm:ss").format("kk:mm:ss");
+      console.log("helo");
+      console.log(this.time);
     },
   },
 };

@@ -67,7 +67,7 @@
       :testingSites="testingSites"
     ></restore-dialog>
 
-    <v-snackbar v-model="errorCancel" :timeout="timeout" color="error">
+    <!-- <v-snackbar v-model="errorCancel" :timeout="timeout" color="error">
       Fail to cancel booking.
       <template v-slot:action="{ attrs }">
         <v-btn text v-bind="attrs" @click="errorMessage = false"> Close </v-btn>
@@ -75,7 +75,7 @@
     </v-snackbar>
     <v-snackbar v-model="successCancel" :timeout="timeout" color="success">
       Successfully cancel booking.
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 
@@ -177,9 +177,7 @@ export default {
       });
     },
     formatDateTime(datetime) {
-      return moment(datetime, "YYYY-MM-DDTHH:mm:ssZ").format(
-        "DD-MM-YYYY HH:mm"
-      );
+      return moment(datetime, "YYYY-MM-DDTHH:mm:ss").format("DD-MM-YYYY HH:mm");
     },
   },
   computed: {
