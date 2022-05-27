@@ -62,6 +62,19 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              <v-row class="pa-2"><div>Select the date and time:</div></v-row>
+              <v-row>
+                <v-date-picker
+                  v-model="date"
+                  :min="moment().format()"
+                  class="pa-2"
+                ></v-date-picker>
+                <v-time-picker
+                  v-model="time"
+                  format="24hr"
+                  class="pa-2"
+                ></v-time-picker>
+              </v-row>
             </v-form>
           </div>
           <v-card-actions class="pa-4">
@@ -71,6 +84,7 @@
         </v-card>
       </v-col>
     </div>
+    <div class="text-h6 pa-4 mb-12">Generated Booking ID: {{ bookingId }}</div>
     <v-snackbar v-model="errorMessage" :timeout="timeout" color="error">
       Fail to initiate on-site booking. Please try again.
       <template v-slot:action="{ attrs }">
@@ -100,6 +114,9 @@ export default {
       errorMessage: false,
       successMessage: false,
       timeout: 2000,
+      date: "",
+      time: "",
+      bookingId: "",
     };
   },
   methods: {
@@ -120,15 +137,17 @@ export default {
     },
     async book() {
       try {
-        await axios.post(`/${this.$route.params.id}/booking`, {
+        const res = await axios.post(`/${this.$route.params.id}/booking`, {
           givenName: this.givenName,
           familyName: this.familyName,
           userName: this.userName,
           password: this.password,
           phoneNumber: this.phoneNumber,
+          startTime: this.date + "T" + this.time + "Z",
           isHomeBooking: false,
         });
         this.successMessage = true;
+        this.bookingId = res.data;
       } catch {
         // handle error
         console.log("Fail to create an on-site booking.");
