@@ -24,10 +24,10 @@ public class CovidTestController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createCovidTest(@PathVariable("userId") String userId,
+    public ResponseEntity<String> createCovidTest(@PathVariable("userId") String userId,
             @RequestBody ObjectNode testObject) {
-        boolean successful = this.mainFacade.addCovidTest(userId, testObject);
-        if (successful) {
+        String id = this.mainFacade.addCovidTest(userId, testObject);
+        if (id != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

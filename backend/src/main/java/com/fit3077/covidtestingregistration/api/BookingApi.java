@@ -191,14 +191,14 @@ public class BookingApi {
         }
     }
 
-    //need to test
-    
     public void deleteActiveBooking(String bookingId) {
 
+        String bookingUrl = rootUrl + '/' + bookingId;
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(bookingUrl))
                 .setHeader(KEY_NAME, API_KEY)
-                .header("Content-Type", "application/json")
                 .DELETE()
                 .build();
 

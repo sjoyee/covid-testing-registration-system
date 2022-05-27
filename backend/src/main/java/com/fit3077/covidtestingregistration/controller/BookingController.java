@@ -10,6 +10,7 @@ import com.fit3077.covidtestingregistration.model.booking.Booking;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/{userId}/booking")
 public class BookingController {
@@ -30,13 +31,13 @@ public class BookingController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> addBooking(@PathVariable("userId") String userId,
+    public ResponseEntity<String> addBooking(@PathVariable("userId") String userId,
             @RequestBody ObjectNode userObject) {
-        boolean successful = this.mainFacade.addBooking(userId, userObject);
-        if (successful) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        String id = this.mainFacade.addBooking(userId, userObject);
+        if (id != null) {
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(id, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -123,7 +124,7 @@ public class BookingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/active-booking/delete")
+    @DeleteMapping("/active-booking/delete")
     public ResponseEntity<Void> deleteActiveBooking(@PathVariable("userId") String userId,
             @RequestParam("id") String bookingId) {
         this.mainFacade.deleteActiveBooking(userId, bookingId);

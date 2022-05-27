@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class CovidTestApi {
@@ -16,7 +17,7 @@ public class CovidTestApi {
 
     private String rootUrl = "https://fit3077.com/api/v2/covid-test";
 
-    public boolean createNewCovidTest(ObjectNode testNode) {
+    public ObjectNode createNewCovidTest(ObjectNode testNode) {
 
         String jsonString = testNode.toString();
 
@@ -28,9 +29,8 @@ public class CovidTestApi {
                 .build();
 
         try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            // return true if booking is successful
-            return true;
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return new ObjectMapper().readValue(response.body(), ObjectNode.class);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class CovidTestApi {
 
         }
         // if booking is unsuccessful, return false
-        return false;
+        return null;
 
     }
 
