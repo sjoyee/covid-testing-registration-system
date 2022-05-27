@@ -1,17 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import LoginPage from "../components/LoginPage";
-import SearchPage from "../components/SearchPage";
-import ReceptionistPage from "../components/ReceptionistPage";
-import OnsiteBooking from "../components/OnsiteBooking";
-import CheckStatus from "../components/CheckStatus";
-import OnsiteTesting from "../components/OnsiteTesting";
-import CustomerPage from "../components/CustomerPage";
-import CustomerCheckStatus from "../components/CustomerCheckStatus";
-import HomeBooking from "../components/HomeBooking";
-import ErrorPage from "../components/ErrorPage";
-import UpdateTestKitIssued from "../components/UpdateTestKitIssued";
-import HealthcareWorker from "../components/HealthcareWorker";
+import LoginPage from "../view/common/LoginPage";
+import SearchPage from "../view/common/SearchPage";
+import ReceptionistPage from "../view/receptionist/ReceptionistPage";
+import OnsiteBooking from "../view/receptionist/OnsiteBooking";
+import CheckStatus from "../view/receptionist/CheckStatus";
+import PhoneCallProfile from "../view/receptionist/PhoneCallProfile";
+import BookingProfile from "../view/customer/BookingProfile";
+import ModifyBooking from "../view/customer/ModifyBooking";
+import OnsiteTesting from "../view/healthcareworker/OnsiteTesting";
+import CustomerPage from "../view/customer/CustomerPage";
+import CustomerCheckStatus from "../view/customer/CustomerCheckStatus";
+import HomeBooking from "../view/customer/HomeBooking";
+import UpdateTestKitIssued from "../view/receptionist/UpdateTestKitIssued";
+import HealthcareWorker from "../view/healthcareworker/HealthcareWorker";
 
 Vue.use(VueRouter);
 
@@ -41,6 +43,10 @@ const routes = [
     component: OnsiteBooking,
   },
   {
+    path: "/:id/receptionist/phone-call-profile",
+    component: PhoneCallProfile,
+  },
+  {
     path: "/:id/receptionist/check-status",
     component: CheckStatus,
   },
@@ -61,16 +67,20 @@ const routes = [
     component: HomeBooking,
   },
   {
+    path: "/:id/customer/booking-profile",
+    component: BookingProfile,
+  },
+  {
+    path: "/:id/customer/modify-booking",
+    component: ModifyBooking,
+  },
+  {
     path: "/:id/hcworker/",
     component: HealthcareWorker,
   },
   {
     path: "/:id/hcworker/onsite-testing",
     component: OnsiteTesting,
-  },
-  {
-    path: "/error",
-    component: ErrorPage,
   },
 ];
 
