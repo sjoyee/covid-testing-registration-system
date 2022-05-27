@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.notification;
+package com.fit3077.covidtestingregistration.model.booking.notification;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +73,7 @@ public class BookingEventManager {
 
     // extensible with a List<BookingEventListener>>
     public BookingEventListener getNotifyListener() {
+        this.subscribeAll();
         return this.listener;
     }
 

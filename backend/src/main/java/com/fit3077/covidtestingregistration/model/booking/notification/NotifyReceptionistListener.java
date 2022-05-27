@@ -1,4 +1,4 @@
-package com.fit3077.covidtestingregistration.model.notification;
+package com.fit3077.covidtestingregistration.model.booking.notification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class NotifyReceptionistListener implements BookingEventListener {
 
     private void setModificationNotification(String newTestSite, String newDateTime, String userId, String bookingId) {
         this.notificationString = "Booking No. " + bookingId + " has been modified by User No. " + userId
-                + "\n Updated Info: Testing Site No. " + newTestSite + ", Start Time : " + newDateTime;
+                + "\nUpdated Info: Testing Site No. " + newTestSite + ", Start Time : " + newDateTime;
     }
 
     private void setCancelledNotification(String userId, String bookingId) {
@@ -20,7 +20,7 @@ public class NotifyReceptionistListener implements BookingEventListener {
 
     private void setRevertNotification(String newTestSite, String newDateTime, String userId, String bookingId) {
         this.notificationString = "Booking No. " + bookingId + " has been reverted by User No. " + userId
-                + "\n Updated Info: Testing Site No. " + newTestSite + ", Start Time : " + newDateTime;
+                + "\nUpdated Info: Testing Site No. " + newTestSite + ", Start Time : " + newDateTime;
     }
 
     private void setDeleteNotification(String userId, String bookingId) {
