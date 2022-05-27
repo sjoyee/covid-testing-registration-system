@@ -12,7 +12,7 @@ import com.fit3077.covidtestingregistration.api.UserApi;
 import com.fit3077.covidtestingregistration.model.booking.ActiveBooking;
 
 public class BookingEventManager {
-    private Map<String, List<List<String>>> testingSiteAdmin = new HashMap<>();
+    private Map<String, List<String>> testingSiteAdmin = new HashMap<>();
     private BookingEventListener listener = new NotifyReceptionistListener();
 
     public void addTestingSite(String... testingSites) {
@@ -27,20 +27,16 @@ public class BookingEventManager {
         for (ObjectNode userNode : userApi.getUsers()) {
             if (userNode.get("isReceptionist").asBoolean()) {
                 String id = userNode.get("id").textValue();
-                String givenName = userNode.get("givenName").textValue();
                 String testingSiteId = userNode.get("additionalInfo").get("testingSiteId").textValue();
 
-                List<String> pair = new ArrayList<>();
-                pair.add(id);
-                pair.add(givenName);
-
+      
                 // if the map has not add a specific testing site, add them
                 if (!testingSiteAdmin.containsKey(testingSiteId)) {
                     this.addTestingSite(testingSiteId);
                 }
                 // retrieve the value from the map which is a list of (id,name) pair
-                List<List<String>> users = testingSiteAdmin.get(testingSiteId);
-                users.add(pair);
+                List<String> users = testingSiteAdmin.get(testingSiteId);
+                users.add(id);
 
             }
         }
@@ -48,29 +44,32 @@ public class BookingEventManager {
     }
 
     public void unsubscribe(String testingSiteId, String listenerId) {
-        List<List<String>> users = testingSiteAdmin.get(testingSiteId);
+        List<String> users = testingSiteAdmin.get(testingSiteId);
         users.remove(listenerId);
+        
     }
 
     // notify when there is changes made to Booking
     public void notify(String eventType, ActiveBooking booking, String currentUserId, String... testingSitesInvolved) {
         List<String> subscriberList = new ArrayList<>();
 
-        // check duplication
-
+        
         // get all involved receptionists
         if (testingSitesInvolved.length > 0 && !testingSitesInvolved[0].equals(testingSitesInvolved[1])) {
 
             for (String testingSite : testingSitesInvolved) {
-                Set<String> users = testingSiteAdmin.get(testingSite);
+                List<String> users = testingSiteAdmin.get(testingSite);
                 subscriberList.addAll(users);
+                
+                
             }
 
         }
 
         else {
-            Set<String> users = testingSiteAdmin.get(booking.getTestingSiteId());
+            List<String> users = testingSiteAdmin.get(booking.getTestingSiteId());
             subscriberList.addAll(users);
+            
         }
 
         listener.update(eventType, subscriberList, booking, currentUserId);

@@ -10,30 +10,27 @@ public abstract class BookingUser extends User {
         super(id, givenName, familyName, userName, phoneNumber);
     }
 
-    public abstract boolean handleBooking(ObjectNode objectNode, BookingEventManager bookingEvents);
+    public abstract boolean handleBooking(ObjectNode objectNode);
 
-    public abstract boolean updateData(String code, BookingEventManager bookingEvents);
+    public abstract boolean updateData(String code);
 
-    public ActiveBooking modifyActiveBooking(ActiveBooking activeBooking, String newTestingSiteId, String newDateTime,BookingEventManager bookingEvents,String userId) {
+    public ActiveBooking modifyActiveBooking(ActiveBooking activeBooking, String newTestingSiteId, String newDateTime) {
         BookingModifier modifier = new BookingModifier(activeBooking);
         modifier.saveHistories();
-        modifier.modify(newTestingSiteId, newDateTime,bookingEvents,userId);
+        modifier.modify(newTestingSiteId, newDateTime, this.getId());
         return activeBooking;
     }
 
-    public ActiveBooking restorePastChange(ActiveBooking activeBooking, String testingSiteId, String dateTime,BookingEventManager bookingEvents,String userId) {
+    public ActiveBooking restorePastChange(ActiveBooking activeBooking, String testingSiteId, String dateTime) {
         BookingModifier modifier = new BookingModifier(activeBooking);
         modifier.saveHistories();
-        modifier.restore(testingSiteId, dateTime,bookingEvents,userId);
+        modifier.restore(testingSiteId, dateTime, this.getId());
         return activeBooking;
     }
 
-    public void cancelActiveBooking(ActiveBooking activeBooking,BookingEventManager bookingEvents,String userId) {
+    public void cancelActiveBooking(ActiveBooking activeBooking) {
         BookingModifier modifier = new BookingModifier(activeBooking);
-        modifier.cancel(bookingEvents,userId);
+        modifier.cancel(this.getId());
     }
 
-
-
-    
 }

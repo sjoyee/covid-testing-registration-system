@@ -5,7 +5,6 @@ import com.fit3077.covidtestingregistration.api.BookingApi;
 import com.fit3077.covidtestingregistration.model.booking.BookingStatus;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTest;
 import com.fit3077.covidtestingregistration.model.covidtest.CovidTestType;
-import com.fit3077.covidtestingregistration.model.notification.BookingEventManager;
 
 public class HealthcareWorker extends User {
 
@@ -20,7 +19,7 @@ public class HealthcareWorker extends User {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode testObject, BookingEventManager bookingEvents) {
+    public boolean handleBooking(ObjectNode testObject) {
         String patientId = testObject.get("patientId").textValue();
         String bookingId = testObject.get("bookingId").textValue();
         String type = testObject.get("type").textValue();
@@ -34,7 +33,7 @@ public class HealthcareWorker extends User {
     }
 
     @Override
-    public boolean updateData(String bookingId, BookingEventManager bookingEvents) {
+    public boolean updateData(String bookingId) {
         BookingApi bookingApi = new BookingApi();
         bookingApi.updateBookingStatus(bookingId, BookingStatus.PROCESSED.toString());
         return false;

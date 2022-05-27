@@ -17,7 +17,7 @@ public class Customer extends BookingUser {
     }
 
     @Override
-    public boolean handleBooking(ObjectNode userObject,BookingEventManager bookingEvents) {
+    public boolean handleBooking(ObjectNode userObject) {
         boolean isHomeBooking = userObject.get("isHomeBooking").asBoolean();
         boolean hasRatKit = userObject.get("hasRatKit").asBoolean();
         String patientId = userObject.get("patientId").textValue();
@@ -30,7 +30,7 @@ public class Customer extends BookingUser {
     }
 
     @Override
-    public boolean updateData(String code, BookingEventManager bookingEvents) {
+    public boolean updateData(String code) {
         return false;
     }
 
